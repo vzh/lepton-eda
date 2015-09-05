@@ -547,6 +547,13 @@ create_find_type_store ()
     -1
     );
 
+  gtk_list_store_append (store, &iter);
+  gtk_list_store_set (store, &iter,
+    COLUMN_NAME,      _("Find Patch:"),
+    COLUMN_INDEX,     FIND_TYPE_PATCH,
+    -1
+    );
+
   return store;
 }
 
