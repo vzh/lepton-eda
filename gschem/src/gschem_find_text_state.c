@@ -614,11 +614,7 @@ find_objects_using_patch (GSList *pages, const char *text)
         continue;
       }
 
-/*      if (!(o_is_visible (page->toplevel, object) || page->toplevel->show_hidden_text)) {
-        continue;
-      }*/
-
-printf("str=%s\n", str);
+#warning TODO: call to back annotation here
 /*      if (g_pattern_match_string (pattern, str)) {
         object_list = g_slist_prepend (object_list, object);
       }*/
