@@ -297,6 +297,19 @@ int gschem_patch_state_init(gschem_patch_state_t *st, const char *fn)
 	patch_list_print(st);
 #endif
 
+	if (res == 0) {
+		GList *i;
+
+		/* Create hashes for faster lookups avoiding O(objects*patches) */
+		st->pins = g_hash_table_new (g_str_hash, g_str_equal);
+		st->nets = g_hash_table_new (g_str_hash, g_str_equal);
+		for (i = st->lines; i != NULL; i = g_list_next (i)) {
+			gschem_patch_line_t *l = i->data;
+			if (l->op == GSCHEM_PATCH_NET_INFO)
+				g_hash_table_insert(st->nets, l->id, l->arg1.ids);
+		}
+	}
+
 	fclose(f);
 	return res;
 }
@@ -304,5 +317,145 @@ int gschem_patch_state_init(gschem_patch_state_t *st, const char *fn)
 
 int gschem_patch_state_build(gschem_patch_state_t *st, OBJECT *o)
 {
+	GList *i;
+	gchar *refdes, *pin;
+	int refdes_len, pin_len;
+
+	switch(o->type) {
+		case OBJ_COMPLEX:
+			refdes = o_attrib_search_object_attribs_by_name (o, "refdes", 0);
+			if (refdes == NULL)
+				break;
+
+			refdes_len = strlen(refdes);
+			for(i = o->complex->prim_objs; i != NULL; i = g_list_next(i)) {
+				OBJECT *sub = i->data;
+				switch(sub->type) {
+					case OBJ_PIN:
+						pin = o_attrib_search_object_attribs_by_name (sub, "pinnumber", 0);
+						if (pin != NULL) {
+							char *full_name;
+							pin_len = strlen(pin);
+							full_name = malloc(refdes_len + pin_len + 2);
+							sprintf(full_name, "%s-%s", refdes, pin);
+/*						printf("add: '%s' -> '%p' o=%p at=%p p=%p\n", full_name, sub, o, sub->attached_to, sub->parent);
+						fflush(stdout);*/
+							g_hash_table_insert(st->pins, full_name, sub);
+							g_free(pin);
+						}
+						break;
+				}
+			}
+			g_free(refdes);
+			break;
+
+		case OBJ_NET: /* what to do with nets? */
+/*			printf("type: '%c'\n", o->type);*/
+			break;
+
+		/* ignore floating pins */
+		case OBJ_PIN:
+			break;
+
+		/* ignore all graphical objects */
+		case OBJ_TEXT:
+		case OBJ_LINE:
+		case OBJ_PATH:
+		case OBJ_BOX:
+		case OBJ_CIRCLE:
+		case OBJ_PICTURE:
+		case OBJ_BUS:
+		case OBJ_ARC:
+			break;
+	}
 }
 
+static gboolean free_key(gpointer key, gpointer value, gpointer user_data)
+{
+	free(key);
+	return TRUE;
+}
+
+void gschem_patch_state_destroy(gschem_patch_state_t *st)
+{
+	g_hash_table_foreach_remove(st->pins, free_key, NULL);
+	g_hash_table_destroy(st->nets);
+	patch_list_free(st->lines);
+}
+
+static GSList *add_hit(GSList *hits, OBJECT *obj, char *text)
+{
+	gschem_patch_hit_t *hit;
+	hit = calloc(sizeof(gschem_patch_hit_t), 1);
+	hit->object = obj;
+	hit->text = text;
+	return g_slist_prepend(hits, hit);
+}
+
+static GSList *exec_check_conn(GSList *diffs, gschem_patch_line_t *patch, OBJECT *pin, GList *net, int del)
+{
+	GList *np, *cn, *connections;
+	int connected;
+
+	printf("exec %d:\n", del);
+
+	connections = s_conn_return_others(NULL, pin);
+	connected = 0;
+	for(cn = connections; cn != NULL; cn = g_list_next(cn)) {
+		OBJECT *co = cn->data;
+		switch(co->type) {
+			case OBJ_NET: printf(" co=n/%p\n", co); break;
+			case OBJ_PIN: printf(" co=p/%p\n", co); break;
+		}
+	}
+
+	for(np = net; np != NULL; np = g_list_next(np)) {
+		printf(" np=%s\n", np->data);
+	}
+
+	if (del) {
+		if (connected)
+			return add_hit(diffs, pin->parent, strdup("del (this will be the text that explains the change needed)"));
+	}
+	else {
+		if (!connected)
+			return add_hit(diffs, pin->parent, strdup("add (this will be the text that explains the change needed)"));
+	}
+	return diffs;
+}
+
+GSList *gschem_patch_state_execute(gschem_patch_state_t *st, GSList *diffs)
+{
+	GList *i, *net;
+	OBJECT *pin;
+
+	for (i = st->lines; i != NULL; i = g_list_next (i)) {
+		gschem_patch_line_t *l = i->data;
+		GList *p;
+		if (l == NULL) {
+			fprintf(stderr, "NULL data on list\n");
+			continue;
+		}
+		switch(l->op) {
+			case GSCHEM_PATCH_DEL_CONN:
+			case GSCHEM_PATCH_ADD_CONN:
+				pin = g_hash_table_lookup(st->pins, l->id);
+				if (pin == NULL) {
+					fprintf(stderr, "Patch references to non-existing pin %s\n", l->id);
+					break;
+				}
+				net = g_hash_table_lookup(st->nets, l->arg1.net_name);
+				if (net == NULL) {
+					fprintf(stderr, "NULL net\n");
+					break;
+				}
+				diffs = exec_check_conn(diffs, l, pin, net, (l->op == GSCHEM_PATCH_DEL_CONN));
+				break;
+			case GSCHEM_PATCH_CHANGE_ATTRIB:
+				break;
+			case GSCHEM_PATCH_NET_INFO:
+				break;
+		}
+	}
+	return diffs;
+}
