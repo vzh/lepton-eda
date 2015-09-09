@@ -301,8 +301,9 @@ int gschem_patch_state_init(gschem_patch_state_t *st, const char *fn)
 		GList *i;
 
 		/* Create hashes for faster lookups avoiding O(objects*patches) */
-		st->pins = g_hash_table_new (g_str_hash, g_str_equal);
-		st->nets = g_hash_table_new (g_str_hash, g_str_equal);
+		st->pins  = g_hash_table_new (g_str_hash, g_str_equal);
+		st->comps = g_hash_table_new (g_str_hash, g_str_equal);
+		st->nets  = g_hash_table_new (g_str_hash, g_str_equal);
 		for (i = st->lines; i != NULL; i = g_list_next (i)) {
 			gschem_patch_line_t *l = i->data;
 			if (l->op == GSCHEM_PATCH_NET_INFO)
@@ -320,6 +321,8 @@ static void build_insert_hash_list(GHashTable *hash, char *full_name, OBJECT *ob
 	GSList *lst;
 	
 	lst = g_hash_table_lookup(hash, full_name);
+	if (lst != NULL) /* key already exists, the new one won't end up in the hash and won't get free'd on hash destroy */
+		g_free(full_name);
 	lst = g_slist_prepend(lst, obj);
 	g_hash_table_insert(hash, full_name, lst);
 }
@@ -336,6 +339,8 @@ int gschem_patch_state_build(gschem_patch_state_t *st, OBJECT *o)
 			if (refdes == NULL)
 				break;
 
+			build_insert_hash_list(st->comps, g_strdup(refdes), o);
+
 			refdes_len = strlen(refdes);
 			for(i = o->complex->prim_objs; i != NULL; i = g_list_next(i)) {
 				OBJECT *sub = i->data;
@@ -345,7 +350,7 @@ int gschem_patch_state_build(gschem_patch_state_t *st, OBJECT *o)
 						if (pin != NULL) {
 							char *full_name;
 							pin_len = strlen(pin);
-							full_name = malloc(refdes_len + pin_len + 2);
+							full_name = g_malloc(refdes_len + pin_len + 2);
 							sprintf(full_name, "%s-%s", refdes, pin);
 /*						printf("add: '%s' -> '%p' o=%p at=%p p=%p\n", full_name, sub, o, sub->attached_to, sub->parent);
 						fflush(stdout);*/
@@ -390,15 +395,17 @@ static gboolean free_key_list(gpointer key, gpointer value, gpointer user_data)
 {
 	GSList *lst = value;
 	g_slist_free(lst);
-	free(key);
+	g_free(key);
 	return TRUE;
 }
 
 void gschem_patch_state_destroy(gschem_patch_state_t *st)
 {
 	g_hash_table_foreach_remove(st->pins, free_key_list, NULL);
+	g_hash_table_foreach_remove(st->comps, free_key_list, NULL);
 	g_hash_table_destroy(st->nets);
 	g_hash_table_destroy(st->pins);
+	g_hash_table_destroy(st->comps);
 	patch_list_free(st->lines);
 }
 
@@ -611,10 +618,26 @@ static GSList *exec_check_conn(GSList *diffs, gschem_patch_line_t *patch, OBJECT
 }
 #undef enlarge
 
+static GSList *exec_check_attrib(GSList *diffs, gschem_patch_line_t *patch, OBJECT *comp)
+{
+	gchar *attr_val;
+	attr_val = o_attrib_search_object_attribs_by_name (comp, patch->arg1.attrib_name, 0);
+	if (attr_val == NULL)
+		return diffs;
+	if (strcmp(attr_val, patch->arg2.attrib_val) != 0) {
+		gchar *msg = g_strdup_printf("%s: change attribute %s from %s to %s", patch->id, patch->arg1.attrib_name, attr_val, patch->arg2.attrib_val);
+		diffs = add_hit(diffs, comp, msg);
+	}
+	g_free(attr_val);
+	return diffs;
+}
+
+
 GSList *gschem_patch_state_execute(gschem_patch_state_t *st, GSList *diffs)
 {
 	GList *i, *net;
-	GSList *pins;
+	GSList *pins, *comps;
+	int found;
 
 	for (i = st->lines; i != NULL; i = g_list_next (i)) {
 		gschem_patch_line_t *l = i->data;
@@ -639,8 +662,18 @@ GSList *gschem_patch_state_execute(gschem_patch_state_t *st, GSList *diffs)
 					diffs = exec_check_conn(diffs, l, (OBJECT *)pins->data, net, (l->op == GSCHEM_PATCH_DEL_CONN));
 				break;
 			case GSCHEM_PATCH_CHANGE_ATTRIB:
+				comps = g_hash_table_lookup(st->comps, l->id);
+				for(found = 0;comps != NULL; comps = g_slist_next(comps)) {
+					diffs = exec_check_attrib(diffs, l, (OBJECT *)comps->data);
+					found++;
+				}
+				if (found == NULL) {
+					gchar *msg = g_strdup_printf("%s (NOT FOUND): change attribute %s to %s", l->id, l->arg1.attrib_name, l->arg2.attrib_val);
+					diffs = add_hit(diffs, NULL, msg);
+				}
 				break;
 			case GSCHEM_PATCH_NET_INFO:
+				/* just ignore them, we've already built data structs while parsing */
 				break;
 		}
 	}
