@@ -284,6 +284,7 @@ static void
 assign_store_patch (GschemFindTextState *state, GSList *objects)
 {
   GSList *object_iter;
+	static const char *UNKNOWN_FILE_NAME = "N/A";
 
   g_return_if_fail (state != NULL);
   g_return_if_fail (state->store != NULL);
@@ -294,7 +295,7 @@ assign_store_patch (GschemFindTextState *state, GSList *objects)
 
   while (object_iter != NULL) {
     char *basename;
-    OBJECT *final_object;
+    OBJECT *final_object = NULL;
     gschem_patch_hit_t *hit = (gschem_patch_hit_t*) object_iter->data;
     GtkTreeIter tree_iter;
 
@@ -305,39 +306,76 @@ assign_store_patch (GschemFindTextState *state, GSList *objects)
        Fix: be able to jump to any OBJECT
        */
  {
-      GList *i, *l = o_attrib_return_attribs (hit->object);
+      OBJECT *page_obj;
+      GList *i, *l;
+      int found_pin;
+
+      if (hit->object != NULL)
+        l = o_attrib_return_attribs (hit->object);
+      else
+        l = NULL;
+
       if (l == NULL) {
-        g_warning ("NULL attrib list");
-        continue;
+        gtk_list_store_append (state->store, &tree_iter);
+        gtk_list_store_set (state->store,
+                            &tree_iter,
+                            COLUMN_FILENAME, UNKNOWN_FILE_NAME,
+                            COLUMN_STRING, hit->text,
+                            COLUMN_OBJECT, final_object,
+                            -1);
+        goto next;
       }
 
+
+      found_pin = 0;
       for(i = l; i != NULL; i = g_list_next(i)) {
         final_object = i->data;
-        if ((final_object->type == OBJ_TEXT) && (o_is_visible (final_object->page->toplevel, final_object)))
-           break;
+        if (final_object->type == OBJ_TEXT) {
+          page_obj = gschem_page_get_page_object(final_object);
+          if (o_is_visible (page_obj->page->toplevel, page_obj)) {
+            found_pin = 1;
+            break;
+          }
+        }
       }
       g_list_free(l);
+      if (!found_pin) {
+        g_warning ("no pin text to zoom to");
+        page_obj = final_object = NULL;
+      }
 
       if (final_object == NULL) {
         g_warning ("no text attrib?");
-        continue;
+        page_obj = final_object = NULL;
       }
-      basename = g_path_get_basename (final_object->page->page_filename);
-
+      if (page_obj != NULL)
+        basename = g_path_get_basename (page_obj->page->page_filename);
+      else
+        basename = NULL;
  }
     s_object_weak_ref (hit->object, (NotifyFunc) object_weakref_cb, state);
 
     gtk_list_store_append (state->store, &tree_iter);
 
-    gtk_list_store_set (state->store,
-                        &tree_iter,
-                        COLUMN_FILENAME, basename,
-                        COLUMN_STRING, hit->text,
-                        COLUMN_OBJECT, final_object,
-                        -1);
-
-    g_free (basename);
+    if (basename != NULL) {
+      gtk_list_store_set (state->store,
+                          &tree_iter,
+                          COLUMN_FILENAME, basename,
+                          COLUMN_STRING, hit->text,
+                          COLUMN_OBJECT, final_object,
+                          -1);
+      g_free (basename);
+    }
+    else {
+      gtk_list_store_set (state->store,
+                          &tree_iter,
+                          COLUMN_FILENAME, UNKNOWN_FILE_NAME,
+                          COLUMN_STRING, hit->text,
+                          COLUMN_OBJECT, final_object,
+                          -1);
+    }
     free(hit);
+    next:;
     object_iter->data = NULL;
     object_iter = g_slist_next (object_iter);
   }

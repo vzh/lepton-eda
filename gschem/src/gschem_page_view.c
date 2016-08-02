@@ -1289,6 +1289,18 @@ gschem_page_view_zoom_extents (GschemPageView *view, const GList *objects)
   gschem_page_view_invalidate_all (view);
 }
 
+/*! \brief utility function to find the first parent that has a ->page
+ *
+ *  \param [in] object    The object
+ *  \return the parent object that had a non-NULL ->page
+ */
+OBJECT *gschem_page_get_page_object(OBJECT *object)
+{
+  OBJECT *page_obj = object;
+  while((page_obj != NULL) && (page_obj->page == NULL))
+    page_obj = page_obj->parent;
+  return page_obj;
+}
 
 /*! \brief Zoom in on a single text object
  *
@@ -1298,6 +1310,7 @@ gschem_page_view_zoom_extents (GschemPageView *view, const GList *objects)
 void
 gschem_page_view_zoom_text (GschemPageView *view, OBJECT *object)
 {
+  OBJECT *page_obj;
   int success;
   int x[2];
   int y[2];
@@ -1309,8 +1322,11 @@ gschem_page_view_zoom_text (GschemPageView *view, OBJECT *object)
   g_return_if_fail (geometry != NULL);
 
   g_return_if_fail (object != NULL);
-  g_return_if_fail (object->page != NULL);
-  g_return_if_fail (object->page->toplevel != NULL);
+
+  page_obj = gschem_page_get_page_object(object);
+
+  g_return_if_fail (page_obj->page != NULL);
+  g_return_if_fail (page_obj->page->toplevel != NULL);
   g_return_if_fail (object->text != NULL);
 
   success = geda_object_calculate_visible_bounds (object->page->toplevel,
