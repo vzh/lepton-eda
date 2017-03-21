@@ -54,7 +54,7 @@ enum
 {
   PROP_0,
   PROP_DESCEND,
-  PROP_FIND_TEXT_STRING,
+  PROP_FIND_PATCH_STRING,
   PROP_FIND_TYPE
 };
 
@@ -204,7 +204,7 @@ get_property (GObject *object, guint param_id, GValue *value, GParamSpec *pspec)
       g_value_set_boolean (value, gschem_find_patch_widget_get_descend (widget));
       break;
 
-    case PROP_FIND_TEXT_STRING:
+    case PROP_FIND_PATCH_STRING:
       g_value_set_string (value, gschem_find_patch_widget_get_find_patch_string (widget));
       break;
 
@@ -249,7 +249,7 @@ gschem_find_patch_widget_class_init (GschemFindPatchWidgetClass *klass)
                                                      G_PARAM_READWRITE | G_PARAM_CONSTRUCT));
 
   g_object_class_install_property (G_OBJECT_CLASS (klass),
-                                   PROP_FIND_TEXT_STRING,
+                                   PROP_FIND_PATCH_STRING,
                                    g_param_spec_string ("find-text-string",
                                                         "Find Patch String",
                                                         "Find Patch String",
@@ -530,7 +530,7 @@ set_property (GObject *object, guint param_id, const GValue *value, GParamSpec *
       gschem_find_patch_widget_set_descend (widget, g_value_get_boolean (value));
       break;
 
-    case PROP_FIND_TEXT_STRING:
+    case PROP_FIND_PATCH_STRING:
       gschem_find_patch_widget_set_find_text_string (widget, g_value_get_string (value));
       break;
 
