@@ -633,6 +633,7 @@ char * generic_filesel_dialog(const char *, const char *, gint);
 void find_text_dialog(GschemToplevel *w_current);
 void hide_text_dialog(GschemToplevel *w_current);
 void show_text_dialog(GschemToplevel *w_current);
+void find_patch_dialog (GschemToplevel *w_current);
 void major_changed_dialog(GschemToplevel* w_current);
 gboolean x_dialog_close_changed_page (GschemToplevel *w_current, PAGE *page);
 gboolean x_dialog_close_window (GschemToplevel *w_current);
