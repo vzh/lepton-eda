@@ -329,7 +329,7 @@ assign_store_patch (GschemFindTextState *state, GSList *objects)
 
       found_pin = 0;
       for(i = l; i != NULL; i = g_list_next(i)) {
-        final_object = i->data;
+        final_object = (OBJECT*) i->data;
         if (final_object->type == OBJ_TEXT) {
           page_obj = gschem_page_get_page_object(final_object);
           if (o_is_visible (page_obj->page->toplevel, page_obj)) {
