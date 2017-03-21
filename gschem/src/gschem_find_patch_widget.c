@@ -172,12 +172,8 @@ finalize (GObject *object)
  */
 void find_patch_dialog (GschemToplevel *w_current)
 {
-  OBJECT *object;
-
   g_return_if_fail (w_current != NULL);
   g_return_if_fail (w_current->toplevel != NULL);
-
-  object = o_select_return_first_object(w_current);
 
   /* Unlike with text find, do not change the search text (file name) here:
      it will retrain its previous value. It's likely that the same
