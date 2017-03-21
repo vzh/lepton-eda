@@ -236,7 +236,8 @@ gschem_find_patch_widget_class_init (GschemFindPatchWidgetClass *klass)
                                                          "Descend",
                                                          "Descend",
                                                          FALSE,
-                                                         G_PARAM_READWRITE | G_PARAM_CONSTRUCT));
+                                                         (GParamFlags) (G_PARAM_READWRITE
+                                                                        | G_PARAM_CONSTRUCT)));
 
   g_object_class_install_property (G_OBJECT_CLASS (klass),
                                    PROP_FIND_TYPE,
@@ -246,7 +247,8 @@ gschem_find_patch_widget_class_init (GschemFindPatchWidgetClass *klass)
                                                      0,
                                                      2,
                                                      FIND_TYPE_SUBSTRING,
-                                                     G_PARAM_READWRITE | G_PARAM_CONSTRUCT));
+                                                     (GParamFlags) (G_PARAM_READWRITE
+                                                                    | G_PARAM_CONSTRUCT)));
 
   g_object_class_install_property (G_OBJECT_CLASS (klass),
                                    PROP_FIND_PATCH_STRING,
@@ -254,7 +256,8 @@ gschem_find_patch_widget_class_init (GschemFindPatchWidgetClass *klass)
                                                         "Find Patch String",
                                                         "Find Patch String",
                                                         "",
-                                                        G_PARAM_READWRITE | G_PARAM_CONSTRUCT));
+                                                        (GParamFlags) (G_PARAM_READWRITE
+                                                                       | G_PARAM_CONSTRUCT)));
 }
 
 
@@ -324,7 +327,10 @@ gschem_find_patch_widget_get_type ()
       (GInstanceInitFunc) gschem_find_patch_widget_init,
     };
 
-    type = g_type_register_static (GTK_TYPE_INFO_BAR, "GschemFindPatchWidget", &info, 0);
+    type = g_type_register_static (GTK_TYPE_INFO_BAR,
+                                   "GschemFindPatchWidget",
+                                   &info,
+                                   (GTypeFlags) 0);
   }
 
   return type;
