@@ -348,8 +348,11 @@ assign_store_patch (GschemFindTextState *state, GSList *objects)
         g_warning ("no text attrib?");
         page_obj = final_object = NULL;
       }
-      if (page_obj != NULL)
-        basename = g_path_get_basename (page_obj->page->page_filename);
+      if (page_obj != NULL) {
+        PAGE* object_page = page_obj->page;
+        const gchar* filename = s_page_get_filename (object_page);
+        basename = g_path_get_basename (filename);
+      }
       else
         basename = NULL;
  }
