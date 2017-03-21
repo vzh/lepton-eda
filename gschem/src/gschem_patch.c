@@ -40,7 +40,7 @@ do { \
 do { \
 	if (used >= alloced) { \
 		alloced += 64; \
-		word = realloc(word, alloced); \
+    word = (char*) realloc(word, alloced);       \
 	} \
 	word[used] = c; \
 	used++; \
@@ -124,7 +124,7 @@ do { \
 			require(current.id); \
 			break; \
 	} \
-	n = malloc(sizeof(gschem_patch_line_t)); \
+  n = (gschem_patch_line_t*) malloc(sizeof(gschem_patch_line_t)); \
 	memcpy(n, &current, sizeof(gschem_patch_line_t)); \
 	st->lines = g_list_prepend(st->lines, n); \
 	reset_current(); \
@@ -305,7 +305,7 @@ int gschem_patch_state_init(gschem_patch_state_t *st, const char *fn)
 		st->comps = g_hash_table_new (g_str_hash, g_str_equal);
 		st->nets  = g_hash_table_new (g_str_hash, g_str_equal);
 		for (i = st->lines; i != NULL; i = g_list_next (i)) {
-			gschem_patch_line_t *l = i->data;
+      gschem_patch_line_t *l = (gschem_patch_line_t*) i->data;
 			if (l->op == GSCHEM_PATCH_NET_INFO)
 				g_hash_table_insert(st->nets, l->id, l->arg1.ids);
 		}
@@ -321,7 +321,7 @@ static void build_insert_hash_list(GHashTable *hash, char *full_name, void *item
 	GSList *lst;
 	int free_name;
 	
-	lst = g_hash_table_lookup(hash, full_name);
+  lst = (GSList*) g_hash_table_lookup(hash, full_name);
 	free_name = (lst != NULL);
 	lst = g_slist_prepend(lst, item);
 
@@ -336,7 +336,7 @@ static void build_insert_hash_list(GHashTable *hash, char *full_name, void *item
 static gschem_patch_pin_t *alloc_pin(OBJECT *pin_obj, char *net)
 {
 	gschem_patch_pin_t *p;
-	p = g_malloc(sizeof(gschem_patch_pin_t));
+  p = (gschem_patch_pin_t*) g_malloc(sizeof(gschem_patch_pin_t));
 	p->obj = pin_obj;
 	p->net = net;
 	return p;
@@ -361,14 +361,14 @@ int gschem_patch_state_build(gschem_patch_state_t *st, OBJECT *o)
 			/* map pins */
 			refdes_len = strlen(refdes);
 			for(i = o->complex->prim_objs; i != NULL; i = g_list_next(i)) {
-				OBJECT *sub = i->data;
+        OBJECT *sub = (OBJECT*) i->data;
 				switch(sub->type) {
 					case OBJ_PIN:
 						pin = o_attrib_search_object_attribs_by_name (sub, "pinnumber", 0);
 						if (pin != NULL) {
 							char *full_name;
 							pin_len = strlen(pin);
-							full_name = g_malloc(refdes_len + pin_len + 2);
+              full_name = (char*) g_malloc(refdes_len + pin_len + 2);
 							sprintf(full_name, "%s-%s", refdes, pin);
 /*						printf("add: '%s' -> '%p' o=%p at=%p p=%p\n", full_name, sub, o, sub->attached_to, sub->parent);
 						fflush(stdout);*/
@@ -382,7 +382,7 @@ int gschem_patch_state_build(gschem_patch_state_t *st, OBJECT *o)
 			/* map net attribute connections */
 			l = o_attrib_return_attribs (o);
 			for(i = l; i != NULL; i = g_list_next(i)) {
-				OBJECT *attrib = i->data;
+        OBJECT *attrib = (OBJECT*) i->data;
 				/* I know, I know, I should use o_attrib_get_name_value(), but it'd be
 				   ridicolous to get everything strdup'd */
 				if (attrib->type != OBJ_TEXT)
@@ -399,10 +399,10 @@ int gschem_patch_state_build(gschem_patch_state_t *st, OBJECT *o)
 						net_len = pinno - net;
 						pinno++;
 						pin_len = strlen(pinno);
-						full_name = g_malloc(refdes_len + pin_len + 2);
+            full_name = (char*) g_malloc(refdes_len + pin_len + 2);
 
 						if (net_len > 0) {
-							net_name = g_malloc(net_len+1);
+              net_name = (char*) g_malloc(net_len+1);
 							memcpy(net_name, net, net_len);
 							net_name[net_len] = '\0';
 						}
@@ -452,7 +452,7 @@ static gboolean free_key(gpointer key, gpointer value, gpointer user_data)
 
 static gboolean free_key_list(gpointer key, gpointer value, gpointer user_data)
 {
-	GSList *lst = value;
+  GSList *lst = (GSList*) value;
 	g_slist_free(lst);
 	g_free(key);
 	return TRUE;
@@ -471,7 +471,7 @@ void gschem_patch_state_destroy(gschem_patch_state_t *st)
 static GSList *add_hit(GSList *hits, OBJECT *obj, char *text)
 {
 	gschem_patch_hit_t *hit;
-	hit = calloc(sizeof(gschem_patch_hit_t), 1);
+  hit = (gschem_patch_hit_t*) calloc(sizeof(gschem_patch_hit_t), 1);
 	hit->object = obj;
 	hit->text = text;
 	return g_slist_prepend(hits, hit);
@@ -501,7 +501,7 @@ static GList *s_conn_find_all(GHashTable *found, GList *open, void *(*hashval)(v
 
 	/* iterate by consuming the first element of the list */
 	for(i = open; i != NULL; i = open) {
-		OBJECT *o = i->data;
+    OBJECT *o = (OBJECT*) i->data;
 
 		open = g_list_remove(open, o);
 
@@ -522,21 +522,21 @@ static GList *s_conn_find_all(GHashTable *found, GList *open, void *(*hashval)(v
 static void *exec_check_conn_hashval(void *user_ctx, OBJECT *o)
 {
 	gchar *name = NULL, *tmp;
-	GHashTable *name2obj = user_ctx;
+  GHashTable *name2obj = (GHashTable*) user_ctx;
 
 	switch(o->type) {
 		case OBJ_NET:
 			tmp = o_attrib_search_object_attribs_by_name (o, "netname", 0);
 			if (tmp != NULL) {
 				int len = strlen(tmp);
-				name = g_malloc(len+2);
+        name = (gchar*) g_malloc(len+2);
 				*name = OBJ_NET;
 				memcpy(name+1, tmp, len+1);
 				g_free(tmp);
 				g_hash_table_insert(name2obj, name, o);
 			}
 			else
-				name = " "; /* anon net segments are not interesting at all; should be a static string as it doesn't end up on name2obj where we free these strings */
+        name = (gchar*) " "; /* anon net segments are not interesting at all; should be a static string as it doesn't end up on name2obj where we free these strings */
 			break;
 		case OBJ_PIN: 
 			if (o->parent != NULL) {
@@ -544,7 +544,7 @@ static void *exec_check_conn_hashval(void *user_ctx, OBJECT *o)
 
 				oname = o_attrib_search_object_attribs_by_name (o->parent, "refdes", 0);
 				pname = o_attrib_search_object_attribs_by_name (o, "pinnumber", 0);
-				name = g_malloc(strlen(oname) + strlen(pname) + 3);
+        name = (gchar*) g_malloc(strlen(oname) + strlen(pname) + 3);
 				sprintf(name, "%c%s-%s", OBJ_PIN, (char *)oname, (char *)pname);
 				g_free(oname);
 				g_free(pname);
@@ -594,7 +594,7 @@ static void exec_conn_pretend(gschem_patch_line_t *patch, GList **net, int del)
 	if (del) {
 		GList *np;
 		for(np = *net; np != NULL;) {
-			const char *lname = np->data;
+      const char *lname = (const char*) np->data;
 			np = g_list_next(np);
 			if (strcmp(lname, patch->id) == 0)
 				*net = g_list_remove(*net, lname);
@@ -609,7 +609,7 @@ do { \
 	if (to > alloced) { \
 		alloced = to+256; \
 		free(buff); \
-		buff = malloc(to); \
+    buff = (char*) malloc(to);                   \
 	} \
 } while(0)
 static GSList *exec_check_conn(GSList *diffs, gschem_patch_line_t *patch, gschem_patch_pin_t *pin, GList **net, int del)
@@ -663,11 +663,11 @@ static GSList *exec_check_conn(GSList *diffs, gschem_patch_line_t *patch, gschem
 		for(np = *net; np != NULL; np = g_list_next(np)) {
 			const char *action = NULL;
 			OBJECT *target;
-			len = strlen(np->data);
+      len = strlen ((const char*) np->data);
 			enlarge(len+2);
 			*buff = OBJ_PIN;
 			memcpy(buff+1, np->data, len+1);
-			target = g_hash_table_lookup(connections, buff);
+      target = (OBJECT*) g_hash_table_lookup(connections, buff);
 			if (target == pin->obj)
 				continue;
 			if (target != NULL) {
@@ -732,7 +732,7 @@ GSList *gschem_patch_state_execute(gschem_patch_state_t *st, GSList *diffs)
 	int found, del;
 
 	for (i = st->lines; i != NULL; i = g_list_next (i)) {
-		gschem_patch_line_t *l = i->data;
+    gschem_patch_line_t *l = (gschem_patch_line_t*) i->data;
 		if (l == NULL) {
 			fprintf(stderr, "NULL data on list\n");
 			continue;
@@ -741,8 +741,8 @@ GSList *gschem_patch_state_execute(gschem_patch_state_t *st, GSList *diffs)
 			case GSCHEM_PATCH_DEL_CONN:
 			case GSCHEM_PATCH_ADD_CONN:
 				del = (l->op == GSCHEM_PATCH_DEL_CONN);
-				net = onet = g_hash_table_lookup(st->nets, l->arg1.net_name);
-				pins = g_hash_table_lookup(st->pins, l->id);
+        net = onet = (GList*) g_hash_table_lookup(st->nets, l->arg1.net_name);
+        pins = (GSList*) g_hash_table_lookup(st->pins, l->id);
 				if (pins == NULL) {
 					/* pin not found on open schematics */
 					gchar *msg = g_strdup_printf("%s pin %s (NOT FOUND) from net %s", (del ? "Disconnect" : "Connect"), l->id, l->arg1.net_name);
@@ -759,7 +759,7 @@ GSList *gschem_patch_state_execute(gschem_patch_state_t *st, GSList *diffs)
 					g_hash_table_insert(st->nets, l->arg1.net_name, net);
 				break;
 			case GSCHEM_PATCH_CHANGE_ATTRIB:
-				comps = g_hash_table_lookup(st->comps, l->id);
+        comps = (GSList*) g_hash_table_lookup(st->comps, l->id);
 				for(found = 0;comps != NULL; comps = g_slist_next(comps)) {
 					diffs = exec_check_attrib(diffs, l, (OBJECT *)comps->data);
 					found++;
