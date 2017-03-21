@@ -349,7 +349,6 @@ gschem_find_patch_widget_init (GschemFindPatchWidget *widget)
   GtkWidget *button_box;
   GtkWidget *cancel_button;
   GtkWidget *content = gtk_info_bar_get_content_area (GTK_INFO_BAR (widget));
-  GtkCellRenderer *text_cell;
 
   g_return_if_fail (widget != NULL);
 
@@ -433,7 +432,6 @@ gschem_find_patch_widget_set_descend (GschemFindPatchWidget *widget, int descend
 void
 gschem_find_patch_widget_set_find_type (GschemFindPatchWidget *widget, int type)
 {
-  GtkTreeIter *active = NULL;
 
   g_return_if_fail (widget != NULL);
 
@@ -447,7 +445,6 @@ gschem_find_patch_widget_set_find_type (GschemFindPatchWidget *widget, int type)
       gtk_tree_model_get_value (GTK_TREE_MODEL (widget->find_type_model), &iter, COLUMN_INDEX, &value);
       if (g_value_get_int (&value) == type) {
         g_value_unset (&value);
-        active = &iter;
         break;
       }
       g_value_unset (&value);
