@@ -1,0 +1,41 @@
+name: main
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  distcheck:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: apt-get update
+        run: sudo apt-get update
+
+      - name: apt-get install
+        run: sudo apt-get install -y
+             guile-3.0-dev
+             libgtk2.0-dev
+             libgtkextra-dev
+             libstroke0-dev
+             libgettextpo-dev
+             autopoint
+             flex
+             bison
+             groff
+             texinfo
+             texlive-base
+             texlive-plain-generic
+             texlive-latex-base
+             texlive-fonts-recommended
+             imagemagick
+
+      - name: configure
+        run: |
+          ./autogen.sh
+          ./configure --disable-update-xdg-database CFLAGS='-DSCM_DEBUG_TYPING_STRICTNESS=2'
+
+      - name: make distcheck
+        run:  make -sj4 distcheck
