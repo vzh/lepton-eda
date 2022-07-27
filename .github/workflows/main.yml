@@ -35,7 +35,7 @@ jobs:
       - name: configure
         run: |
           autoreconf -ifv
-          ./configure --disable-update-xdg-database CFLAGS='-DSCM_DEBUG_TYPING_STRICTNESS=2'
+          ./configure --disable-update-xdg-database
 
       - name: make distcheck
         run:  make -sj4 distcheck
