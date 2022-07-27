@@ -35,7 +35,7 @@ jobs:
       - name: configure
         run: |
           autoreconf -ifv
-          ./configure --disable-update-xdg-database
+          ./configure --disable-update-xdg-database CC=g++
 
       - name: make distcheck
-        run:  make -sj4 distcheck
+        run:  make -sj4 CC=g++ distcheck
