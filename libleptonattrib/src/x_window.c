@@ -746,6 +746,8 @@ x_window_add_items()
     attrib_sheet_data_get_pin_attrib_count (sheet_head);
   int net_count =
     attrib_sheet_data_get_net_count (sheet_head);
+  int net_attrib_count =
+    attrib_sheet_data_get_net_attrib_count (sheet_head);
 
   /* Do these sanity check to prevent later segfaults */
   if (component_count == 0)
@@ -787,7 +789,7 @@ x_window_add_items()
     x_gtksheet_add_row_labels(GTK_SHEET(sheets[1]),
                               net_count, sheet_head->master_net_list_head);
     x_gtksheet_add_col_labels(GTK_SHEET(sheets[1]),
-                              sheet_head->net_attrib_count, sheet_head->master_net_attrib_list_head);
+                              net_attrib_count, sheet_head->master_net_attrib_list_head);
   } else {
     x_gtksheet_add_row_labels(GTK_SHEET(sheets[1]), 1, NULL);
     x_gtksheet_add_col_labels(GTK_SHEET(sheets[1]), 1, NULL);
@@ -819,7 +821,7 @@ x_window_add_items()
 
   /* ------ Net sheet: put values in the individual cells ------- */
   num_rows = net_count;
-  num_cols = sheet_head->net_attrib_count;
+  num_cols = net_attrib_count;
   for (i = 0; i < num_rows; i++) {
     for (j = 0; j < num_cols; j++) {
       if ( (sheet_head->net_table)[i][j].attrib_value ) { /* NULL = no entry */
