@@ -740,6 +740,8 @@ x_window_add_items()
     attrib_sheet_data_get_component_count (sheet_head);
   int component_attrib_count =
     attrib_sheet_data_get_component_attrib_count (sheet_head);
+  int pin_count =
+    attrib_sheet_data_get_pin_count (sheet_head);
 
   /* Do these sanity check to prevent later segfaults */
   if (component_count == 0)
@@ -756,7 +758,8 @@ x_window_add_items()
     x_dialog_fatal_error(error_string, 2);
   }
 
-  if (sheet_head->pin_count == 0) {
+  if (pin_count == 0)
+  {
     error_string = _("No pins found on any components!\nPlease check your design.");
     x_dialog_fatal_error(error_string, 3);
   }
@@ -785,9 +788,10 @@ x_window_add_items()
     x_gtksheet_add_col_labels(GTK_SHEET(sheets[1]), 1, NULL);
   }
 
-  if (sheet_head->pin_count > 0 ) {
+  if (pin_count > 0)
+  {
     x_gtksheet_add_row_labels(GTK_SHEET(sheets[2]),
-                              sheet_head->pin_count, sheet_head->master_pin_list_head);
+                              pin_count, sheet_head->master_pin_list_head);
     x_gtksheet_add_col_labels(GTK_SHEET(sheets[2]),
                               sheet_head->pin_attrib_count, sheet_head->master_pin_attrib_list_head);
   }
@@ -825,7 +829,7 @@ x_window_add_items()
   }
 
   /* ------ Pin sheet: put pin attribs in the individual cells ------- */
-  num_rows = sheet_head->pin_count;
+  num_rows = pin_count;
   num_cols = sheet_head->pin_attrib_count;
   for (i = 0; i < num_rows; i++) {
     for (j = 0; j < num_cols; j++) {
