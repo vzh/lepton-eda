@@ -777,30 +777,36 @@ x_window_add_items()
 
   if (component_count > 0 )
   {
-    x_gtksheet_add_row_labels(GTK_SHEET(sheets[0]),
-                              component_count, sheet_head->master_comp_list_head);
-    x_gtksheet_add_col_labels(GTK_SHEET(sheets[0]),
-                              component_attrib_count, sheet_head->master_comp_attrib_list_head);
+    x_gtksheet_add_row_labels (GTK_SHEET (attrib_get_sheet (0)),
+                               component_count,
+                               sheet_head->master_comp_list_head);
+    x_gtksheet_add_col_labels (GTK_SHEET (attrib_get_sheet (0)),
+                               component_attrib_count,
+                               sheet_head->master_comp_attrib_list_head);
   }
 
   /* This is not ready.  I need to implement net attributes */
   if (net_count > 0)
   {
-    x_gtksheet_add_row_labels(GTK_SHEET(sheets[1]),
-                              net_count, sheet_head->master_net_list_head);
-    x_gtksheet_add_col_labels(GTK_SHEET(sheets[1]),
-                              net_attrib_count, sheet_head->master_net_attrib_list_head);
+    x_gtksheet_add_row_labels (GTK_SHEET (attrib_get_sheet (1)),
+                               net_count,
+                               sheet_head->master_net_list_head);
+    x_gtksheet_add_col_labels (GTK_SHEET (attrib_get_sheet (1)),
+                               net_attrib_count,
+                               sheet_head->master_net_attrib_list_head);
   } else {
-    x_gtksheet_add_row_labels(GTK_SHEET(sheets[1]), 1, NULL);
-    x_gtksheet_add_col_labels(GTK_SHEET(sheets[1]), 1, NULL);
+    x_gtksheet_add_row_labels (GTK_SHEET (attrib_get_sheet (1)), 1, NULL);
+    x_gtksheet_add_col_labels (GTK_SHEET (attrib_get_sheet (1)), 1, NULL);
   }
 
   if (pin_count > 0)
   {
-    x_gtksheet_add_row_labels(GTK_SHEET(sheets[2]),
-                              pin_count, sheet_head->master_pin_list_head);
-    x_gtksheet_add_col_labels(GTK_SHEET(sheets[2]),
-                              pin_attrib_count, sheet_head->master_pin_attrib_list_head);
+    x_gtksheet_add_row_labels (GTK_SHEET (attrib_get_sheet (2)),
+                               pin_count,
+                               sheet_head->master_pin_list_head);
+    x_gtksheet_add_col_labels (GTK_SHEET (attrib_get_sheet (2)),
+                               pin_attrib_count,
+                               sheet_head->master_pin_attrib_list_head);
   }
 
   /* ------ Comp sheet: put values in the individual cells ------- */
@@ -812,7 +818,7 @@ x_window_add_items()
         text = (gchar *) g_strdup( (sheet_head->component_table)[i][j].attrib_value );
         visibility = (sheet_head->component_table)[i][j].visibility;
         show_name_value = (sheet_head->component_table)[i][j].show_name_value;
-        x_gtksheet_add_cell_item( GTK_SHEET(sheets[0]), i, j, (gchar *) text,
+        x_gtksheet_add_cell_item (GTK_SHEET (attrib_get_sheet (0)), i, j, (gchar *) text,
                                   visibility, show_name_value );
         g_free(text);
       }
@@ -828,7 +834,7 @@ x_window_add_items()
         text = (gchar *) g_strdup( (sheet_head->net_table)[i][j].attrib_value );
         visibility = (sheet_head->net_table)[i][j].visibility;
         show_name_value = (sheet_head->component_table)[i][j].show_name_value;
-        x_gtksheet_add_cell_item( GTK_SHEET(sheets[1]), i, j, (gchar *) text,
+        x_gtksheet_add_cell_item (GTK_SHEET (attrib_get_sheet (1)), i, j, (gchar *) text,
                                   visibility, show_name_value );
         g_free(text);
       }
@@ -843,7 +849,7 @@ x_window_add_items()
       if ( (sheet_head->pin_table)[i][j].attrib_value ) { /* NULL = no entry */
         text = (gchar *) g_strdup( (sheet_head->pin_table)[i][j].attrib_value );
         /* pins have no visibility attributes, must therefore provide default. */
-        x_gtksheet_add_cell_item( GTK_SHEET(sheets[2]), i, j, (gchar *) text,
+        x_gtksheet_add_cell_item (GTK_SHEET (attrib_get_sheet (2)), i, j, (gchar *) text,
                                   VISIBLE, SHOW_VALUE );
         g_free(text);
       }
