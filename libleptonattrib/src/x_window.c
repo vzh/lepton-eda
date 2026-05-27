@@ -738,6 +738,8 @@ x_window_add_items()
 
   int component_count =
     attrib_sheet_data_get_component_count (sheet_head);
+  int component_attrib_count =
+    attrib_sheet_data_get_component_attrib_count (sheet_head);
 
   /* Do these sanity check to prevent later segfaults */
   if (component_count == 0)
@@ -747,7 +749,8 @@ x_window_add_items()
     x_dialog_fatal_error(error_string, 1);
   }
 
-  if (sheet_head->comp_attrib_count == 0) {
+  if (component_attrib_count == 0)
+  {
     error_string = _("No configurable component attributes found in entire design!\n"
                      "Please attach at least some attributes before running lepton-attrib.");
     x_dialog_fatal_error(error_string, 2);
@@ -768,7 +771,7 @@ x_window_add_items()
     x_gtksheet_add_row_labels(GTK_SHEET(sheets[0]),
                               component_count, sheet_head->master_comp_list_head);
     x_gtksheet_add_col_labels(GTK_SHEET(sheets[0]),
-                              sheet_head->comp_attrib_count, sheet_head->master_comp_attrib_list_head);
+                              component_attrib_count, sheet_head->master_comp_attrib_list_head);
   }
 
   /* This is not ready.  I need to implement net attributes */
@@ -791,7 +794,7 @@ x_window_add_items()
 
   /* ------ Comp sheet: put values in the individual cells ------- */
   num_rows = component_count;
-  num_cols = sheet_head->comp_attrib_count;
+  num_cols = component_attrib_count;
   for (i = 0; i < num_rows; i++) {
     for (j = 0; j < num_cols; j++) {
       if ( (sheet_head->component_table)[i][j].attrib_value ) { /* NULL = no entry */
