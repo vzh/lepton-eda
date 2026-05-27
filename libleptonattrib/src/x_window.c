@@ -744,6 +744,8 @@ x_window_add_items()
     attrib_sheet_data_get_pin_count (sheet_head);
   int pin_attrib_count =
     attrib_sheet_data_get_pin_attrib_count (sheet_head);
+  int net_count =
+    attrib_sheet_data_get_net_count (sheet_head);
 
   /* Do these sanity check to prevent later segfaults */
   if (component_count == 0)
@@ -780,9 +782,10 @@ x_window_add_items()
   }
 
   /* This is not ready.  I need to implement net attributes */
-  if (sheet_head->net_count > 0 ) {
+  if (net_count > 0)
+  {
     x_gtksheet_add_row_labels(GTK_SHEET(sheets[1]),
-                              sheet_head->net_count, sheet_head->master_net_list_head);
+                              net_count, sheet_head->master_net_list_head);
     x_gtksheet_add_col_labels(GTK_SHEET(sheets[1]),
                               sheet_head->net_attrib_count, sheet_head->master_net_attrib_list_head);
   } else {
@@ -815,7 +818,7 @@ x_window_add_items()
   }
 
   /* ------ Net sheet: put values in the individual cells ------- */
-  num_rows = sheet_head->net_count;
+  num_rows = net_count;
   num_cols = sheet_head->net_attrib_count;
   for (i = 0; i < num_rows; i++) {
     for (j = 0; j < num_cols; j++) {
