@@ -736,8 +736,12 @@ x_window_add_items()
   const gchar *error_string;
   gint visibility, show_name_value;
 
+  int component_count =
+    attrib_sheet_data_get_component_count (sheet_head);
+
   /* Do these sanity check to prevent later segfaults */
-  if (sheet_head->comp_count == 0) {
+  if (component_count == 0)
+  {
     error_string = _("No components found in entire design!\n"
                      "Do you have refdeses on your components?");
     x_dialog_fatal_error(error_string, 1);
@@ -757,11 +761,12 @@ x_window_add_items()
 
   /*  initialize the gtksheet. */
   x_gtksheet_init();  /* this creates a new gtksheet having dimensions specified
-                       * in sheet_head->comp_count, etc. . .  */
+                       * in component_count, etc. . .  */
 
-  if (sheet_head->comp_count > 0 ) {
+  if (component_count > 0 )
+  {
     x_gtksheet_add_row_labels(GTK_SHEET(sheets[0]),
-                              sheet_head->comp_count, sheet_head->master_comp_list_head);
+                              component_count, sheet_head->master_comp_list_head);
     x_gtksheet_add_col_labels(GTK_SHEET(sheets[0]),
                               sheet_head->comp_attrib_count, sheet_head->master_comp_attrib_list_head);
   }
@@ -785,7 +790,7 @@ x_window_add_items()
   }
 
   /* ------ Comp sheet: put values in the individual cells ------- */
-  num_rows = sheet_head->comp_count;
+  num_rows = component_count;
   num_cols = sheet_head->comp_attrib_count;
   for (i = 0; i < num_rows; i++) {
     for (j = 0; j < num_cols; j++) {
