@@ -373,6 +373,10 @@ failure."
     (gtk_window_resize *window-widget width height)))
 
 
+(define (add-items)
+  (x_window_add_items))
+
+
 (define (activate *app *toplevel)
   (define *window-widget (attrib_window_new *app))
   (define *sheet-data (s_sheet_data_new))
@@ -464,7 +468,7 @@ failure."
   ;; Update windows.
   ;; This updates the top level stuff, and then calls another
   ;; function to update the GtkSheet itself.
-  (x_window_add_items)
+  (add-items)
   ;; Verify correctness of entire design.
   (when (design-has-missing-symbols?)
     ;; Dialog gives user option to quit.
