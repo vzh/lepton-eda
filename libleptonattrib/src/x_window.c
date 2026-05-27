@@ -779,10 +779,10 @@ x_window_add_items()
   {
     x_gtksheet_add_row_labels (GTK_SHEET (attrib_get_sheet (0)),
                                component_count,
-                               sheet_head->master_comp_list_head);
+                               attrib_sheet_data_get_component_list (sheet_head));
     x_gtksheet_add_col_labels (GTK_SHEET (attrib_get_sheet (0)),
                                component_attrib_count,
-                               sheet_head->master_comp_attrib_list_head);
+                               attrib_sheet_data_get_component_attrib_list (sheet_head));
   }
 
   /* This is not ready.  I need to implement net attributes */
@@ -790,10 +790,10 @@ x_window_add_items()
   {
     x_gtksheet_add_row_labels (GTK_SHEET (attrib_get_sheet (1)),
                                net_count,
-                               sheet_head->master_net_list_head);
+                               attrib_sheet_data_get_net_list (sheet_head));
     x_gtksheet_add_col_labels (GTK_SHEET (attrib_get_sheet (1)),
                                net_attrib_count,
-                               sheet_head->master_net_attrib_list_head);
+                               attrib_sheet_data_get_net_attrib_list (sheet_head));
   } else {
     x_gtksheet_add_row_labels (GTK_SHEET (attrib_get_sheet (1)), 1, NULL);
     x_gtksheet_add_col_labels (GTK_SHEET (attrib_get_sheet (1)), 1, NULL);
@@ -803,10 +803,10 @@ x_window_add_items()
   {
     x_gtksheet_add_row_labels (GTK_SHEET (attrib_get_sheet (2)),
                                pin_count,
-                               sheet_head->master_pin_list_head);
+                               attrib_sheet_data_get_pin_list (sheet_head));
     x_gtksheet_add_col_labels (GTK_SHEET (attrib_get_sheet (2)),
                                pin_attrib_count,
-                               sheet_head->master_pin_attrib_list_head);
+                               attrib_sheet_data_get_pin_attrib_list (sheet_head));
   }
 
   /* ------ Comp sheet: put values in the individual cells ------- */
