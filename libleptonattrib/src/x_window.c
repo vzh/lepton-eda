@@ -736,6 +736,8 @@ x_window_add_items()
   const gchar *error_string;
   gint visibility, show_name_value;
 
+  TABLE **component_table =
+    attrib_sheet_data_get_component_table (sheet_head);
   int component_count =
     attrib_sheet_data_get_component_count (sheet_head);
   int component_attrib_count =
@@ -814,10 +816,12 @@ x_window_add_items()
   num_cols = component_attrib_count;
   for (i = 0; i < num_rows; i++) {
     for (j = 0; j < num_cols; j++) {
-      if ( (sheet_head->component_table)[i][j].attrib_value ) { /* NULL = no entry */
-        text = (gchar *) g_strdup( (sheet_head->component_table)[i][j].attrib_value );
-        visibility = (sheet_head->component_table)[i][j].visibility;
-        show_name_value = (sheet_head->component_table)[i][j].show_name_value;
+      if ((component_table)[i][j].attrib_value)
+      {
+        /* NULL = no entry */
+        text = (gchar *) g_strdup ((component_table)[i][j].attrib_value );
+        visibility = (component_table)[i][j].visibility;
+        show_name_value = (component_table)[i][j].show_name_value;
         x_gtksheet_add_cell_item (GTK_SHEET (attrib_get_sheet (0)), i, j, (gchar *) text,
                                   visibility, show_name_value );
         g_free(text);
