@@ -45,6 +45,24 @@ int s_attrib_name_in_list(STRING_LIST *name_value_list, char *name);
 char *s_attrib_get_refdes(LeptonObject *object);
 
 /* ------------- s_sheet_data.c ------------- */
+STRING_LIST*
+attrib_sheet_data_get_component_list (SHEET_DATA *data);
+
+STRING_LIST*
+attrib_sheet_data_get_component_attrib_list (SHEET_DATA *data);
+
+STRING_LIST*
+attrib_sheet_data_get_net_list (SHEET_DATA *data);
+
+STRING_LIST*
+attrib_sheet_data_get_net_attrib_list (SHEET_DATA *data);
+
+STRING_LIST*
+attrib_sheet_data_get_pin_list (SHEET_DATA *data);
+
+STRING_LIST*
+attrib_sheet_data_get_pin_attrib_list (SHEET_DATA *data);
+
 TABLE**
 attrib_sheet_data_get_component_table (SHEET_DATA *data);
 

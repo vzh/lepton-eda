@@ -49,6 +49,47 @@
 #include "../include/globals.h"
 #include "../include/gettext.h"
 
+STRING_LIST*
+attrib_sheet_data_get_component_list (SHEET_DATA *data)
+{
+  return data->master_comp_list_head;
+}
+
+
+STRING_LIST*
+attrib_sheet_data_get_component_attrib_list (SHEET_DATA *data)
+{
+  return data->master_comp_attrib_list_head;
+}
+
+
+STRING_LIST*
+attrib_sheet_data_get_net_list (SHEET_DATA *data)
+{
+  return data->master_net_list_head;
+}
+
+
+STRING_LIST*
+attrib_sheet_data_get_net_attrib_list (SHEET_DATA *data)
+{
+  return data->master_net_attrib_list_head;
+}
+
+
+STRING_LIST*
+attrib_sheet_data_get_pin_list (SHEET_DATA *data)
+{
+  return data->master_pin_list_head;
+}
+
+
+STRING_LIST*
+attrib_sheet_data_get_pin_attrib_list (SHEET_DATA *data)
+{
+  return data->master_pin_attrib_list_head;
+}
+
 
 /*! \brief Get the component table of sheet data.
  *
