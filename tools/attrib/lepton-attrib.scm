@@ -401,11 +401,10 @@ failure."
      ;; Note that this must be changed.  We need to input the
      ;; entire project before doing anything with the nets because
      ;; we need to first determine where they are all connected!
-     (when #f
-       (s_sheet_data_add_master_net_list_items
-        (lepton_page_objects *page))
-       (s_sheet_data_add_master_net_attrib_list_items
-        (lepton_page_objects *page)))
+     (s_sheet_data_add_master_net_list_items
+      (lepton_page_objects *page))
+     (s_sheet_data_add_master_net_attrib_list_items
+      (lepton_page_objects *page))
 
      (s_sheet_data_add_master_pin_list_items
       (lepton_page_objects *page))
@@ -418,12 +417,11 @@ failure."
   (s_string_list_sort_master_comp_list)
   (s_string_list_sort_master_comp_attrib_list)
 
-  (when #f
-    ;; Note that this must be changed.  We need to input the
-    ;; entire project before doing anything with the nets because
-    ;; we need to first determine where they are all connected!
-    (s_string_list_sort_master_net_list)
-    (s_string_list_sort_master_net_attrib_list))
+  ;; Note that this must be changed.  We need to input the
+  ;; entire project before doing anything with the nets because
+  ;; we need to first determine where they are all connected!
+  (s_string_list_sort_master_net_list)
+  (s_string_list_sort_master_net_attrib_list)
 
   (s_string_list_sort_master_pin_list)
   (s_string_list_sort_master_pin_attrib_list)
@@ -449,14 +447,14 @@ failure."
      (when  (zero? (lepton_page_get_page_control *page))
        ;; Adds all components from page to the component table.
        (s_table_add_toplevel_comp_items_to_comp_table (lepton_page_objects *page))
-       (when #f
-         ;; Note that this must be changed.  We need to input the
-         ;; entire project before doing anything with the nets
-         ;; because we need to first determine where they are all
-         ;; connected!
 
-         ;; Adds all nets from page to the net table.
-         (s_table_add_toplevel_net_items_to_net_table (lepton_page_objects *page)))
+       ;; Note that this must be changed.  We need to input the
+       ;; entire project before doing anything with the nets
+       ;; because we need to first determine where they are all
+       ;; connected!
+
+       ;; Adds all nets from page to the net table.
+       (s_table_add_toplevel_net_items_to_net_table (lepton_page_objects *page))
 
        ;; Adds all pins from page to the pin table.
        (s_table_add_toplevel_pin_items_to_pin_table (lepton_page_objects *page))))
