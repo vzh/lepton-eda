@@ -154,6 +154,10 @@ char*
 attrib_table_get_attrib_value (TABLE **table,
                                int i,
                                int j);
+int
+attrib_table_get_visibility (TABLE **table,
+                             int i,
+                             int j);
 
 void s_table_print (TABLE** src, int rows, int cols);
 TABLE **s_table_new(int rows, int cols);

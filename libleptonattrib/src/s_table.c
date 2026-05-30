@@ -152,6 +152,15 @@ attrib_table_get_attrib_value (TABLE **table,
 }
 
 
+int
+attrib_table_get_visibility (TABLE **table,
+                             int i,
+                             int j)
+{
+  return table[i][j].visibility;
+}
+
+
 /*! \brief Make a copy of the \a src array
  *
  * \par Function Description
