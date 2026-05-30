@@ -302,10 +302,10 @@ s_toplevel_sheetdata_to_toplevel (LeptonToplevel *toplevel,
     {
 
 #if 0
-      if lepton_attrib_search_object_attribs_by_name (o_current, "graphical", 0))
-    {
-      break;  /* Ignore graphical components */
-    }
+      if (lepton_attrib_search_object_attribs_by_name (o_current, "graphical", 0))
+      {
+        break;  /* Ignore graphical components */
+      }
 #endif
 
       temp_uref = s_attrib_get_refdes(o_current);
