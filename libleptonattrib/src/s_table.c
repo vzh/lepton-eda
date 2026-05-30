@@ -484,23 +484,28 @@ s_table_add_toplevel_net_items_to_net_table (const GList *obj_list)
   char *attrib_text;
   char *attrib_name;
   char *attrib_value;
-  ATTRIB *a_current;
+  LeptonObject *a_current;
+  GList *a_iter;
 
   /* -----  Iterate through all objects found on page  ----- */
   o_current = start_obj;
   while (o_current != NULL) {
 
     /* -----  Now process objects found on page  ----- */
-    if (lepton_object_is_net (o_current)) {
+    if (lepton_object_is_net (o_current) &&
+        lepton_object_get_attribs (o_current) != NULL)
+      {
       g_debug ("s_table_add_toplevel_net_items_to_net_table: "
                "Found net on page.\n");
       verbose_print(" N");
 
       /* Having found a net, we stick it into the table. */
-      a_current = lepton_object_get_attribs (o_current);
-      while (a_current != NULL) {
-        if (lepton_object_is_text (a_current->object)
-            && a_current->object->text != NULL) {  /* found an attribute */
+      a_iter = lepton_object_get_attribs (o_current);
+      while (a_iter != NULL)
+      {
+        a_current = (LeptonObject*) a_iter->data;
+        if (lepton_object_is_text (a_current)
+            && a_current->text != NULL) {  /* found an attribute */
           /* may need to check more thoroughly here. . . . */
           attrib_text = g_strdup (lepton_text_object_get_string (a_current));
           attrib_name = u_basic_breakup_string(attrib_text, '=', 0);
@@ -527,7 +532,7 @@ s_table_add_toplevel_net_items_to_net_table (const GList *obj_list)
           g_free(attrib_text);
           g_free(attrib_value);
         }
-        a_current = a_current->next;
+        a_iter = g_list_next (a_iter);
 
       }  /* while (a_current != NULL) */
       g_free(temp_netname);
