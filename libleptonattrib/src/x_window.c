@@ -820,10 +820,10 @@ x_window_add_items()
   num_cols = component_attrib_count;
   for (i = 0; i < num_rows; i++) {
     for (j = 0; j < num_cols; j++) {
-      if ((component_table)[i][j].attrib_value)
+      if (attrib_table_get_attrib_value (component_table, i, j))
       {
         /* NULL = no entry */
-        text = (gchar *) g_strdup ((component_table)[i][j].attrib_value );
+        text = g_strdup (attrib_table_get_attrib_value (component_table, i, j));
         visibility = (component_table)[i][j].visibility;
         show_name_value = (component_table)[i][j].show_name_value;
         x_gtksheet_add_cell_item (GTK_SHEET (attrib_get_sheet (0)), i, j, (gchar *) text,
@@ -838,10 +838,10 @@ x_window_add_items()
   num_cols = net_attrib_count;
   for (i = 0; i < num_rows; i++) {
     for (j = 0; j < num_cols; j++) {
-      if ((net_table)[i][j].attrib_value)
+      if (attrib_table_get_attrib_value (net_table, i, j))
       {
         /* NULL = no entry */
-        text = (gchar *) g_strdup ((net_table)[i][j].attrib_value);
+        text = g_strdup (attrib_table_get_attrib_value (net_table, i, j));
         visibility = (net_table)[i][j].visibility;
         show_name_value = (net_table)[i][j].show_name_value;
         x_gtksheet_add_cell_item (GTK_SHEET (attrib_get_sheet (1)), i, j, (gchar *) text,
@@ -856,10 +856,10 @@ x_window_add_items()
   num_cols = pin_attrib_count;
   for (i = 0; i < num_rows; i++) {
     for (j = 0; j < num_cols; j++) {
-      if ((pin_table)[i][j].attrib_value)
+      if (attrib_table_get_attrib_value (pin_table, i, j))
       {
         /* NULL = no entry */
-        text = (gchar *) g_strdup ((pin_table)[i][j].attrib_value);
+        text = (gchar *) g_strdup (attrib_table_get_attrib_value (pin_table, i, j));
         /* pins have no visibility attributes, must therefore provide default. */
         x_gtksheet_add_cell_item (GTK_SHEET (attrib_get_sheet (2)), i, j, (gchar *) text,
                                   VISIBLE, SHOW_VALUE );
