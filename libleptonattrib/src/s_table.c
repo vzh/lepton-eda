@@ -131,6 +131,15 @@ TABLE **s_table_new(int rows, int cols)
 }
 
 
+char*
+attrib_table_get_attrib_value (TABLE **table,
+                               int i,
+                               int j)
+{
+  return table[i][j].attrib_value;
+}
+
+
 /*! \brief Make a copy of the \a src array
  *
  * \par Function Description

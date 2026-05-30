@@ -150,6 +150,11 @@ void s_string_list_sort_master_pin_attrib_list();
 
 
 /* ------------- s_table.c ------------- */
+char*
+attrib_table_get_attrib_value (TABLE **table,
+                               int i,
+                               int j);
+
 void s_table_print (TABLE** src, int rows, int cols);
 TABLE **s_table_new(int rows, int cols);
 TABLE **s_table_copy (TABLE** src, int col_skip, int rows, int cols);
