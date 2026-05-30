@@ -1,7 +1,7 @@
 /* Lepton EDA attribute editor
  * Copyright (C) 2003-2010 Stuart D. Brorson.
  * Copyright (C) 2003-2013 gEDA Contributors
- * Copyright (C) 2017-2024 Lepton EDA Contributors
+ * Copyright (C) 2017-2026 Lepton EDA Contributors
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -474,14 +474,15 @@ void s_table_add_toplevel_comp_items_to_comp_table (const GList *obj_list) {
  * for nets and adds them individually to the net table.  Looping over
  * objects occurs here.
  *
- * \param start_obj Pointer to first object
+ * \param obj_list The \c GList of objects.
  *
  * \todo Why do the calling semantics of this function disagree with
  *       s_table_add_toplevel_pin_items_to_pin_table()?  That function
  *       takes a GList, this one takes a pointer to LeptonObject.
  */
-void s_table_add_toplevel_net_items_to_net_table(LeptonObject *start_obj) {
-  LeptonObject *o_current;
+void
+s_table_add_toplevel_net_items_to_net_table (const GList *obj_list)
+{
   char *temp_netname;
   int row, col;
   char *attrib_text;
