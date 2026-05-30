@@ -825,7 +825,7 @@ x_window_add_items()
         /* NULL = no entry */
         text = g_strdup (attrib_table_get_attrib_value (component_table, i, j));
         visibility = attrib_table_get_visibility (component_table, i, j);
-        show_name_value = (component_table)[i][j].show_name_value;
+        show_name_value = attrib_table_get_show_name_value (component_table, i, j);
         x_gtksheet_add_cell_item (GTK_SHEET (attrib_get_sheet (0)), i, j, (gchar *) text,
                                   visibility, show_name_value );
         g_free(text);
@@ -843,7 +843,7 @@ x_window_add_items()
         /* NULL = no entry */
         text = g_strdup (attrib_table_get_attrib_value (net_table, i, j));
         visibility = attrib_table_get_visibility (net_table, i, j);
-        show_name_value = (net_table)[i][j].show_name_value;
+        show_name_value = attrib_table_get_show_name_value (net_table, i, j);
         x_gtksheet_add_cell_item (GTK_SHEET (attrib_get_sheet (1)), i, j, (gchar *) text,
                                   visibility, show_name_value );
         g_free(text);
