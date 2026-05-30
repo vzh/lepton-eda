@@ -746,6 +746,8 @@ x_window_add_items()
     attrib_sheet_data_get_pin_count (sheet_head);
   int pin_attrib_count =
     attrib_sheet_data_get_pin_attrib_count (sheet_head);
+  TABLE **net_table =
+    attrib_sheet_data_get_net_table (sheet_head);
   int net_count =
     attrib_sheet_data_get_net_count (sheet_head);
   int net_attrib_count =
@@ -834,10 +836,12 @@ x_window_add_items()
   num_cols = net_attrib_count;
   for (i = 0; i < num_rows; i++) {
     for (j = 0; j < num_cols; j++) {
-      if ( (sheet_head->net_table)[i][j].attrib_value ) { /* NULL = no entry */
-        text = (gchar *) g_strdup( (sheet_head->net_table)[i][j].attrib_value );
-        visibility = (sheet_head->net_table)[i][j].visibility;
-        show_name_value = (sheet_head->net_table)[i][j].show_name_value;
+      if ((net_table)[i][j].attrib_value)
+      {
+        /* NULL = no entry */
+        text = (gchar *) g_strdup ((net_table)[i][j].attrib_value);
+        visibility = (net_table)[i][j].visibility;
+        show_name_value = (net_table)[i][j].show_name_value;
         x_gtksheet_add_cell_item (GTK_SHEET (attrib_get_sheet (1)), i, j, (gchar *) text,
                                   visibility, show_name_value );
         g_free(text);
