@@ -485,11 +485,16 @@ s_table_add_toplevel_net_items_to_net_table (const GList *obj_list)
   char *attrib_name;
   char *attrib_value;
   LeptonObject *a_current;
+  const GList *o_iter;
   GList *a_iter;
 
   /* -----  Iterate through all objects found on page  ----- */
-  o_current = start_obj;
-  while (o_current != NULL) {
+
+  for (o_iter = obj_list;
+       o_iter != NULL;
+       o_iter = g_list_next (o_iter))
+  {
+    LeptonObject *o_current = (LeptonObject*) o_iter->data;
 
     /* -----  Now process objects found on page  ----- */
     if (lepton_object_is_net (o_current) &&
@@ -539,9 +544,7 @@ s_table_add_toplevel_net_items_to_net_table (const GList *obj_list)
 
     }    /*--- if (lepton_object_is_net (o_current))   ---*/
 
-
-    o_current = o_current->next;  /* iterate to next object on page */
-  }  /* while o_current != NULL */
+  }  /* for (o_current = ...) */
 
   verbose_done();
 
