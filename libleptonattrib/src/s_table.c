@@ -503,6 +503,8 @@ s_table_add_toplevel_net_items_to_net_table (const GList *obj_list)
       g_debug ("s_table_add_toplevel_net_items_to_net_table: "
                "Found net on page.\n");
       verbose_print(" N");
+      temp_netname =
+        lepton_attrib_search_object_attribs_by_name (o_current, "netname", 0);
 
       /* Having found a net, we stick it into the table. */
       a_iter = lepton_object_get_attribs (o_current);
