@@ -736,6 +736,9 @@ x_window_add_items()
   const gchar *error_string;
   gint visibility, show_name_value;
 
+  SHEET_DATA *sheet_head = attrib_get_sheet_data ();
+  GtkWidget *window = attrib_get_window ();
+
   TABLE **component_table =
     attrib_sheet_data_get_component_table (sheet_head);
   int component_count =
