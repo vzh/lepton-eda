@@ -742,6 +742,8 @@ x_window_add_items()
     attrib_sheet_data_get_component_count (sheet_head);
   int component_attrib_count =
     attrib_sheet_data_get_component_attrib_count (sheet_head);
+  TABLE **pin_table =
+    attrib_sheet_data_get_pin_table (sheet_head);
   int pin_count =
     attrib_sheet_data_get_pin_count (sheet_head);
   int pin_attrib_count =
@@ -854,8 +856,10 @@ x_window_add_items()
   num_cols = pin_attrib_count;
   for (i = 0; i < num_rows; i++) {
     for (j = 0; j < num_cols; j++) {
-      if ( (sheet_head->pin_table)[i][j].attrib_value ) { /* NULL = no entry */
-        text = (gchar *) g_strdup( (sheet_head->pin_table)[i][j].attrib_value );
+      if ((pin_table)[i][j].attrib_value)
+      {
+        /* NULL = no entry */
+        text = (gchar *) g_strdup ((pin_table)[i][j].attrib_value);
         /* pins have no visibility attributes, must therefore provide default. */
         x_gtksheet_add_cell_item (GTK_SHEET (attrib_get_sheet (2)), i, j, (gchar *) text,
                                   VISIBLE, SHOW_VALUE );
