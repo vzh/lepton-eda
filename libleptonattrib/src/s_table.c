@@ -173,6 +173,15 @@ attrib_table_get_visibility (TABLE **table,
 }
 
 
+int
+attrib_table_get_show_name_value (TABLE **table,
+                                  int i,
+                                  int j)
+{
+  return table[i][j].show_name_value;
+}
+
+
 /*! \brief Make a copy of the \a src array
  *
  * \par Function Description
