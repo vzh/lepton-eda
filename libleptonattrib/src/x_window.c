@@ -837,7 +837,7 @@ x_window_add_items()
       if ( (sheet_head->net_table)[i][j].attrib_value ) { /* NULL = no entry */
         text = (gchar *) g_strdup( (sheet_head->net_table)[i][j].attrib_value );
         visibility = (sheet_head->net_table)[i][j].visibility;
-        show_name_value = (sheet_head->component_table)[i][j].show_name_value;
+        show_name_value = (sheet_head->net_table)[i][j].show_name_value;
         x_gtksheet_add_cell_item (GTK_SHEET (attrib_get_sheet (1)), i, j, (gchar *) text,
                                   visibility, show_name_value );
         g_free(text);
