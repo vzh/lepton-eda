@@ -502,7 +502,7 @@ s_table_add_toplevel_net_items_to_net_table (const GList *obj_list)
         if (lepton_object_is_text (a_current->object)
             && a_current->object->text != NULL) {  /* found an attribute */
           /* may need to check more thoroughly here. . . . */
-          attrib_text = g_strdup (lepton_text_object_get_string (a_current->object));
+          attrib_text = g_strdup (lepton_text_object_get_string (a_current));
           attrib_name = u_basic_breakup_string(attrib_text, '=', 0);
           attrib_value = s_misc_remaining_string(attrib_text, '=', 1);
           if (strcmp(attrib_name, "netname") != 0) {
