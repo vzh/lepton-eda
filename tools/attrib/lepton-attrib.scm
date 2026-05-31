@@ -373,8 +373,171 @@ failure."
     (gtk_window_resize *window-widget width height)))
 
 
+;;; Adds all items to the top level window.
 (define (add-items)
-  (x_window_add_items))
+  ;; Definitions in liblepton/defines.h
+  (define VISIBLE 1)
+  (define SHOW_VALUE 1)
+
+  (define *sheet-data (attrib_get_sheet_data))
+  (define *window (attrib_get_window))
+
+  (define *component-table
+    (attrib_sheet_data_get_component_table *sheet-data))
+  (define component-count
+    (attrib_sheet_data_get_component_count *sheet-data))
+  (define component-attrib-count
+    (attrib_sheet_data_get_component_attrib_count *sheet-data))
+  (define *pin-table (attrib_sheet_data_get_pin_table *sheet-data))
+  (define pin-count (attrib_sheet_data_get_pin_count *sheet-data))
+  (define pin-attrib-count
+    (attrib_sheet_data_get_pin_attrib_count *sheet-data))
+  (define *net-table (attrib_sheet_data_get_net_table *sheet-data))
+  (define net-count (attrib_sheet_data_get_net_count *sheet-data))
+  (define net-attrib-count
+    (attrib_sheet_data_get_net_attrib_count *sheet-data))
+
+  ;; Do sanity checks.
+  (when (zero? component-count)
+    (let ((error-string
+           (G_ "No components found in entire design!
+Do you have refdeses on your components?")))
+      (x_dialog_fatal_error (string->pointer error-string) 1)))
+
+  (when (zero? component-attrib-count)
+    (let ((error-string
+           (G_ "No configurable component attributes found in entire design!
+Please attach at least some attributes before running lepton-attrib.")))
+      (x_dialog_fatal_error (string->pointer error-string) 2)))
+
+  (when (zero? pin-count)
+    (let ((error-string
+           (G_ "No pins found on any components!
+Please check your design.")))
+      (x_dialog_fatal_error (string->pointer error-string) 3)))
+
+
+  ;; Initialize the gtksheet.  This creates a new gtksheet having
+  ;; dimensions specified in component-count etc.
+  (x_gtksheet_init)
+
+  (when (> component-count 0)
+    (x_gtksheet_add_row_labels
+     (attrib_get_sheet 0)
+     component-count
+     (attrib_sheet_data_get_component_list *sheet-data))
+    (x_gtksheet_add_col_labels
+     (attrib_get_sheet 0)
+     component-attrib-count
+     (attrib_sheet_data_get_component_attrib_list *sheet-data)))
+
+  ;; This is not ready.  Processing of net attributes ('net' and
+  ;; 'netname') has to be implemented.
+  (if (> net-count 0)
+      (begin
+        (x_gtksheet_add_row_labels
+         (attrib_get_sheet 1)
+         net-count
+         (attrib_sheet_data_get_net_list *sheet-data))
+        (x_gtksheet_add_col_labels
+         (attrib_get_sheet 1)
+         net-attrib-count
+         (attrib_sheet_data_get_net_attrib_list *sheet-data)))
+      (begin
+        (x_gtksheet_add_row_labels (attrib_get_sheet 1)
+                                   1
+                                   %null-pointer)
+        (x_gtksheet_add_col_labels (attrib_get_sheet 1)
+                                   1
+                                   %null-pointer)))
+
+  (when (> pin-count 0)
+    (x_gtksheet_add_row_labels
+     (attrib_get_sheet 2)
+     pin-count
+     (attrib_sheet_data_get_pin_list *sheet-data))
+    (x_gtksheet_add_col_labels
+     (attrib_get_sheet 2)
+     pin-attrib-count
+     (attrib_sheet_data_get_pin_attrib_list *sheet-data)))
+
+  ;; Component sheet: put values in the individual cells.
+  (let ((rows-number component-count)
+        (columns-number component-attrib-count))
+    (for-each
+     (lambda (i)
+       (for-each
+        (lambda (j)
+          (unless (null-pointer?
+                   (attrib_table_get_attrib_value *component-table i j))
+            ;; NULL = no entry.
+            (let ((*text
+                   (g_strdup (attrib_table_get_attrib_value *component-table i j)))
+                  (visibility
+                   (attrib_table_get_visibility *component-table i j))
+                  (show-name-value
+                   (attrib_table_get_show_name_value *component-table i j)))
+              (x_gtksheet_add_cell_item (attrib_get_sheet 0)
+                                        i
+                                        j
+                                        *text
+                                        visibility
+                                        show-name-value)
+              (g_free *text))))
+        (iota columns-number)))
+     (iota rows-number)))
+
+  ;; Net sheet: put values in the individual cells
+  (let ((rows-number net-count)
+        (columns-number net-attrib-count))
+    (for-each
+     (lambda (i)
+       (for-each
+        (lambda (j)
+          (unless (null-pointer?
+                   (attrib_table_get_attrib_value *net-table i j))
+            ;; NULL = no entry.
+            (let ((*text
+                   (g_strdup (attrib_table_get_attrib_value *net-table i j)))
+                  (visibility (attrib_table_get_visibility *net-table i j))
+                  (show-name-value
+                   (attrib_table_get_show_name_value *net-table i j)))
+              (x_gtksheet_add_cell_item (attrib_get_sheet 1)
+                                        i
+                                        j
+                                        *text
+                                        visibility
+                                        show-name-value)
+              (g_free *text))))
+        (iota columns-number)))
+     (iota rows-number)))
+
+  ;; Pin sheet: put pin attribs in the individual cells.
+  (let ((rows-number pin-count)
+        (columns-number pin-attrib-count))
+    (for-each
+     (lambda (i)
+       (for-each
+        (lambda (j)
+          (unless (null-pointer?
+                   (attrib_table_get_attrib_value *pin-table i j))
+            ;; NULL = no entry.
+            (let ((*text
+                   (g_strdup
+                    (attrib_table_get_attrib_value *pin-table i j))))
+              ;; Pins have no visibility attributes, must
+              ;; therefore provide default.
+              (x_gtksheet_add_cell_item (attrib_get_sheet 2)
+                                        i
+                                        j
+                                        *text
+                                        VISIBLE
+                                        SHOW_VALUE)
+              (g_free *text))))
+        (iota columns-number)))
+     (iota rows-number)))
+
+  (gtk_widget_show_all *window))
 
 
 (define (activate *app *toplevel)

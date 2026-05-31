@@ -166,7 +166,7 @@ GtkSheet for user manipulation.
 4.  Loop on pages again. Fill out the tables using
     s_table_add_toplevel_*_items_to_*_table(. . . .)
 
-5.  Transfer data from tables to gtksheet using x_window_add_items.
+5.  Transfer data from tables to gtksheet using add-items().
     This fcn does the following:
     * Create a new gtksheet having the current dimensions.
     * Call x_gktsheet_add_row_labels(*_count, master_*_list_head)

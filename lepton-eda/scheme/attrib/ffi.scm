@@ -42,19 +42,34 @@
             x_dialog_about_dialog
             x_dialog_delattrib
             x_dialog_export_file
+            x_dialog_fatal_error
             x_dialog_missing_sym
             x_dialog_newattrib
             x_dialog_unimplemented_feature
             x_dialog_unsaved_data
 
+            x_gtksheet_add_cell_item
+            x_gtksheet_add_col_labels
+            x_gtksheet_add_row_labels
+            x_gtksheet_init
+
             attrib_sheet_data_get_component_attrib_count
+            attrib_sheet_data_get_component_attrib_list
             attrib_sheet_data_get_component_count
+            attrib_sheet_data_get_component_list
+            attrib_sheet_data_get_component_table
             attrib_sheet_data_set_component_table
             attrib_sheet_data_get_net_attrib_count
+            attrib_sheet_data_get_net_attrib_list
             attrib_sheet_data_get_net_count
+            attrib_sheet_data_get_net_list
+            attrib_sheet_data_get_net_table
             attrib_sheet_data_set_net_table
             attrib_sheet_data_get_pin_attrib_count
+            attrib_sheet_data_get_pin_attrib_list
             attrib_sheet_data_get_pin_count
+            attrib_sheet_data_get_pin_list
+            attrib_sheet_data_get_pin_table
             attrib_sheet_data_set_pin_table
             s_sheet_data_new
             s_sheet_data_add_master_comp_list_items
@@ -74,6 +89,9 @@
             s_string_list_sort_master_pin_list
             s_string_list_sort_master_pin_attrib_list
 
+            attrib_table_get_attrib_value
+            attrib_table_get_show_name_value
+            attrib_table_get_visibility
             s_table_new
             s_table_add_toplevel_comp_items_to_comp_table
             s_table_add_toplevel_net_items_to_net_table
@@ -90,7 +108,6 @@
             attrib_window_new
             attrib_window_sheets_new
             attrib_window_set_menu_callback
-            x_window_add_items
             x_window_init
             ))
 
@@ -135,20 +152,36 @@
 (define-lff x_dialog_about_dialog void '(* * *))
 (define-lff x_dialog_delattrib void '())
 (define-lff x_dialog_export_file void '())
+(define-lff x_dialog_fatal_error void (list '* int))
 (define-lff x_dialog_missing_sym void '())
 (define-lff x_dialog_newattrib void '())
 (define-lff x_dialog_unimplemented_feature void '())
 (define-lff x_dialog_unsaved_data '* '())
 
+;;; x_gtksheet.c
+(define-lff x_gtksheet_add_cell_item void (list '* int int '* int int))
+(define-lff x_gtksheet_add_col_labels void (list '* int '*))
+(define-lff x_gtksheet_add_row_labels void (list '* int '*))
+(define-lff x_gtksheet_init void '())
+
 ;;; s_sheet_data.c
 (define-lff attrib_sheet_data_get_component_attrib_count int '(*))
+(define-lff attrib_sheet_data_get_component_attrib_list '* '(*))
 (define-lff attrib_sheet_data_get_component_count int '(*))
+(define-lff attrib_sheet_data_get_component_list '* '(*))
+(define-lff attrib_sheet_data_get_component_table '* '(*))
 (define-lff attrib_sheet_data_set_component_table void '(* *))
 (define-lff attrib_sheet_data_get_net_attrib_count int '(*))
+(define-lff attrib_sheet_data_get_net_attrib_list '* '(*))
 (define-lff attrib_sheet_data_get_net_count int '(*))
+(define-lff attrib_sheet_data_get_net_list '* '(*))
+(define-lff attrib_sheet_data_get_net_table '* '(*))
 (define-lff attrib_sheet_data_set_net_table void '(* *))
 (define-lff attrib_sheet_data_get_pin_attrib_count int '(*))
+(define-lff attrib_sheet_data_get_pin_attrib_list '* '(*))
 (define-lff attrib_sheet_data_get_pin_count int '(*))
+(define-lff attrib_sheet_data_get_pin_list '* '(*))
+(define-lff attrib_sheet_data_get_pin_table '* '(*))
 (define-lff attrib_sheet_data_set_pin_table void '(* *))
 (define-lff s_sheet_data_new '* '())
 (define-lff s_sheet_data_add_master_comp_list_items void '(*))
@@ -170,6 +203,9 @@
 (define-lff s_string_list_sort_master_pin_attrib_list void '())
 
 ;;; s_table.c
+(define-lff attrib_table_get_attrib_value '* (list '* int int))
+(define-lff attrib_table_get_show_name_value int (list '* int int))
+(define-lff attrib_table_get_visibility int (list '* int int))
 (define-lff s_table_new '* (list int int))
 (define-lff s_table_add_toplevel_comp_items_to_comp_table void '(*))
 (define-lff s_table_add_toplevel_net_items_to_net_table void '(*))
@@ -189,5 +225,4 @@
 (define-lff attrib_window_new '* '(*))
 (define-lff attrib_window_sheets_new void '())
 (define-lff attrib_window_set_menu_callback void '(* *))
-(define-lff x_window_add_items void '())
 (define-lff x_window_init void '())
