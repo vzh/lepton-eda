@@ -472,7 +472,7 @@ Please check your design.")))
                    (attrib_table_get_attrib_value *component-table i j))
             ;; NULL = no entry.
             (let ((*text
-                   (g_strdup (attrib_table_get_attrib_value *component-table i j)))
+                   (attrib_table_get_attrib_value *component-table i j))
                   (visibility
                    (attrib_table_get_visibility *component-table i j))
                   (show-name-value
@@ -482,8 +482,7 @@ Please check your design.")))
                                         j
                                         *text
                                         visibility
-                                        show-name-value)
-              (g_free *text))))
+                                        show-name-value))))
         (iota columns-number)))
      (iota rows-number)))
 
@@ -498,7 +497,7 @@ Please check your design.")))
                    (attrib_table_get_attrib_value *net-table i j))
             ;; NULL = no entry.
             (let ((*text
-                   (g_strdup (attrib_table_get_attrib_value *net-table i j)))
+                   (attrib_table_get_attrib_value *net-table i j))
                   (visibility (attrib_table_get_visibility *net-table i j))
                   (show-name-value
                    (attrib_table_get_show_name_value *net-table i j)))
@@ -507,8 +506,7 @@ Please check your design.")))
                                         j
                                         *text
                                         visibility
-                                        show-name-value)
-              (g_free *text))))
+                                        show-name-value))))
         (iota columns-number)))
      (iota rows-number)))
 
@@ -523,8 +521,7 @@ Please check your design.")))
                    (attrib_table_get_attrib_value *pin-table i j))
             ;; NULL = no entry.
             (let ((*text
-                   (g_strdup
-                    (attrib_table_get_attrib_value *pin-table i j))))
+                   (attrib_table_get_attrib_value *pin-table i j)))
               ;; Pins have no visibility attributes, must
               ;; therefore provide default.
               (x_gtksheet_add_cell_item (attrib_get_sheet 2)
@@ -532,8 +529,7 @@ Please check your design.")))
                                         j
                                         *text
                                         VISIBLE
-                                        SHOW_VALUE)
-              (g_free *text))))
+                                        SHOW_VALUE))))
         (iota columns-number)))
      (iota rows-number)))
 
