@@ -384,15 +384,21 @@ failure."
 
   (define *component-table
     (attrib_sheet_data_get_component_table *sheet-data))
+  (define (component-sheet)
+    (attrib_get_sheet 0))
   (define component-count
     (attrib_sheet_data_get_component_count *sheet-data))
   (define component-attrib-count
     (attrib_sheet_data_get_component_attrib_count *sheet-data))
   (define *pin-table (attrib_sheet_data_get_pin_table *sheet-data))
+  (define (pin-sheet)
+    (attrib_get_sheet 2))
   (define pin-count (attrib_sheet_data_get_pin_count *sheet-data))
   (define pin-attrib-count
     (attrib_sheet_data_get_pin_attrib_count *sheet-data))
   (define *net-table (attrib_sheet_data_get_net_table *sheet-data))
+  (define (net-sheet)
+    (attrib_get_sheet 1))
   (define net-count (attrib_sheet_data_get_net_count *sheet-data))
   (define net-attrib-count
     (attrib_sheet_data_get_net_attrib_count *sheet-data))
@@ -423,11 +429,11 @@ Please check your design.")))
 
   (when (> component-count 0)
     (x_gtksheet_add_row_labels
-     (attrib_get_sheet 0)
+     (component-sheet)
      component-count
      (attrib_sheet_data_get_component_list *sheet-data))
     (x_gtksheet_add_col_labels
-     (attrib_get_sheet 0)
+     (component-sheet)
      component-attrib-count
      (attrib_sheet_data_get_component_attrib_list *sheet-data)))
 
@@ -436,28 +442,28 @@ Please check your design.")))
   (if (> net-count 0)
       (begin
         (x_gtksheet_add_row_labels
-         (attrib_get_sheet 1)
+         (net-sheet)
          net-count
          (attrib_sheet_data_get_net_list *sheet-data))
         (x_gtksheet_add_col_labels
-         (attrib_get_sheet 1)
+         (net-sheet)
          net-attrib-count
          (attrib_sheet_data_get_net_attrib_list *sheet-data)))
       (begin
-        (x_gtksheet_add_row_labels (attrib_get_sheet 1)
+        (x_gtksheet_add_row_labels (net-sheet)
                                    1
                                    %null-pointer)
-        (x_gtksheet_add_col_labels (attrib_get_sheet 1)
+        (x_gtksheet_add_col_labels (net-sheet)
                                    1
                                    %null-pointer)))
 
   (when (> pin-count 0)
     (x_gtksheet_add_row_labels
-     (attrib_get_sheet 2)
+     (pin-sheet)
      pin-count
      (attrib_sheet_data_get_pin_list *sheet-data))
     (x_gtksheet_add_col_labels
-     (attrib_get_sheet 2)
+     (pin-sheet)
      pin-attrib-count
      (attrib_sheet_data_get_pin_attrib_list *sheet-data)))
 
@@ -475,7 +481,7 @@ Please check your design.")))
                  (attrib_table_get_visibility *component-table i j))
                 (show-name-value
                  (attrib_table_get_show_name_value *component-table i j)))
-            (x_gtksheet_add_cell_item (attrib_get_sheet 0)
+            (x_gtksheet_add_cell_item (component-sheet)
                                       i
                                       j
                                       *text
@@ -497,7 +503,7 @@ Please check your design.")))
                 (visibility (attrib_table_get_visibility *net-table i j))
                 (show-name-value
                  (attrib_table_get_show_name_value *net-table i j)))
-            (x_gtksheet_add_cell_item (attrib_get_sheet 1)
+            (x_gtksheet_add_cell_item (net-sheet)
                                       i
                                       j
                                       *text
@@ -518,7 +524,7 @@ Please check your design.")))
                  (attrib_table_get_attrib_value *pin-table i j)))
             ;; Pins have no visibility attributes, must
             ;; therefore provide default.
-            (x_gtksheet_add_cell_item (attrib_get_sheet 2)
+            (x_gtksheet_add_cell_item (pin-sheet)
                                       i
                                       j
                                       *text
