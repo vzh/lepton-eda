@@ -462,76 +462,70 @@ Please check your design.")))
      (attrib_sheet_data_get_pin_attrib_list *sheet-data)))
 
   ;; Component sheet: put values in the individual cells.
-  (let ((rows-number component-count)
-        (columns-number component-attrib-count))
-    (for-each
-     (lambda (i)
-       (for-each
-        (lambda (j)
-          (unless (null-pointer?
-                   (attrib_table_get_attrib_value *component-table i j))
-            ;; NULL = no entry.
-            (let ((*text
-                   (attrib_table_get_attrib_value *component-table i j))
-                  (visibility
-                   (attrib_table_get_visibility *component-table i j))
-                  (show-name-value
-                   (attrib_table_get_show_name_value *component-table i j)))
-              (x_gtksheet_add_cell_item (attrib_get_sheet 0)
-                                        i
-                                        j
-                                        *text
-                                        visibility
-                                        show-name-value))))
-        (iota columns-number)))
-     (iota rows-number)))
+  (for-each
+   (lambda (i)
+     (for-each
+      (lambda (j)
+        (unless (null-pointer?
+                 (attrib_table_get_attrib_value *component-table i j))
+          ;; NULL = no entry.
+          (let ((*text
+                 (attrib_table_get_attrib_value *component-table i j))
+                (visibility
+                 (attrib_table_get_visibility *component-table i j))
+                (show-name-value
+                 (attrib_table_get_show_name_value *component-table i j)))
+            (x_gtksheet_add_cell_item (attrib_get_sheet 0)
+                                      i
+                                      j
+                                      *text
+                                      visibility
+                                      show-name-value))))
+      (iota component-attrib-count)))
+   (iota component-count))
 
   ;; Net sheet: put values in the individual cells
-  (let ((rows-number net-count)
-        (columns-number net-attrib-count))
-    (for-each
-     (lambda (i)
-       (for-each
-        (lambda (j)
-          (unless (null-pointer?
-                   (attrib_table_get_attrib_value *net-table i j))
-            ;; NULL = no entry.
-            (let ((*text
-                   (attrib_table_get_attrib_value *net-table i j))
-                  (visibility (attrib_table_get_visibility *net-table i j))
-                  (show-name-value
-                   (attrib_table_get_show_name_value *net-table i j)))
-              (x_gtksheet_add_cell_item (attrib_get_sheet 1)
-                                        i
-                                        j
-                                        *text
-                                        visibility
-                                        show-name-value))))
-        (iota columns-number)))
-     (iota rows-number)))
+  (for-each
+   (lambda (i)
+     (for-each
+      (lambda (j)
+        (unless (null-pointer?
+                 (attrib_table_get_attrib_value *net-table i j))
+          ;; NULL = no entry.
+          (let ((*text
+                 (attrib_table_get_attrib_value *net-table i j))
+                (visibility (attrib_table_get_visibility *net-table i j))
+                (show-name-value
+                 (attrib_table_get_show_name_value *net-table i j)))
+            (x_gtksheet_add_cell_item (attrib_get_sheet 1)
+                                      i
+                                      j
+                                      *text
+                                      visibility
+                                      show-name-value))))
+      (iota net-attrib-count)))
+   (iota net-count))
 
   ;; Pin sheet: put pin attribs in the individual cells.
-  (let ((rows-number pin-count)
-        (columns-number pin-attrib-count))
-    (for-each
-     (lambda (i)
-       (for-each
-        (lambda (j)
-          (unless (null-pointer?
-                   (attrib_table_get_attrib_value *pin-table i j))
-            ;; NULL = no entry.
-            (let ((*text
-                   (attrib_table_get_attrib_value *pin-table i j)))
-              ;; Pins have no visibility attributes, must
-              ;; therefore provide default.
-              (x_gtksheet_add_cell_item (attrib_get_sheet 2)
-                                        i
-                                        j
-                                        *text
-                                        VISIBLE
-                                        SHOW_VALUE))))
-        (iota columns-number)))
-     (iota rows-number)))
+  (for-each
+   (lambda (i)
+     (for-each
+      (lambda (j)
+        (unless (null-pointer?
+                 (attrib_table_get_attrib_value *pin-table i j))
+          ;; NULL = no entry.
+          (let ((*text
+                 (attrib_table_get_attrib_value *pin-table i j)))
+            ;; Pins have no visibility attributes, must
+            ;; therefore provide default.
+            (x_gtksheet_add_cell_item (attrib_get_sheet 2)
+                                      i
+                                      j
+                                      *text
+                                      VISIBLE
+                                      SHOW_VALUE))))
+      (iota pin-attrib-count)))
+   (iota pin-count))
 
   (gtk_widget_show_all *window))
 
