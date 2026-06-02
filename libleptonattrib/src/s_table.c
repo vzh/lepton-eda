@@ -775,13 +775,6 @@ void s_table_gtksheet_to_table(GtkSheet *local_gtk_sheet, STRING_LIST *master_ro
       /* get value of attrib in cell  */
       attrib_value = (gchar *) gtk_sheet_cell_get_text(GTK_SHEET(local_gtk_sheet), row, col);
 
-#if 0
-      if (strlen(attrib_value) == 0) {
-        /* g_free(attrib_value);  */   /* sometimes we have spurious, zero length strings creep */
-        attrib_value = NULL;    /* into the GtkSheet                                     */
-      }
-#endif
-
       g_debug ("s_table_gtksheet_to_table: "
                "Found attrib_value = %s in cell row=%d, col=%d\n",
                attrib_value, row, col);
