@@ -465,7 +465,7 @@ void s_table_add_toplevel_comp_items_to_comp_table (const GList *obj_list) {
 
 }
 
-#if 0
+
 /*------------------------------------------------------------------*/
 /*! \brief Add nets to net table
  *
@@ -552,7 +552,6 @@ s_table_add_toplevel_net_items_to_net_table (const GList *obj_list)
 
   g_debug ("s_table_add_toplevel_net_items_to_net_table: Return.\n");
 }
-#endif
 
 
 /*------------------------------------------------------------------*/
