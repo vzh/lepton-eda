@@ -338,12 +338,8 @@ s_toplevel_sheetdata_to_toplevel (LeptonToplevel *toplevel,
 
   g_list_free (copy_list);
 
-#if 0
   /* -----  Next deal with all nets on the page.  ----- */
   /* This is TBD */
-
-#endif
-
 
   /* -----  Finally deal with all pins on the page.  ----- */
   /* -----  Next deal with all nets on the page.  ----- */
