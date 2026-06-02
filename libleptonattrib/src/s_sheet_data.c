@@ -49,6 +49,17 @@
 #include "../include/globals.h"
 #include "../include/gettext.h"
 
+
+/*! \brief Get the component list of sheet data.
+ *
+ *  \par Function Description
+ *
+ *  Returns the component list of given sheet data structure.
+ *
+ *  \param [in] data The sheet data.
+ *
+ *  \return The component list.
+ */
 STRING_LIST*
 attrib_sheet_data_get_component_list (SHEET_DATA *data)
 {
@@ -56,6 +67,17 @@ attrib_sheet_data_get_component_list (SHEET_DATA *data)
 }
 
 
+/*! \brief Get the component attribute list of sheet data.
+ *
+ *  \par Function Description
+ *
+ *  Returns the component attribute list of given sheet data
+ *  structure.
+ *
+ *  \param [in] data The sheet data.
+ *
+ *  \return The component attribute list.
+ */
 STRING_LIST*
 attrib_sheet_data_get_component_attrib_list (SHEET_DATA *data)
 {
@@ -63,6 +85,16 @@ attrib_sheet_data_get_component_attrib_list (SHEET_DATA *data)
 }
 
 
+/*! \brief Get the net list of sheet data.
+ *
+ *  \par Function Description
+ *
+ *  Returns the net list of given sheet data structure.
+ *
+ *  \param [in] data The sheet data.
+ *
+ *  \return The net list.
+ */
 STRING_LIST*
 attrib_sheet_data_get_net_list (SHEET_DATA *data)
 {
@@ -70,6 +102,16 @@ attrib_sheet_data_get_net_list (SHEET_DATA *data)
 }
 
 
+/*! \brief Get the net attribute list of sheet data.
+ *
+ *  \par Function Description
+ *
+ *  Returns the net attribute list of given sheet data structure.
+ *
+ *  \param [in] data The sheet data.
+ *
+ *  \return The net attribute list.
+ */
 STRING_LIST*
 attrib_sheet_data_get_net_attrib_list (SHEET_DATA *data)
 {
@@ -77,6 +119,16 @@ attrib_sheet_data_get_net_attrib_list (SHEET_DATA *data)
 }
 
 
+/*! \brief Get the pin list of sheet data.
+ *
+ *  \par Function Description
+ *
+ *  Returns the pin list of given sheet data structure.
+ *
+ *  \param [in] data The sheet data.
+ *
+ *  \return The pin list.
+ */
 STRING_LIST*
 attrib_sheet_data_get_pin_list (SHEET_DATA *data)
 {
@@ -84,6 +136,16 @@ attrib_sheet_data_get_pin_list (SHEET_DATA *data)
 }
 
 
+/*! \brief Get the pin attribute list of sheet data.
+ *
+ *  \par Function Description
+ *
+ *  Returns the pin attribute list of given sheet data structure.
+ *
+ *  \param [in] data The sheet data.
+ *
+ *  \return The pin attribute list.
+ */
 STRING_LIST*
 attrib_sheet_data_get_pin_attrib_list (SHEET_DATA *data)
 {
