@@ -301,12 +301,13 @@ s_toplevel_sheetdata_to_toplevel (LeptonToplevel *toplevel,
     if (lepton_object_is_component (o_current)) /* Note that OBJ_COMPONENT = component + attribs */
     {
 
-#if 0
-      if (lepton_attrib_search_object_attribs_by_name (o_current, "graphical", 0))
+      char *graphical =
+        lepton_attrib_search_object_attribs_by_name (o_current, "graphical", 0);
+      if (graphical != NULL)
       {
-        break;  /* Ignore graphical components */
+        g_free (graphical);
+        continue;  /* Ignore graphical components */
       }
-#endif
 
       temp_uref = s_attrib_get_refdes(o_current);
       if (temp_uref != NULL) {
