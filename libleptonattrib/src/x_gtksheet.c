@@ -153,7 +153,6 @@ x_gtksheet_init()
 #endif
 
 
-#ifdef UNIMPLEMENTED_FEATURES
   /* -----  Pins  ----- */
   if ((sheet_head->pin_count > 0) && (sheet_head->pin_attrib_count >0)) {
     sheets[2] = (GtkSheet *) gtk_sheet_new(sheet_head->pin_count, sheet_head->pin_attrib_count, _("Pins"));
@@ -162,8 +161,6 @@ x_gtksheet_init()
     sheets[2] = (GtkSheet *) gtk_sheet_new(1, 1, _("Pins"));
     gtk_sheet_set_locked(GTK_SHEET(sheets[2]), TRUE);    /* disallow editing of attribs for now */
   }
-#endif
-
 
 
   /* --- Finally stick labels on the notebooks holding the two sheets. --- */
