@@ -621,31 +621,37 @@ SHEET_DATA *s_sheet_data_new()
   new_sheet = (SHEET_DATA *) g_malloc(sizeof(SHEET_DATA));
 
   /* We will malloc and fill out the comp table later. */
-  new_sheet->component_table = NULL;
+  attrib_sheet_data_set_component_table (new_sheet, NULL);
 
   /* We will malloc and fill out the net table later. */
-  new_sheet->net_table = NULL;
+  attrib_sheet_data_set_net_table (new_sheet, NULL);
 
   /* We will malloc and fill out the pin table later. */
-  new_sheet->pin_table = NULL;
+  attrib_sheet_data_set_pin_table (new_sheet, NULL);
 
   /* Now we create the first cell in each master list. */
-  new_sheet->master_comp_list_head = (STRING_LIST *) s_string_list_new();
-  new_sheet->master_comp_attrib_list_head = (STRING_LIST *) s_string_list_new();
-  new_sheet->comp_count = 0;
-  new_sheet->comp_attrib_count = 0;
+  attrib_sheet_data_set_component_list (new_sheet,
+                                        (STRING_LIST *) s_string_list_new ());
+  attrib_sheet_data_set_component_attrib_list (new_sheet,
+                                               (STRING_LIST *) s_string_list_new ());
+  attrib_sheet_data_set_component_count (new_sheet, 0);
+  attrib_sheet_data_set_component_attrib_count (new_sheet, 0);
 
-  new_sheet->master_net_list_head = (STRING_LIST *) s_string_list_new();
-  new_sheet->master_net_attrib_list_head = (STRING_LIST *) s_string_list_new();
-  new_sheet->net_count = 0;
-  new_sheet->net_attrib_count = 0;
+  attrib_sheet_data_set_net_list (new_sheet,
+                                  (STRING_LIST *) s_string_list_new ());
+  attrib_sheet_data_set_net_attrib_list (new_sheet,
+                                         (STRING_LIST *) s_string_list_new ());
+  attrib_sheet_data_set_net_count (new_sheet, 0);
+  attrib_sheet_data_set_net_attrib_count (new_sheet, 0);
 
-  new_sheet->master_pin_list_head = (STRING_LIST *) s_string_list_new();
-  new_sheet->master_pin_attrib_list_head = (STRING_LIST *) s_string_list_new();
-  new_sheet->pin_count = 0;
-  new_sheet->pin_attrib_count = 0;
+  attrib_sheet_data_set_pin_list (new_sheet,
+                                  (STRING_LIST *) s_string_list_new ());
+  attrib_sheet_data_set_pin_attrib_list (new_sheet,
+                                         (STRING_LIST *) s_string_list_new ());
+  attrib_sheet_data_set_pin_count (new_sheet, 0);
+  attrib_sheet_data_set_pin_attrib_count (new_sheet, 0);
 
-  new_sheet->CHANGED = FALSE;
+  attrib_sheet_data_set_changed (new_sheet, FALSE);
 
   return (new_sheet);
 
