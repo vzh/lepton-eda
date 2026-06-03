@@ -173,6 +173,20 @@ attrib_table_get_visibility (TABLE **table,
 }
 
 
+/*! \brief Get \a show_name_value attrib property associated with
+ *  a cell.
+ *
+ *  \par Function Description
+ *
+ *  Returns \a show_name_value attrib property associated with a
+ *  table cell.
+ *
+ *  \param [in] table The table.
+ *  \param [in] i The row number of the cell.
+ *  \param [in] j The column number of the cell.
+ *
+ *  \return The \a show_name_value value.
+ */
 int
 attrib_table_get_show_name_value (TABLE **table,
                                   int i,
