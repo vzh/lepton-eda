@@ -576,6 +576,15 @@ attrib_sheet_data_get_changed (const SHEET_DATA* data)
 }
 
 
+/*! \brief Set the \a changed flag of sheet data.
+ *
+ *  \par Function Description
+ *
+ *  Sets the \a changed flag of given sheet data instance.
+ *
+ *  \param [in] data The sheet data.
+ *  \param [in] changed The new \a changed flag value.
+ */
 void
 attrib_sheet_data_set_changed (SHEET_DATA* data,
                                int changed)
