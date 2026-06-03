@@ -131,6 +131,18 @@ TABLE **s_table_new(int rows, int cols)
 }
 
 
+/*! \brief Get attrib value associated with a cell.
+ *
+ *  \par Function Description
+ *
+ *  Returns attrib value associated with a table cell.
+ *
+ *  \param [in] table The table.
+ *  \param [in] i The row number of the cell.
+ *  \param [in] j The column number of the cell.
+ *
+ *  \return The attrib value.
+ */
 char*
 attrib_table_get_attrib_value (TABLE **table,
                                int i,
