@@ -616,7 +616,7 @@ s_sheet_data_set_changed (SHEET_DATA* data, int changed)
  *
  * \return The SHEET_DATA struct.
  */
-SHEET_DATA *s_sheet_data_new()
+SHEET_DATA *attrib_sheet_data_new()
 {
   return (SHEET_DATA *) g_malloc(sizeof(SHEET_DATA));
 }

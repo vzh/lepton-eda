@@ -746,7 +746,7 @@ Please check your design.")))
 ;;; Creates and returns an initialised but empty SHEET_DATA
 ;;; instance.
 (define (make-sheet-data)
-  (define *sheet-data (s_sheet_data_new))
+  (define *sheet-data (attrib_sheet_data_new))
 
   ;; We will malloc and fill out the component table later.
   (attrib_sheet_data_set_component_table *sheet-data %null-pointer)

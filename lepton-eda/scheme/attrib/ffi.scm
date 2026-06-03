@@ -54,6 +54,7 @@
             x_gtksheet_get_min_col
             x_gtksheet_init
 
+            attrib_sheet_data_new
             attrib_sheet_data_get_changed
             attrib_sheet_data_set_changed
             attrib_sheet_data_get_component_attrib_count
@@ -86,7 +87,6 @@
             attrib_sheet_data_set_pin_list
             attrib_sheet_data_get_pin_table
             attrib_sheet_data_set_pin_table
-            s_sheet_data_new
             s_sheet_data_add_master_comp_list_items
             s_sheet_data_add_master_comp_attrib_list_items
             s_sheet_data_add_master_net_list_items
@@ -184,6 +184,7 @@
 (define-lff x_gtksheet_init void '())
 
 ;;; s_sheet_data.c
+(define-lff attrib_sheet_data_new '* '())
 (define-lff attrib_sheet_data_get_changed int '(*))
 (define-lff attrib_sheet_data_set_changed void (list '* int))
 (define-lff attrib_sheet_data_get_component_attrib_count int '(*))
@@ -216,7 +217,6 @@
 (define-lff attrib_sheet_data_set_pin_list void '(* *))
 (define-lff attrib_sheet_data_get_pin_table '* '(*))
 (define-lff attrib_sheet_data_set_pin_table void '(* *))
-(define-lff s_sheet_data_new '* '())
 (define-lff s_sheet_data_add_master_comp_list_items void '(*))
 (define-lff s_sheet_data_add_master_comp_attrib_list_items void '(*))
 (define-lff s_sheet_data_add_master_net_list_items void '(*))
