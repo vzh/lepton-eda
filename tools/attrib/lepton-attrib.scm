@@ -271,8 +271,39 @@ failure."
   (procedure->pointer void callback-file-quit '(* * *)))
 
 
+(define gtk_dialog_new_with_buttons_8
+  (let ((proc (delay (pointer->procedure
+                      '*
+                      (dynamic-func "gtk_dialog_new_with_buttons" libgtk)
+                      (list '* '* int '* int '* int '*)))))
+    (force proc)))
+
+(define gtk_dialog_new_with_buttons
+  (case-lambda
+    ((*title *parent flags *button-text1 response1 *button-text2 response2 end)
+     (gtk_dialog_new_with_buttons_8 *title
+                                    *parent
+                                    flags
+                                    *button-text1
+                                    response1
+                                    *button-text2
+                                    response2
+                                    %null-pointer))))
+
 (define (add-attrib-dialog)
-  (define *dialog (x_dialog_newattrib))
+  ;; Create the dialog.
+  (define *dialog
+    (gtk_dialog_new_with_buttons
+     (string->pointer (G_"Add new attribute"))
+     %null-pointer
+     GTK_DIALOG_MODAL
+     (string->pointer (G_ "_OK"))
+     GTK_RESPONSE_OK
+     (string->pointer (G_ "_Cancel"))
+     GTK_RESPONSE_CANCEL
+     %null-pointer))
+
+  (x_dialog_newattrib *dialog)
 
   (gtk_widget_destroy *dialog))
 

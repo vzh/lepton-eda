@@ -65,19 +65,11 @@
  *         and then inserts the column.
  */
 GtkWidget*
-x_dialog_newattrib ()
+x_dialog_newattrib (GtkWidget *dialog)
 {
-  GtkWidget *dialog;
   GtkWidget *label;
   GtkWidget *attrib_entry;
   gchar *entry_text;
-
-  /* Create the dialog */
-  dialog = gtk_dialog_new_with_buttons(_("Add new attribute"), NULL,
-                                       GTK_DIALOG_MODAL,
-                                       _("_OK"), GTK_RESPONSE_OK,
-                                       _("_Cancel"), GTK_RESPONSE_CANCEL,
-                                       NULL);
 
   gtk_dialog_set_default_response(GTK_DIALOG(dialog), GTK_RESPONSE_OK);
 
