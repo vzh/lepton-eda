@@ -560,7 +560,7 @@ attrib_sheet_data_set_pin_attrib_count (SHEET_DATA *data,
 
 
 int
-s_sheet_data_changed (const SHEET_DATA* data)
+attrib_sheet_data_get_changed (const SHEET_DATA* data)
 {
   return data->CHANGED;
 }

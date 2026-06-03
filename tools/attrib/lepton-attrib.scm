@@ -313,7 +313,7 @@ failure."
          (gtk_sheet_set_active_cell *sheet -1 -1))))
    (iota (attrib_get_sheets_number)))
 
-  (if (true? (s_sheet_data_changed (attrib_get_sheet_data)))
+  (if (true? (attrib_sheet_data_get_changed (attrib_get_sheet_data)))
       (unsaved-data-dialog)
       (quit-program 0)))
 
