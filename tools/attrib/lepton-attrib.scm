@@ -375,10 +375,6 @@ failure."
 
 ;;; Adds all items to the top level window.
 (define (add-items)
-  ;; Definitions in liblepton/defines.h
-  (define VISIBLE 1)
-  (define SHOW_VALUE 1)
-
   (define *sheet-data (attrib_get_sheet_data))
   (define *window (attrib_get_window))
 
@@ -515,17 +511,19 @@ Please check your design.")))
    (lambda (i)
      (for-each
       (lambda (j)
-        (let ((*text (attrib_table_get_attrib_value *pin-table i j)))
-          ;; Pins have no visibility attributes, must
-          ;; therefore provide default.
+        (let ((*text (attrib_table_get_attrib_value *pin-table i j))
+              (visibility
+               (attrib_table_get_visibility *pin-table i j))
+              (show-name-value
+               (attrib_table_get_show_name_value *pin-table i j)))
           (unless (null-pointer? *text)
             ;; NULL = no entry.
             (x_gtksheet_add_cell_item (pin-sheet)
                                       i
                                       j
                                       *text
-                                      VISIBLE
-                                      SHOW_VALUE))))
+                                      visibility
+                                      show-name-value))))
       (iota pin-attrib-count)))
    (iota pin-count))
 
