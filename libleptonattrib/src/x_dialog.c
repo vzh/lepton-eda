@@ -64,19 +64,12 @@
  * This function throws up the "Delete foo, are you sure?" dialog
  *         box.  It offers two buttons: "yes" and "cancel".
  */
-void x_dialog_delattrib()
+void
+x_dialog_delattrib (GtkSheet *sheet)
 {
   GtkWidget *dialog;
   gint mincol, maxcol;
-  GtkSheet *sheet;
-  gint cur_page;
 
-  /* First verify that exactly one column is selected.  */
-  cur_page = gtk_notebook_get_current_page (GTK_NOTEBOOK (attrib_get_notebook ()));
-  sheet = GTK_SHEET (attrib_get_sheet (cur_page));
-  if (sheet == NULL) {
-    return;
-  }
 
   mincol = x_gtksheet_get_min_col(sheet);
   maxcol =  x_gtksheet_get_max_col(sheet);

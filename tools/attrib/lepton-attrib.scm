@@ -356,7 +356,12 @@ failure."
 
 
 (define (delete-attrib)
-  (x_dialog_delattrib))
+  ;; First verify that exactly one column is selected.
+  (define current-page-id
+    (gtk_notebook_get_current_page (attrib_get_notebook)))
+  (define *sheet (attrib_get_sheet current-page-id))
+  (unless (null-pointer? *sheet)
+    (x_dialog_delattrib *sheet)))
 
 
 (define (callback-edit-delete-attrib *action *parameter *data)
