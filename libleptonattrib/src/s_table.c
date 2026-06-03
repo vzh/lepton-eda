@@ -152,6 +152,18 @@ attrib_table_get_attrib_value (TABLE **table,
 }
 
 
+/*! \brief Get attrib visibility associated with a cell.
+ *
+ *  \par Function Description
+ *
+ *  Returns attrib visibility associated with a table cell.
+ *
+ *  \param [in] table The table.
+ *  \param [in] i The row number of the cell.
+ *  \param [in] j The column number of the cell.
+ *
+ *  \return The visibility value.
+ */
 int
 attrib_table_get_visibility (TABLE **table,
                              int i,
