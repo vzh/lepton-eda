@@ -178,8 +178,9 @@ failure."
   (when (null-pointer? *toplevel)
     (error "NULL toplevel."))
 
-  ;; Read data from gtksheet into SHEET_DATA.
-  (s_sheet_data_gtksheet_to_sheetdata)
+  ;; Extract the attribs from the gtksheet widget cells, and place
+  ;; them back into SHEET_DATA.
+  (s_table_gtksheet_to_all_tables)
 
   ;; Iterate over all pages in design.
   (for-each

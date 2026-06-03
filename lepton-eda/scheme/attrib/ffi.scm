@@ -81,7 +81,6 @@
             s_sheet_data_add_master_pin_attrib_list_items
             s_sheet_data_changed
             s_sheet_data_set_changed
-            s_sheet_data_gtksheet_to_sheetdata
 
             s_string_list_sort_master_comp_list
             s_string_list_sort_master_comp_attrib_list
@@ -97,6 +96,7 @@
             s_table_add_toplevel_comp_items_to_comp_table
             s_table_add_toplevel_net_items_to_net_table
             s_table_add_toplevel_pin_items_to_pin_table
+            s_table_gtksheet_to_all_tables
 
             s_toplevel_add_new_attrib
             s_toplevel_delete_attrib_col
@@ -197,7 +197,6 @@
 (define-lff s_sheet_data_add_master_pin_attrib_list_items void '(*))
 (define-lff s_sheet_data_changed int '(*))
 (define-lff s_sheet_data_set_changed void (list '* int))
-(define-lff s_sheet_data_gtksheet_to_sheetdata void '())
 
 ;;; s_string_list.c
 (define-lff s_string_list_sort_master_comp_list void '())
@@ -215,6 +214,7 @@
 (define-lff s_table_add_toplevel_comp_items_to_comp_table void '(*))
 (define-lff s_table_add_toplevel_net_items_to_net_table void '(*))
 (define-lff s_table_add_toplevel_pin_items_to_pin_table void '(*))
+(define-lff s_table_gtksheet_to_all_tables void '())
 
 ;;; s_toplevel.c
 (define-lff s_toplevel_sheetdata_to_toplevel void '(* *))

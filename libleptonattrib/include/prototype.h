@@ -129,8 +129,6 @@ void s_sheet_data_add_master_net_attrib_list_items(const GList *obj_list);
 void s_sheet_data_add_master_pin_list_items(const GList *obj_list);
 void s_sheet_data_add_master_pin_attrib_list_items(const GList *obj_list);
 
-void s_sheet_data_gtksheet_to_sheetdata();
-
 
 /* ------------- s_string_list.c ------------- */
 STRING_LIST *s_string_list_new();
