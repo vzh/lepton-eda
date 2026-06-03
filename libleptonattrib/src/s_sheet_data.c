@@ -67,6 +67,24 @@ attrib_sheet_data_get_component_list (SHEET_DATA *data)
 }
 
 
+/*! \brief Set the component list of sheet data.
+ *
+ *  \par Function Description
+ *
+ *  Sets the component list of given sheet data instance to \p
+ *  list.
+ *
+ *  \param [in] data The sheet data.
+ *  \param [in] list The component list.
+ */
+void
+attrib_sheet_data_set_component_list (SHEET_DATA *data,
+                                      STRING_LIST *list)
+{
+  data->master_comp_list_head = list;
+}
+
+
 /*! \brief Get the component attribute list of sheet data.
  *
  *  \par Function Description
@@ -82,6 +100,24 @@ STRING_LIST*
 attrib_sheet_data_get_component_attrib_list (SHEET_DATA *data)
 {
   return data->master_comp_attrib_list_head;
+}
+
+
+/*! \brief Set the component attribute list of sheet data.
+ *
+ *  \par Function Description
+ *
+ *  Sets the component attribute list of given sheet data instance
+ *  to \p list.
+ *
+ *  \param [in] data The sheet data.
+ *  \param [in] list The component attribute list.
+ */
+void
+attrib_sheet_data_set_component_attrib_list (SHEET_DATA *data,
+                                             STRING_LIST *list)
+{
+  data->master_comp_attrib_list_head = list;
 }
 
 
@@ -102,6 +138,23 @@ attrib_sheet_data_get_net_list (SHEET_DATA *data)
 }
 
 
+/*! \brief Set the net list of sheet data.
+ *
+ *  \par Function Description
+ *
+ *  Sets the net list of given sheet data instance to \p list.
+ *
+ *  \param [in] data The sheet data.
+ *  \param [in] list The net list.
+ */
+void
+attrib_sheet_data_set_net_list (SHEET_DATA *data,
+                                STRING_LIST *list)
+{
+  data->master_net_list_head = list;
+}
+
+
 /*! \brief Get the net attribute list of sheet data.
  *
  *  \par Function Description
@@ -116,6 +169,24 @@ STRING_LIST*
 attrib_sheet_data_get_net_attrib_list (SHEET_DATA *data)
 {
   return data->master_net_attrib_list_head;
+}
+
+
+/*! \brief Set the net attribute list of sheet data.
+ *
+ *  \par Function Description
+ *
+ *  Sets the net attribute list of given sheet data instance to \p
+ *  list.
+ *
+ *  \param [in] data The sheet data.
+ *  \param [in] list The net attribute list.
+ */
+void
+attrib_sheet_data_set_net_attrib_list (SHEET_DATA *data,
+                                       STRING_LIST *list)
+{
+  data->master_net_attrib_list_head = list;
 }
 
 
@@ -136,6 +207,23 @@ attrib_sheet_data_get_pin_list (SHEET_DATA *data)
 }
 
 
+/*! \brief Set the pin list of sheet data.
+ *
+ *  \par Function Description
+ *
+ *  Sets the pin list of given sheet data instance to \p list.
+ *
+ *  \param [in] data The sheet data.
+ *  \param [in] list The pin list.
+ */
+void
+attrib_sheet_data_set_pin_list (SHEET_DATA *data,
+                                STRING_LIST *list)
+{
+  data->master_pin_list_head = list;
+}
+
+
 /*! \brief Get the pin attribute list of sheet data.
  *
  *  \par Function Description
@@ -150,6 +238,24 @@ STRING_LIST*
 attrib_sheet_data_get_pin_attrib_list (SHEET_DATA *data)
 {
   return data->master_pin_attrib_list_head;
+}
+
+
+/*! \brief Set the pin attribute list of sheet data.
+ *
+ *  \par Function Description
+ *
+ *  Sets the pin attribute list of given sheet data instance to \p
+ *  list.
+ *
+ *  \param [in] data The sheet data.
+ *  \param [in] list The pin attribute list.
+ */
+void
+attrib_sheet_data_set_pin_attrib_list (SHEET_DATA *data,
+                                       STRING_LIST *list)
+{
+  data->master_pin_attrib_list_head = list;
 }
 
 

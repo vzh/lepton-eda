@@ -48,21 +48,39 @@ char *s_attrib_get_refdes(LeptonObject *object);
 STRING_LIST*
 attrib_sheet_data_get_component_list (SHEET_DATA *data);
 
+void
+attrib_sheet_data_set_component_list (SHEET_DATA *data,
+                                      STRING_LIST *list);
 STRING_LIST*
 attrib_sheet_data_get_component_attrib_list (SHEET_DATA *data);
 
+void
+attrib_sheet_data_set_component_attrib_list (SHEET_DATA *data,
+                                             STRING_LIST *list);
 STRING_LIST*
 attrib_sheet_data_get_net_list (SHEET_DATA *data);
 
+void
+attrib_sheet_data_set_net_list (SHEET_DATA *data,
+                                STRING_LIST *list);
 STRING_LIST*
 attrib_sheet_data_get_net_attrib_list (SHEET_DATA *data);
 
+void
+attrib_sheet_data_set_net_attrib_list (SHEET_DATA *data,
+                                       STRING_LIST *list);
 STRING_LIST*
 attrib_sheet_data_get_pin_list (SHEET_DATA *data);
 
+void
+attrib_sheet_data_set_pin_list (SHEET_DATA *data,
+                                STRING_LIST *list);
 STRING_LIST*
 attrib_sheet_data_get_pin_attrib_list (SHEET_DATA *data);
 
+void
+attrib_sheet_data_set_pin_attrib_list (SHEET_DATA *data,
+                                       STRING_LIST *list);
 TABLE**
 attrib_sheet_data_get_component_table (SHEET_DATA *data);
 
