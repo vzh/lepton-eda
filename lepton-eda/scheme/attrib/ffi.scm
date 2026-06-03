@@ -55,22 +55,35 @@
             x_gtksheet_init
 
             attrib_sheet_data_get_changed
+            attrib_sheet_data_set_changed
             attrib_sheet_data_get_component_attrib_count
+            attrib_sheet_data_set_component_attrib_count
             attrib_sheet_data_get_component_attrib_list
+            attrib_sheet_data_set_component_attrib_list
             attrib_sheet_data_get_component_count
+            attrib_sheet_data_set_component_count
             attrib_sheet_data_get_component_list
+            attrib_sheet_data_set_component_list
             attrib_sheet_data_get_component_table
             attrib_sheet_data_set_component_table
             attrib_sheet_data_get_net_attrib_count
+            attrib_sheet_data_set_net_attrib_count
             attrib_sheet_data_get_net_attrib_list
+            attrib_sheet_data_set_net_attrib_list
             attrib_sheet_data_get_net_count
+            attrib_sheet_data_set_net_count
             attrib_sheet_data_get_net_list
+            attrib_sheet_data_set_net_list
             attrib_sheet_data_get_net_table
             attrib_sheet_data_set_net_table
             attrib_sheet_data_get_pin_attrib_count
+            attrib_sheet_data_set_pin_attrib_count
             attrib_sheet_data_get_pin_attrib_list
+            attrib_sheet_data_set_pin_attrib_list
             attrib_sheet_data_get_pin_count
+            attrib_sheet_data_set_pin_count
             attrib_sheet_data_get_pin_list
+            attrib_sheet_data_set_pin_list
             attrib_sheet_data_get_pin_table
             attrib_sheet_data_set_pin_table
             s_sheet_data_new
@@ -82,6 +95,7 @@
             s_sheet_data_add_master_pin_attrib_list_items
             s_sheet_data_set_changed
 
+            s_string_list_new
             s_string_list_sort_master_comp_list
             s_string_list_sort_master_comp_attrib_list
             s_string_list_sort_master_net_list
@@ -171,22 +185,35 @@
 
 ;;; s_sheet_data.c
 (define-lff attrib_sheet_data_get_changed int '(*))
+(define-lff attrib_sheet_data_set_changed void (list '* int))
 (define-lff attrib_sheet_data_get_component_attrib_count int '(*))
+(define-lff attrib_sheet_data_set_component_attrib_count void (list '* int))
 (define-lff attrib_sheet_data_get_component_attrib_list '* '(*))
+(define-lff attrib_sheet_data_set_component_attrib_list void '(* *))
 (define-lff attrib_sheet_data_get_component_count int '(*))
+(define-lff attrib_sheet_data_set_component_count void (list '* int))
 (define-lff attrib_sheet_data_get_component_list '* '(*))
+(define-lff attrib_sheet_data_set_component_list void '(* *))
 (define-lff attrib_sheet_data_get_component_table '* '(*))
 (define-lff attrib_sheet_data_set_component_table void '(* *))
 (define-lff attrib_sheet_data_get_net_attrib_count int '(*))
+(define-lff attrib_sheet_data_set_net_attrib_count void (list '* int))
 (define-lff attrib_sheet_data_get_net_attrib_list '* '(*))
+(define-lff attrib_sheet_data_set_net_attrib_list void '(* *))
 (define-lff attrib_sheet_data_get_net_count int '(*))
+(define-lff attrib_sheet_data_set_net_count void (list '* int))
 (define-lff attrib_sheet_data_get_net_list '* '(*))
+(define-lff attrib_sheet_data_set_net_list void '(* *))
 (define-lff attrib_sheet_data_get_net_table '* '(*))
 (define-lff attrib_sheet_data_set_net_table void '(* *))
 (define-lff attrib_sheet_data_get_pin_attrib_count int '(*))
+(define-lff attrib_sheet_data_set_pin_attrib_count void (list '* int))
 (define-lff attrib_sheet_data_get_pin_attrib_list '* '(*))
+(define-lff attrib_sheet_data_set_pin_attrib_list void '(* *))
 (define-lff attrib_sheet_data_get_pin_count int '(*))
+(define-lff attrib_sheet_data_set_pin_count void (list '* int))
 (define-lff attrib_sheet_data_get_pin_list '* '(*))
+(define-lff attrib_sheet_data_set_pin_list void '(* *))
 (define-lff attrib_sheet_data_get_pin_table '* '(*))
 (define-lff attrib_sheet_data_set_pin_table void '(* *))
 (define-lff s_sheet_data_new '* '())
@@ -199,6 +226,7 @@
 (define-lff s_sheet_data_set_changed void (list '* int))
 
 ;;; s_string_list.c
+(define-lff s_string_list_new '* '())
 (define-lff s_string_list_sort_master_comp_list void '())
 (define-lff s_string_list_sort_master_comp_attrib_list void '())
 (define-lff s_string_list_sort_master_net_list void '())

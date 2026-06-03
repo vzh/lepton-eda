@@ -743,8 +743,45 @@ Please check your design.")))
   (gtk_widget_show_all *window))
 
 
+;;; Creates and returns an initialised but empty SHEET_DATA
+;;; instance.
 (define (make-sheet-data)
-  (s_sheet_data_new))
+  (define *sheet-data (s_sheet_data_new))
+
+  ;; We will malloc and fill out the component table later.
+  (attrib_sheet_data_set_component_table *sheet-data %null-pointer)
+
+  ;; We will malloc and fill out the net table later.
+  (attrib_sheet_data_set_net_table *sheet-data %null-pointer)
+
+  ;; We will malloc and fill out the pin table later.
+  (attrib_sheet_data_set_pin_table *sheet-data %null-pointer)
+
+  ;; Now we create the first cell in each master list.
+  (attrib_sheet_data_set_component_list *sheet-data
+                                        (s_string_list_new))
+  (attrib_sheet_data_set_component_attrib_list *sheet-data
+                                               (s_string_list_new))
+  (attrib_sheet_data_set_component_count *sheet-data 0)
+  (attrib_sheet_data_set_component_attrib_count *sheet-data 0)
+
+  (attrib_sheet_data_set_net_list *sheet-data
+                                  (s_string_list_new))
+  (attrib_sheet_data_set_net_attrib_list *sheet-data
+                                         (s_string_list_new))
+  (attrib_sheet_data_set_net_count *sheet-data 0)
+  (attrib_sheet_data_set_net_attrib_count *sheet-data 0)
+
+  (attrib_sheet_data_set_pin_list *sheet-data
+                                  (s_string_list_new))
+  (attrib_sheet_data_set_pin_attrib_list *sheet-data
+                                         (s_string_list_new))
+  (attrib_sheet_data_set_pin_count *sheet-data 0)
+  (attrib_sheet_data_set_pin_attrib_count *sheet-data 0)
+
+  (attrib_sheet_data_set_changed *sheet-data FALSE)
+
+  *sheet-data)
 
 
 (define (activate *app *toplevel)

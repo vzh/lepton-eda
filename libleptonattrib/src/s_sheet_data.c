@@ -607,54 +607,18 @@ s_sheet_data_set_changed (SHEET_DATA* data, int changed)
 }
 
 
-/*------------------------------------------------------------------*/
 /*!
- * \brief Create a SHEET_DATA struct.
+ * \brief Create a new SHEET_DATA struct.
  *
- * Creates an initialised but empty SHEET_DATA struct.
- * \returns a pointer to a SHEET_DATA struct.
+ *  \par Function Description
+ *
+ * Creates and returns a new SHEET_DATA struct.
+ *
+ * \return The SHEET_DATA struct.
  */
 SHEET_DATA *s_sheet_data_new()
 {
-  SHEET_DATA *new_sheet;
-
-  new_sheet = (SHEET_DATA *) g_malloc(sizeof(SHEET_DATA));
-
-  /* We will malloc and fill out the comp table later. */
-  attrib_sheet_data_set_component_table (new_sheet, NULL);
-
-  /* We will malloc and fill out the net table later. */
-  attrib_sheet_data_set_net_table (new_sheet, NULL);
-
-  /* We will malloc and fill out the pin table later. */
-  attrib_sheet_data_set_pin_table (new_sheet, NULL);
-
-  /* Now we create the first cell in each master list. */
-  attrib_sheet_data_set_component_list (new_sheet,
-                                        (STRING_LIST *) s_string_list_new ());
-  attrib_sheet_data_set_component_attrib_list (new_sheet,
-                                               (STRING_LIST *) s_string_list_new ());
-  attrib_sheet_data_set_component_count (new_sheet, 0);
-  attrib_sheet_data_set_component_attrib_count (new_sheet, 0);
-
-  attrib_sheet_data_set_net_list (new_sheet,
-                                  (STRING_LIST *) s_string_list_new ());
-  attrib_sheet_data_set_net_attrib_list (new_sheet,
-                                         (STRING_LIST *) s_string_list_new ());
-  attrib_sheet_data_set_net_count (new_sheet, 0);
-  attrib_sheet_data_set_net_attrib_count (new_sheet, 0);
-
-  attrib_sheet_data_set_pin_list (new_sheet,
-                                  (STRING_LIST *) s_string_list_new ());
-  attrib_sheet_data_set_pin_attrib_list (new_sheet,
-                                         (STRING_LIST *) s_string_list_new ());
-  attrib_sheet_data_set_pin_count (new_sheet, 0);
-  attrib_sheet_data_set_pin_attrib_count (new_sheet, 0);
-
-  attrib_sheet_data_set_changed (new_sheet, FALSE);
-
-  return (new_sheet);
-
+  return (SHEET_DATA *) g_malloc(sizeof(SHEET_DATA));
 }
 
 
