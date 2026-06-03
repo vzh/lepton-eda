@@ -45,6 +45,11 @@
             gtk_container_add
             gtk_container_set_border_width
 
+            GTK_DIALOG_MODAL
+            GTK_DIALOG_DESTROY_WITH_PARENT
+            GTK_DIALOG_NO_SEPARATOR
+            GTK_DIALOG_USE_HEADER_BAR
+
             gtk_dialog_add_button
             gtk_dialog_get_content_area
             gtk_dialog_set_default_response
@@ -168,9 +173,6 @@
 (define-syntax-rule (define-lfc arg ...)
   (define-lfc-lib arg ... libgtk))
 
-;;; Defined in gtkdialog.h.
-(define GTK_DIALOG_DESTROY_WITH_PARENT 2)
-
 (define GdkModifierType uint32)
 
 
@@ -197,6 +199,14 @@
 
 (define-lff gtk_container_add void '(* *))
 (define-lff gtk_container_set_border_width void (list '* unsigned-int))
+
+;;; gtkdialog.h
+(define GTK_DIALOG_MODAL (ash 1 0))
+(define GTK_DIALOG_DESTROY_WITH_PARENT (ash 1 1))
+;;; GTK2
+(define GTK_DIALOG_NO_SEPARATOR (ash 1 2))
+;;; GTK3
+(define GTK_DIALOG_USE_HEADER_BAR (ash 1 2))
 
 (define-lff gtk_dialog_add_button '* (list '* '* int))
 (define-lff gtk_dialog_get_content_area '* '(*))
