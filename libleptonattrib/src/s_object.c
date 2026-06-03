@@ -397,25 +397,3 @@ s_object_delete_text_object_in_object (LeptonToplevel *toplevel,
   lepton_object_delete (text_object);
   lepton_page_set_changed (active_page, 1);
 }
-
-
-/*------------------------------------------------------------------*/
-/*! \brief Ensure object has a symbol file
- *
- * This verifies that the object has a non-null symbol file.
- *
- * \returns 0 = valid symbol file, 1 = no symbol file found.
- */
-int s_object_has_sym_file(LeptonObject *object)
-{
-  char *filename;
-
-  filename = lepton_component_object_get_basename (object);
-  if (filename != NULL) {
-    g_debug ("s_object_has_sym_file: Object has sym file = %s.\n", filename);
-    return 0;
-  } else {
-    g_debug ("s_object_has_sym_file: Found object with no attached symbol file.\n");
-    return 1;
-  }
-}

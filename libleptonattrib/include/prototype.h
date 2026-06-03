@@ -260,7 +260,6 @@ s_object_remove_attrib_in_object (LeptonToplevel *toplevel,
 void
 s_object_delete_text_object_in_object (LeptonToplevel *toplevel,
                                        LeptonObject *test_object);
-int s_object_has_sym_file(LeptonObject *object);
 
 /* ------------- s_misc.c ------------- */
 void set_verbose_mode ();
