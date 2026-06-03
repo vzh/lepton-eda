@@ -73,7 +73,7 @@ void x_dialog_delattrib()
 
   /* First verify that exactly one column is selected.  */
   cur_page = gtk_notebook_get_current_page(GTK_NOTEBOOK(notebook));
-  sheet = GTK_SHEET(sheets[cur_page]);
+  sheet = GTK_SHEET (attrib_get_sheet (cur_page));
   if (sheet == NULL) {
     return;
   }
