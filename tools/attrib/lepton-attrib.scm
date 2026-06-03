@@ -272,7 +272,9 @@ failure."
 
 
 (define (add-attrib-dialog)
-  (x_dialog_newattrib))
+  (define *dialog (x_dialog_newattrib))
+
+  (gtk_widget_destroy *dialog))
 
 
 (define (add-attrib)

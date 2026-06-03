@@ -64,7 +64,8 @@
  * This asks for the name of the attrib column to insert
  *         and then inserts the column.
  */
-void x_dialog_newattrib()
+GtkWidget*
+x_dialog_newattrib ()
 {
   GtkWidget *dialog;
   GtkWidget *label;
@@ -111,7 +112,7 @@ void x_dialog_newattrib()
       break;
   }
 
-  gtk_widget_destroy(dialog);
+  return dialog;
 }
 
 
