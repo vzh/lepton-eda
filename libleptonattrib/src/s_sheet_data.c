@@ -559,6 +559,16 @@ attrib_sheet_data_set_pin_attrib_count (SHEET_DATA *data,
 }
 
 
+/*! \brief Get the \a changed flag of sheet data.
+ *
+ *  \par Function Description
+ *
+ *  Returns the \a changed flag of given sheet data instance.
+ *
+ *  \param [in] data The sheet data.
+ *
+ *  \return The count.
+ */
 int
 attrib_sheet_data_get_changed (const SHEET_DATA* data)
 {
