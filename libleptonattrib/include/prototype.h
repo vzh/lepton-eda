@@ -293,9 +293,6 @@ void s_visibility_set_cell(gint cur_page, gint row, gint col,
                            gint visibility, gint show_name_value);
 
 /* ------------- x_dialog.c ------------- */
-GtkWidget*
-x_dialog_newattrib (GtkWidget *dialog);
-
 void x_dialog_delattrib();
 void x_dialog_missing_sym();
 

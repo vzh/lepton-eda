@@ -44,7 +44,6 @@
             x_dialog_export_file
             x_dialog_fatal_error
             x_dialog_missing_sym
-            x_dialog_newattrib
             x_dialog_unimplemented_feature
             x_dialog_unsaved_data
 
@@ -97,6 +96,7 @@
             s_table_add_toplevel_net_items_to_net_table
             s_table_add_toplevel_pin_items_to_pin_table
 
+            s_toplevel_add_new_attrib
             s_toplevel_sheetdata_to_toplevel
 
             s_visibility_set_invisible
@@ -154,7 +154,6 @@
 (define-lff x_dialog_export_file void '())
 (define-lff x_dialog_fatal_error void (list '* int))
 (define-lff x_dialog_missing_sym void '())
-(define-lff x_dialog_newattrib '* '(*))
 (define-lff x_dialog_unimplemented_feature void '())
 (define-lff x_dialog_unsaved_data '* '())
 
@@ -213,6 +212,7 @@
 
 ;;; s_toplevel.c
 (define-lff s_toplevel_sheetdata_to_toplevel void '(* *))
+(define-lff s_toplevel_add_new_attrib void '(*))
 
 ;;; s_visibility.c
 (define-lff s_visibility_set_invisible void '(* * *))

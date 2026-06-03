@@ -59,47 +59,6 @@
 #include "../include/gettext.h"
 
 
-/*! \brief Add new attribute dialog.
- *
- * This asks for the name of the attrib column to insert
- *         and then inserts the column.
- */
-GtkWidget*
-x_dialog_newattrib (GtkWidget *dialog)
-{
-  GtkWidget *attrib_entry;
-  gchar *entry_text;
-
-  /*  Create the "attrib" text entry area */
-  attrib_entry = gtk_entry_new ();
-  gtk_entry_set_max_length (GTK_ENTRY (attrib_entry), 1024);
-  gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (dialog))),
-                      attrib_entry, TRUE, TRUE, 5);
-  gtk_widget_set_size_request (dialog, 260, 140);
-
-  gtk_widget_show_all(dialog);
-
-  switch(gtk_dialog_run(GTK_DIALOG(dialog))) {
-    case GTK_RESPONSE_OK:
-      entry_text = g_strdup( gtk_entry_get_text(GTK_ENTRY(attrib_entry)) );
-
-      /* Perhaps do some other checks . . . . */
-      if (entry_text != NULL) {
-        s_toplevel_add_new_attrib(entry_text);
-        g_free(entry_text);
-      }
-      break;
-
-    case GTK_RESPONSE_CANCEL:
-    default:
-      /* do nothing */
-      break;
-  }
-
-  return dialog;
-}
-
-
 /*! \brief Delete Attribute dialog
  *
  * This function throws up the "Delete foo, are you sure?" dialog
