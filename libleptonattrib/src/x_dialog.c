@@ -67,16 +67,8 @@
 GtkWidget*
 x_dialog_newattrib (GtkWidget *dialog)
 {
-  GtkWidget *label;
   GtkWidget *attrib_entry;
   gchar *entry_text;
-
-  gtk_dialog_set_default_response(GTK_DIALOG(dialog), GTK_RESPONSE_OK);
-
-  /*  Create a text label for the dialog window */
-  label = gtk_label_new (_("Enter new attribute name"));
-  gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (dialog))),
-                      label, FALSE, FALSE, 0);
 
   /*  Create the "attrib" text entry area */
   attrib_entry = gtk_entry_new ();

@@ -302,6 +302,16 @@ failure."
      (string->pointer (G_ "_Cancel"))
      GTK_RESPONSE_CANCEL
      %null-pointer))
+  ;; Create a text label for the dialog window.
+  (define *label
+    (gtk_label_new (string->pointer (G_ "Enter new attribute name"))))
+
+  (gtk_dialog_set_default_response *dialog GTK_RESPONSE_OK)
+  (gtk_box_pack_start (gtk_dialog_get_content_area *dialog)
+                      *label
+                      FALSE
+                      FALSE
+                      0)
 
   (x_dialog_newattrib *dialog)
 
