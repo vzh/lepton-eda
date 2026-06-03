@@ -743,9 +743,13 @@ Please check your design.")))
   (gtk_widget_show_all *window))
 
 
+(define (make-sheet-data)
+  (s_sheet_data_new))
+
+
 (define (activate *app *toplevel)
   (define *window-widget (attrib_window_new *app))
-  (define *sheet-data (s_sheet_data_new))
+  (define *sheet-data (make-sheet-data))
   (define *pages
     (lepton_list_get_glist (lepton_toplevel_get_pages *toplevel)))
 
