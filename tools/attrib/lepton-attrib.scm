@@ -784,6 +784,10 @@ Please check your design.")))
   *sheet-data)
 
 
+(define (add-components *objects)
+  (s_sheet_data_add_master_comp_list_items *objects))
+
+
 (define (activate *app *toplevel)
   (define *window-widget (attrib_window_new *app))
   (define *sheet-data (make-sheet-data))
@@ -805,8 +809,7 @@ Please check your design.")))
      (lepton_toplevel_set_page_current *toplevel *page)
 
      ;; Now add all items found to the master lists
-     (s_sheet_data_add_master_comp_list_items
-      (lepton_page_objects *page))
+     (add-components (lepton_page_objects *page))
      (s_sheet_data_add_master_comp_attrib_list_items
       (lepton_page_objects *page))
      ;; Note that this must be changed.  We need to input the
