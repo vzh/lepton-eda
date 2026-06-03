@@ -138,6 +138,10 @@ attrib_sheet_data_set_pin_attrib_count (SHEET_DATA *data,
 int
 attrib_sheet_data_get_changed (const SHEET_DATA* data);
 
+void
+attrib_sheet_data_set_changed (SHEET_DATA* data,
+                               int changed);
+
 void s_sheet_data_set_changed (SHEET_DATA* data, int changed);
 SHEET_DATA *s_sheet_data_new();
 
