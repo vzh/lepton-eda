@@ -394,6 +394,10 @@ failure."
           (gtk_widget_destroy *dialog))))))
 
 
+(define (missing-symbol-dialog)
+  (x_dialog_missing_sym))
+
+
 (define (callback-edit-delete-attrib *action *parameter *data)
   (delete-attrib))
 (define *callback-edit-delete-attrib
@@ -729,7 +733,7 @@ Please check your design.")))
   ;; Verify correctness of entire design.
   (when (design-has-missing-symbols?)
     ;; Dialog gives user option to quit.
-    (x_dialog_missing_sym))
+    (missing-symbol-dialog))
 
   ;; Set the main window's title.
   (let ((page-count (length (active-pages))))
