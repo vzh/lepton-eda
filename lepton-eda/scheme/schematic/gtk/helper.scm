@@ -21,8 +21,19 @@
 
   #:use-module (schematic ffi)
 
-  #:export (gtk-response->symbol
+  #:export (gtk-buttons-type->symbol
+            symbol->gtk-buttons-type
+            gtk-response->symbol
             symbol->gtk-response))
+
+(define (gtk-buttons-type->symbol type)
+  "Transforms GtkButtonsType value TYPE to Scheme symbol."
+  (string->symbol (pointer->string (gtk_buttons_type_to_string type))))
+
+(define (symbol->gtk-buttons-type sym)
+  "Transforms symbol SYM to corresponding GtkButtonsType value."
+  (gtk_string_to_buttons_type (string->pointer (symbol->string sym))))
+
 
 (define (gtk-response->symbol response)
   "Transforms GtkResponse integer RESPONSE to Scheme symbol."

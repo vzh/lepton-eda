@@ -42,6 +42,8 @@
 
             gdk_window_type_hint_to_string
             gdk_string_to_window_type_hint
+            gtk_buttons_type_to_string
+            gtk_string_to_buttons_type
             gtk_policy_to_string
             gtk_string_to_policy
             gtk_response_to_string
@@ -718,6 +720,8 @@
 ;;; gtk_helper.c
 (define-lff gdk_window_type_hint_to_string '* (list int))
 (define-lff gdk_string_to_window_type_hint int '(*))
+(define-lff gtk_buttons_type_to_string '* (list int))
+(define-lff gtk_string_to_buttons_type int '(*))
 (define-lff gtk_policy_to_string '* (list int))
 (define-lff gtk_string_to_policy int '(*))
 (define-lff gtk_response_to_string '* (list int))
