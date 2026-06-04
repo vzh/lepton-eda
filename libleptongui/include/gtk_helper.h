@@ -51,6 +51,12 @@ gdk_window_type_hint_to_string (int hint);
 int
 gdk_string_to_window_type_hint (char *s);
 
+const char*
+gtk_message_type_to_string (int type);
+
+int
+gtk_string_to_message_type (char *s);
+
 G_END_DECLS
 
 #endif /* GTK_HELPER_H */

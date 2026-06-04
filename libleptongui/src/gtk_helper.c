@@ -316,3 +316,59 @@ gdk_string_to_window_type_hint (char *s)
 
   return result;
 }
+
+
+/*! \brief Transform a GTK message type id value to string.
+ *
+ * \par Function Description
+ *
+ * Given a GTK message type id \p type, returns the string
+ * corresponding to it.  This is mainly intended to be used for
+ * value conversion in Scheme FFI functions.
+ *
+ * \param [in] type The message type id.
+ * \return The string corresponding to the id.
+ */
+const char*
+gtk_message_type_to_string (int type)
+{
+  const char *result = "unknown";
+
+  switch (type)
+  {
+  case GTK_MESSAGE_INFO: result = "info"; break;
+  case GTK_MESSAGE_WARNING: result = "warning"; break;
+  case GTK_MESSAGE_QUESTION: result = "question"; break;
+  case GTK_MESSAGE_ERROR: result = "error"; break;
+  case GTK_MESSAGE_OTHER: result = "other"; break;
+  default: break;
+  }
+
+  return result;
+}
+
+
+/*! \brief Transform a string into GTK message type id value.
+ *
+ * \par Function Description
+ *
+ * Given a string naming a GTK message type id, return the enum
+ * value corresponding to it.  This is mainly intended to be used
+ * for value conversion in Scheme FFI functions.
+ *
+ * \param [in] s The string.
+ * \return The GTK message type id value.
+ */
+int
+gtk_string_to_message_type (char *s)
+{
+  int result = GTK_MESSAGE_INFO;
+
+  if (strcmp (s, "info") == 0) {result = GTK_MESSAGE_INFO; }
+  else if (strcmp (s, "warning") == 0) {result = GTK_MESSAGE_WARNING; }
+  else if (strcmp (s, "question") == 0) {result = GTK_MESSAGE_QUESTION; }
+  else if (strcmp (s, "error") == 0) {result = GTK_MESSAGE_ERROR; }
+  else if (strcmp (s, "other") == 0) {result = GTK_MESSAGE_OTHER; }
+
+  return result;
+}
