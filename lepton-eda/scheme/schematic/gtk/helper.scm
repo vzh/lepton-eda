@@ -23,6 +23,8 @@
 
   #:export (gtk-buttons-type->symbol
             symbol->gtk-buttons-type
+            gtk-message-type->symbol
+            symbol->gtk-message-type
             gtk-response->symbol
             symbol->gtk-response))
 
@@ -33,6 +35,15 @@
 (define (symbol->gtk-buttons-type sym)
   "Transforms symbol SYM to corresponding GtkButtonsType value."
   (gtk_string_to_buttons_type (string->pointer (symbol->string sym))))
+
+
+(define (gtk-message-type->symbol type)
+  "Transforms GtkMessageType value TYPE to Scheme symbol."
+  (string->symbol (pointer->string (gtk_message_type_to_string type))))
+
+(define (symbol->gtk-message-type sym)
+  "Transforms symbol SYM to corresponding GtkMessageType value."
+  (gtk_string_to_message_type (string->pointer (symbol->string sym))))
 
 
 (define (gtk-response->symbol response)
