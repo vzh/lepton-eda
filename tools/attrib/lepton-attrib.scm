@@ -203,6 +203,10 @@ failure."
   (procedure->pointer void callback-file-save '(* * *)))
 
 
+(define (export-file-dialog)
+  (x_dialog_export_file))
+
+
 (define (export-csv)
   "Export component table info in the CSV format."
   (define *notebook (attrib_get_notebook))
@@ -210,7 +214,7 @@ failure."
 
   ;; Check that we are on components page.
   (if (zero? current-page-id)
-      (x_dialog_export_file)
+      (export-file-dialog)
       ;; We only support export of components now
       (x_dialog_unimplemented_feature)))
 
