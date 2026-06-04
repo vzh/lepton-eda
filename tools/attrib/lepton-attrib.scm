@@ -222,6 +222,8 @@ failure."
                                     response2
                                     %null-pointer))))
 
+;;; Runs the Export file dialog.  It asks for the filename for the
+;;; CSV export file and then does the exporting.
 (define (export-file-dialog)
   (define *dialog
     (gtk_file_chooser_dialog_new
@@ -233,7 +235,20 @@ failure."
      (string->pointer (G_ "_Save"))
      GTK_RESPONSE_ACCEPT
      %null-pointer))
-  (x_dialog_export_file *dialog))
+
+  (gtk_dialog_set_default_response *dialog GTK_RESPONSE_ACCEPT)
+
+  (let ((response (gtk_dialog_run *dialog)))
+    (cond
+     ((= response GTK_RESPONSE_ACCEPT)
+      (let ((*filename (gtk_file_chooser_get_filename *dialog)))
+        (unless (null-pointer? *filename)
+          (when (true? (x_dialog_confirm_overwrite *filename))
+            (f_export_components *filename))
+          (g_free *filename))))
+     (else #f)))
+
+  (gtk_widget_destroy *dialog))
 
 
 (define (export-csv)

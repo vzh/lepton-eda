@@ -204,7 +204,7 @@ x_dialog_about_dialog (gpointer action,
  *
  *  \return  Is it OK to overwrite file \a fname.
  */
-static gboolean
+gboolean
 x_dialog_confirm_overwrite (const gchar* fname)
 {
   if (!g_file_test (fname, G_FILE_TEST_EXISTS))
@@ -229,38 +229,4 @@ x_dialog_confirm_overwrite (const gchar* fname)
 
   return res == GTK_RESPONSE_YES;
 
-}
-
-
-/*! \brief Export file dialog
- *
- * This asks for the filename for the CSV export file and then
- *         does the exporting.
- */
-void
-x_dialog_export_file (GtkWidget *dialog)
-{
-  gchar *filename;
-
-  gtk_dialog_set_default_response(GTK_DIALOG(dialog), GTK_RESPONSE_ACCEPT);
-
-  switch(gtk_dialog_run(GTK_DIALOG(dialog))) {
-    case GTK_RESPONSE_ACCEPT:
-      filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
-      if(filename != NULL) {
-
-        if (x_dialog_confirm_overwrite (filename))
-        {
-          f_export_components (filename);
-        }
-
-        g_free(filename);
-      }
-      break;
-
-    default:
-      break;
-  }
-
-  gtk_widget_destroy(dialog);
 }
