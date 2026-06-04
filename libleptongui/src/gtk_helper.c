@@ -372,3 +372,61 @@ gtk_string_to_message_type (char *s)
 
   return result;
 }
+
+
+/*! \brief Transform a GTK buttons type id value to string.
+ *
+ * \par Function Description
+ *
+ * Given a GTK buttons type id \p type, returns the string
+ * corresponding to it.  This is mainly intended to be used for
+ * value conversion in Scheme FFI functions.
+ *
+ * \param [in] type The buttons type id.
+ * \return The string corresponding to the id.
+ */
+const char*
+gtk_buttons_type_to_string (int type)
+{
+  const char *result = "unknown";
+
+  switch (type)
+  {
+  case GTK_BUTTONS_NONE: result = "none"; break;
+  case GTK_BUTTONS_OK: result = "ok"; break;
+  case GTK_BUTTONS_CLOSE: result = "close"; break;
+  case GTK_BUTTONS_CANCEL: result = "cancel"; break;
+  case GTK_BUTTONS_YES_NO: result = "yes-no"; break;
+  case GTK_BUTTONS_OK_CANCEL: result = "ok-cancel"; break;
+  default: break;
+  }
+
+  return result;
+}
+
+
+/*! \brief Transform a string into GTK buttons type id value.
+ *
+ * \par Function Description
+ *
+ * Given a string naming a GTK buttons type id, return the enum
+ * value corresponding to it.  This is mainly intended to be used
+ * for value conversion in Scheme FFI functions.
+ *
+ * \param [in] s The string.
+ * \return The GTK buttons type id value.
+ */
+int
+gtk_string_to_buttons_type (char *s)
+{
+  int result = GTK_BUTTONS_NONE;
+
+  if (strcmp (s, "none") == 0) {result = GTK_BUTTONS_NONE; }
+  else if (strcmp (s, "ok") == 0) {result = GTK_BUTTONS_OK; }
+  else if (strcmp (s, "close") == 0) {result = GTK_BUTTONS_CLOSE; }
+  else if (strcmp (s, "cancel") == 0) {result = GTK_BUTTONS_CANCEL; }
+  else if (strcmp (s, "yes-no") == 0) {result = GTK_BUTTONS_YES_NO; }
+  else if (strcmp (s, "ok-cancel") == 0) {result = GTK_BUTTONS_OK_CANCEL; }
+
+  return result;
+}

@@ -57,6 +57,12 @@ gtk_message_type_to_string (int type);
 int
 gtk_string_to_message_type (char *s);
 
+const char*
+gtk_buttons_type_to_string (int type);
+
+int
+gtk_string_to_buttons_type (char *s);
+
 G_END_DECLS
 
 #endif /* GTK_HELPER_H */
