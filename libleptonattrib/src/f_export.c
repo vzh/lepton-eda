@@ -87,7 +87,7 @@ void f_export_components(gchar *filename)
 
   /* -----  Now write out data  ----- */
   num_rows = attrib_sheet_data_get_component_count (sheet_head);
-  num_cols = sheet_head->comp_attrib_count;
+  num_cols = attrib_sheet_data_get_component_attrib_count (sheet_head);
 
   /*  First export top row -- attribute names  */
   /*  Print out "refdes" since that's always the first column  */
