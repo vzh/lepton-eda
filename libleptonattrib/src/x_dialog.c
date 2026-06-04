@@ -68,16 +68,6 @@ void
 x_dialog_delattrib (GtkSheet *sheet)
 {
   GtkWidget *dialog;
-  gint mincol, maxcol;
-
-
-  mincol = x_gtksheet_get_min_col(sheet);
-  maxcol =  x_gtksheet_get_max_col(sheet);
-
-  if ( (mincol != maxcol) || (mincol == -1) || (maxcol == -1) ) {
-    /* Improper selection -- maybe throw up error box? */
-    return;
-  }
 
   /* Create the dialog */
   dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,

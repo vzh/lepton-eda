@@ -50,6 +50,8 @@
             x_gtksheet_add_cell_item
             x_gtksheet_add_col_labels
             x_gtksheet_add_row_labels
+            x_gtksheet_get_max_col
+            x_gtksheet_get_min_col
             x_gtksheet_init
 
             attrib_sheet_data_get_component_attrib_count
@@ -161,6 +163,8 @@
 (define-lff x_gtksheet_add_cell_item void (list '* int int '* int int))
 (define-lff x_gtksheet_add_col_labels void (list '* int '*))
 (define-lff x_gtksheet_add_row_labels void (list '* int '*))
+(define-lff x_gtksheet_get_max_col int '(*))
+(define-lff x_gtksheet_get_min_col int '(*))
 (define-lff x_gtksheet_init void '())
 
 ;;; s_sheet_data.c

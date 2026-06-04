@@ -361,7 +361,13 @@ failure."
     (gtk_notebook_get_current_page (attrib_get_notebook)))
   (define *sheet (attrib_get_sheet current-page-id))
   (unless (null-pointer? *sheet)
-    (x_dialog_delattrib *sheet)))
+    (let ((mincol (x_gtksheet_get_min_col *sheet))
+          (maxcol (x_gtksheet_get_max_col *sheet)))
+      ;; Check improper selection.
+      (unless (or (not (= mincol maxcol))
+                  (= mincol -1)
+                  (= maxcol -1))
+        (x_dialog_delattrib *sheet)))))
 
 
 (define (callback-edit-delete-attrib *action *parameter *data)
