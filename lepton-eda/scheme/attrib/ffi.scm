@@ -40,7 +40,6 @@
             x_fileselect_open
 
             x_dialog_about_dialog
-            x_dialog_delattrib
             x_dialog_export_file
             x_dialog_fatal_error
             x_dialog_missing_sym
@@ -99,6 +98,7 @@
             s_table_add_toplevel_pin_items_to_pin_table
 
             s_toplevel_add_new_attrib
+            s_toplevel_delete_attrib_col
             s_toplevel_sheetdata_to_toplevel
 
             s_visibility_set_invisible
@@ -152,7 +152,6 @@
 
 ;;; x_dialog.c
 (define-lff x_dialog_about_dialog void '(* * *))
-(define-lff x_dialog_delattrib void '(*))
 (define-lff x_dialog_export_file void '())
 (define-lff x_dialog_fatal_error void (list '* int))
 (define-lff x_dialog_missing_sym void '())
@@ -217,6 +216,7 @@
 ;;; s_toplevel.c
 (define-lff s_toplevel_sheetdata_to_toplevel void '(* *))
 (define-lff s_toplevel_add_new_attrib void '(*))
+(define-lff s_toplevel_delete_attrib_col void '())
 
 ;;; s_visibility.c
 (define-lff s_visibility_set_invisible void '(* * *))

@@ -41,6 +41,7 @@
              (lepton version)
 
              (schematic ffi gtk)
+             (schematic gtk helper)
 
              (attrib ffi))
 
@@ -355,6 +356,7 @@ failure."
   (procedure->pointer void callback-edit-add-attrib '(* * *)))
 
 
+;; Runs the Delete attribute dialog.
 (define (delete-attrib)
   ;; First verify that exactly one column is selected.
   (define current-page-id
@@ -367,7 +369,29 @@ failure."
       (unless (or (not (= mincol maxcol))
                   (= mincol -1)
                   (= maxcol -1))
-        (x_dialog_delattrib *sheet)))))
+        ;; Create the dialog.
+        (let ((*dialog
+               (gtk_message_dialog_new
+                %null-pointer
+                GTK_DIALOG_MODAL
+                (symbol->gtk-message-type 'question)
+                (symbol->gtk-buttons-type 'yes-no)
+                (string->pointer
+                 (G_ "Are you sure you want to delete this attribute?")))))
+
+          (gtk_window_set_title *dialog
+                                (string->pointer (G_ "Delete attribute")))
+          (gtk_dialog_set_default_response *dialog GTK_RESPONSE_NO)
+
+          (let ((response (gtk_dialog_run *dialog)))
+            (cond
+             ((= response GTK_RESPONSE_YES)
+              ;; Actually delete the attrib column.  This function
+              ;; figures out which column to delete.
+              (s_toplevel_delete_attrib_col))
+             (else #f)))
+
+          (gtk_widget_destroy *dialog))))))
 
 
 (define (callback-edit-delete-attrib *action *parameter *data)

@@ -59,39 +59,6 @@
 #include "../include/gettext.h"
 
 
-/*! \brief Delete Attribute dialog
- *
- * This function throws up the "Delete foo, are you sure?" dialog
- *         box.  It offers two buttons: "yes" and "cancel".
- */
-void
-x_dialog_delattrib (GtkSheet *sheet)
-{
-  GtkWidget *dialog;
-
-  /* Create the dialog */
-  dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
-                                  GTK_MESSAGE_QUESTION,
-                                  GTK_BUTTONS_YES_NO,
-                                  _("Are you sure you want to delete this attribute?"));
-
-  gtk_window_set_title(GTK_WINDOW(dialog), _("Delete attribute"));
-  gtk_dialog_set_default_response(GTK_DIALOG(dialog), GTK_RESPONSE_NO);
-
-  switch(gtk_dialog_run(GTK_DIALOG(dialog))) {
-    case GTK_RESPONSE_YES:
-      /* call the fcn to actually delete the attrib column.  */
-      s_toplevel_delete_attrib_col();  /* this fcn figures out
-                                        * which col to delete. */
-      break;
-
-    default:
-      break;
-  }
-
-  gtk_widget_destroy(dialog);
-}
-
 /*! \brief Missing Symbol dialog
  *
  * This is the "missing symbol file found on object" dialog.
