@@ -63,6 +63,12 @@ gtk_buttons_type_to_string (int type);
 int
 gtk_string_to_buttons_type (char *s);
 
+const char*
+gtk_file_chooser_action_to_string (int action);
+
+int
+gtk_string_to_file_chooser_action (char *s);
+
 G_END_DECLS
 
 #endif /* GTK_HELPER_H */

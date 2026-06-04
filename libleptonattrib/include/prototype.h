@@ -311,7 +311,8 @@ x_dialog_about_dialog (gpointer action,
                        gpointer user_data);
 #endif
 
-void x_dialog_export_file();
+void
+x_dialog_export_file (GtkWidget *dialog);
 
 /* ------------- x_gtksheet.c ------------- */
 void x_gtksheet_set_saved();

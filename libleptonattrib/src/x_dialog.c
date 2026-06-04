@@ -237,16 +237,10 @@ x_dialog_confirm_overwrite (const gchar* fname)
  * This asks for the filename for the CSV export file and then
  *         does the exporting.
  */
-void x_dialog_export_file()
+void
+x_dialog_export_file (GtkWidget *dialog)
 {
   gchar *filename;
-  GtkWidget *dialog;
-
-  dialog = gtk_file_chooser_dialog_new(_("Export CSV"), NULL,
-                                       GTK_FILE_CHOOSER_ACTION_SAVE,
-                                       _("_Cancel"), GTK_RESPONSE_CANCEL,
-                                       _("_Save"), GTK_RESPONSE_ACCEPT,
-                                       NULL);
 
   gtk_dialog_set_default_response(GTK_DIALOG(dialog), GTK_RESPONSE_ACCEPT);
 

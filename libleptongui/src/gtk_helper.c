@@ -430,3 +430,58 @@ gtk_string_to_buttons_type (char *s)
 
   return result;
 }
+
+
+/*! \brief Transform a GTK file chooser action id value to string.
+ *
+ * \par Function Description
+ *
+ * Given a GTK file chooser action id \p action, returns the
+ * string corresponding to it.  This is mainly intended to be used
+ * for value conversion in Scheme FFI functions.
+ *
+ * \param [in] action The file chooser action id.
+ * \return The string corresponding to the id.
+ */
+const char*
+gtk_file_chooser_action_to_string (int action)
+{
+  const char *result = "unknown";
+
+  switch (action)
+  {
+  case GTK_FILE_CHOOSER_ACTION_OPEN: result = "open"; break;
+  case GTK_FILE_CHOOSER_ACTION_SAVE: result = "save"; break;
+  case GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER: result = "select-folder"; break;
+  case GTK_FILE_CHOOSER_ACTION_CREATE_FOLDER: result = "create-folder"; break;
+  default: break;
+  }
+
+  return result;
+}
+
+
+/*! \brief Transform a string into GTK file chooser action id
+ *  value.
+ *
+ * \par Function Description
+ *
+ * Given a string naming a GTK file chooser action id, return the
+ * enum value corresponding to it.  This is mainly intended to be
+ * used for value conversion in Scheme FFI functions.
+ *
+ * \param [in] s The string.
+ * \return The GTK file chooser action id value.
+ */
+int
+gtk_string_to_file_chooser_action (char *s)
+{
+  int result = GTK_FILE_CHOOSER_ACTION_OPEN;
+
+  if (strcmp (s, "open") == 0) {result = GTK_FILE_CHOOSER_ACTION_OPEN; }
+  else if (strcmp (s, "save") == 0) {result = GTK_FILE_CHOOSER_ACTION_SAVE; }
+  else if (strcmp (s, "select-folder") == 0) {result = GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER; }
+  else if (strcmp (s, "create-folder") == 0) {result = GTK_FILE_CHOOSER_ACTION_CREATE_FOLDER; }
+
+  return result;
+}

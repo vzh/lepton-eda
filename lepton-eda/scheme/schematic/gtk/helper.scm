@@ -1,6 +1,6 @@
 ;;; Lepton EDA Schematic Capture
 ;;; Scheme API
-;;; Copyright (C) 2023-2025 Lepton EDA Contributors
+;;; Copyright (C) 2023-2026 Lepton EDA Contributors
 ;;;
 ;;; This program is free software; you can redistribute it and/or modify
 ;;; it under the terms of the GNU General Public License as published by
@@ -23,6 +23,8 @@
 
   #:export (gtk-buttons-type->symbol
             symbol->gtk-buttons-type
+            gtk-file-chooser-action->symbol
+            symbol->gtk-file-chooser-action
             gtk-message-type->symbol
             symbol->gtk-message-type
             gtk-response->symbol
@@ -35,6 +37,17 @@
 (define (symbol->gtk-buttons-type sym)
   "Transforms symbol SYM to corresponding GtkButtonsType value."
   (gtk_string_to_buttons_type (string->pointer (symbol->string sym))))
+
+
+(define (gtk-file-chooser-action->symbol action)
+  "Transforms GtkFileChooserAction value ACTION to Scheme symbol."
+  (string->symbol
+   (pointer->string (gtk_file_chooser_action_to_string action))))
+
+(define (symbol->gtk-file-chooser-action sym)
+  "Transforms symbol SYM to corresponding GtkFileChooserAction value."
+  (gtk_string_to_file_chooser_action
+   (string->pointer (symbol->string sym))))
 
 
 (define (gtk-message-type->symbol type)

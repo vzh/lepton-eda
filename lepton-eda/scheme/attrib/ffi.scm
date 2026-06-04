@@ -151,7 +151,7 @@
 
 ;;; x_dialog.c
 (define-lff x_dialog_about_dialog void '(* * *))
-(define-lff x_dialog_export_file void '())
+(define-lff x_dialog_export_file void '(*))
 (define-lff x_dialog_fatal_error void (list '* int))
 (define-lff x_dialog_unimplemented_feature void '())
 (define-lff x_dialog_unsaved_data '* '())

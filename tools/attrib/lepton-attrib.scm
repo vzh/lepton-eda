@@ -203,8 +203,37 @@ failure."
   (procedure->pointer void callback-file-save '(* * *)))
 
 
+(define gtk_file_chooser_dialog_new_8
+  (let ((proc (delay (pointer->procedure
+                      '*
+                      (dynamic-func "gtk_file_chooser_dialog_new" libgtk)
+                      (list '* '* int '* int '* int '*)))))
+    (force proc)))
+
+(define gtk_file_chooser_dialog_new
+  (case-lambda
+    ((*title *parent action *button-text1 response1 *button-text2 response2 end)
+     (gtk_file_chooser_dialog_new_8 *title
+                                    *parent
+                                    action
+                                    *button-text1
+                                    response1
+                                    *button-text2
+                                    response2
+                                    %null-pointer))))
+
 (define (export-file-dialog)
-  (x_dialog_export_file))
+  (define *dialog
+    (gtk_file_chooser_dialog_new
+     (string->pointer (G_ "Export CSV"))
+     %null-pointer
+     (symbol->gtk-file-chooser-action 'save)
+     (string->pointer (G_ "_Cancel"))
+     GTK_RESPONSE_CANCEL
+     (string->pointer (G_ "_Save"))
+     GTK_RESPONSE_ACCEPT
+     %null-pointer))
+  (x_dialog_export_file *dialog))
 
 
 (define (export-csv)

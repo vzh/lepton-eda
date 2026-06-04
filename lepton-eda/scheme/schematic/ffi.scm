@@ -44,6 +44,8 @@
             gdk_string_to_window_type_hint
             gtk_buttons_type_to_string
             gtk_string_to_buttons_type
+            gtk_file_chooser_action_to_string
+            gtk_string_to_file_chooser_action
             gtk_message_type_to_string
             gtk_string_to_message_type
             gtk_policy_to_string
@@ -724,6 +726,8 @@
 (define-lff gdk_string_to_window_type_hint int '(*))
 (define-lff gtk_buttons_type_to_string '* (list int))
 (define-lff gtk_string_to_buttons_type int '(*))
+(define-lff gtk_file_chooser_action_to_string '* (list int))
+(define-lff gtk_string_to_file_chooser_action int '(*))
 (define-lff gtk_message_type_to_string '* (list int))
 (define-lff gtk_string_to_message_type int '(*))
 (define-lff gtk_policy_to_string '* (list int))
