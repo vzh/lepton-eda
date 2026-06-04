@@ -110,8 +110,8 @@ void f_export_components(gchar *filename)
   for (i = 0; i < num_rows; i++) {
 
     /*  First output the component refdes  */
-    text = g_strdup( s_string_list_get_data_at_index(
-                       sheet_head->master_comp_list_head, i) );
+    text =
+      g_strdup (s_string_list_get_data_at_index (attrib_sheet_data_get_component_list (sheet_head), i));
     g_debug ("f_export_components: "
              "Getting refdes: row number = %d, output component refdes = %s.\n",
              i, text);
