@@ -1,7 +1,7 @@
 /* Lepton EDA attribute editor
  * Copyright (C) 2003-2010 Stuart D. Brorson.
  * Copyright (C) 2003-2013 gEDA Contributors
- * Copyright (C) 2017-2021 Lepton EDA Contributors
+ * Copyright (C) 2017-2026 Lepton EDA Contributors
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -64,7 +64,8 @@ void f_export_components(gchar *filename)
   FILE *fp;
 
   /* -----  Check that we have a component ----- */
-  cur_page = gtk_notebook_get_current_page(GTK_NOTEBOOK(notebook));
+  cur_page =
+    gtk_notebook_get_current_page (GTK_NOTEBOOK (attrib_get_notebook ()));
   if (cur_page != 0) {
     /* We only export the component table */
     /* XXXXX  Maybe throw up error message in window instead? */
