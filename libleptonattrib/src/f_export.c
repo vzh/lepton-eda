@@ -86,7 +86,7 @@ void f_export_components(gchar *filename)
 
 
   /* -----  Now write out data  ----- */
-  num_rows = sheet_head->comp_count;
+  num_rows = attrib_sheet_data_get_component_count (sheet_head);
   num_cols = sheet_head->comp_attrib_count;
 
   /*  First export top row -- attribute names  */
