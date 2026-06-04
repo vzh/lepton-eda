@@ -59,52 +59,6 @@
 #include "../include/gettext.h"
 
 
-/*! \brief Missing Symbol dialog
- *
- * This is the "missing symbol file found on object" dialog.
- *
- *  It offers the user the chance to close the project without
- *  saving because he read a schematic with a missing symbol file.
- */
-void x_dialog_missing_sym()
-{
-  GtkWidget *dialog;
-  const char *string =
-    _("One or more components have been found with missing symbol files!\n\n"
-      "This probably happened because lepton-attrib couldn't find your "
-      "component libraries, perhaps because your gafrc files are "
-      "misconfigured.\n\n"
-      "Choose \"Quit\" to leave lepton-attrib and fix the problem, or\n"
-      "\"Forward\" to continue working with lepton-attrib.\n");
-
-  /* Create the dialog */
-  dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
-                                  GTK_MESSAGE_WARNING,
-                                  GTK_BUTTONS_NONE,
-                                  "%s", string);
-
-  gtk_dialog_add_buttons(GTK_DIALOG(dialog),
-                         _("_Quit"), GTK_RESPONSE_REJECT,
-                         _("_Forward"), GTK_RESPONSE_ACCEPT,
-                         NULL);
-
-  gtk_window_set_title(GTK_WINDOW(dialog), _("Missing symbol file found for component!"));
-  gtk_dialog_set_default_response(GTK_DIALOG(dialog), GTK_RESPONSE_REJECT);
-
-  switch(gtk_dialog_run(GTK_DIALOG(dialog))) {
-    case GTK_RESPONSE_ACCEPT:
-      /* Continue with the execution */
-      break;
-
-    default:
-      /* Terminate */
-      exit(0);
-      break;
-  }
-
-  gtk_widget_destroy(dialog);
-}
-
 /*! \brief Unsaved data dialog
  *
  * This is the "Unsaved data -- are you sure you want to quit?" dialog

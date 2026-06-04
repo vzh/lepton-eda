@@ -293,8 +293,6 @@ void s_visibility_set_cell(gint cur_page, gint row, gint col,
                            gint visibility, gint show_name_value);
 
 /* ------------- x_dialog.c ------------- */
-void x_dialog_missing_sym();
-
 GtkWidget*
 x_dialog_unsaved_data ();
 

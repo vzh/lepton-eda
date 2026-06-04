@@ -42,7 +42,6 @@
             x_dialog_about_dialog
             x_dialog_export_file
             x_dialog_fatal_error
-            x_dialog_missing_sym
             x_dialog_unimplemented_feature
             x_dialog_unsaved_data
 
@@ -154,7 +153,6 @@
 (define-lff x_dialog_about_dialog void '(* * *))
 (define-lff x_dialog_export_file void '())
 (define-lff x_dialog_fatal_error void (list '* int))
-(define-lff x_dialog_missing_sym void '())
 (define-lff x_dialog_unimplemented_feature void '())
 (define-lff x_dialog_unsaved_data '* '())
 

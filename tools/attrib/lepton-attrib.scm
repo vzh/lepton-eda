@@ -271,6 +271,22 @@ failure."
 (define *callback-file-quit
   (procedure->pointer void callback-file-quit '(* * *)))
 
+(define gtk_dialog_add_buttons_6
+  (let ((proc (delay (pointer->procedure
+                      '*
+                      (dynamic-func "gtk_dialog_add_buttons" libgtk)
+                      (list '* '* int '* int '*)))))
+    (force proc)))
+
+(define gtk_dialog_add_buttons
+  (case-lambda
+    ((*dialog *button-text1 response1 *button-text2 response2 end)
+     (gtk_dialog_add_buttons_6 *dialog
+                               *button-text1
+                               response1
+                               *button-text2
+                               response2
+                               %null-pointer))))
 
 (define gtk_dialog_new_with_buttons_8
   (let ((proc (delay (pointer->procedure
@@ -394,8 +410,48 @@ failure."
           (gtk_widget_destroy *dialog))))))
 
 
+;;; Runs the Missing symbol dialog.  It offers the user the chance
+;;; to close the project without saving because the program read a
+;;; schematic with a missing symbol file.
 (define (missing-symbol-dialog)
-  (x_dialog_missing_sym))
+  (define message
+    (G_ "One or more components have been found with missing symbol files!
+
+This probably happened because lepton-attrib couldn't find your
+component libraries, perhaps because your gafrc files are misconfigured.
+
+Choose \"Quit\" to leave lepton-attrib and fix the problem, or
+\"Forward\" to continue working with lepton-attrib."))
+
+  ;; Create the *dialog.
+  (define *dialog
+    (gtk_message_dialog_new %null-pointer
+                            GTK_DIALOG_MODAL
+                            (symbol->gtk-message-type 'warning)
+                            (symbol->gtk-buttons-type 'none)
+                            (string->pointer message)))
+
+  (gtk_dialog_add_buttons *dialog
+                          (string->pointer (G_ "_Quit"))
+                          GTK_RESPONSE_REJECT
+                          (string->pointer (G_ "_Forward"))
+                          GTK_RESPONSE_ACCEPT
+                          %null-pointer)
+
+  (gtk_window_set_title
+   *dialog
+   (string->pointer (G_ "Missing symbol file found for component!")))
+  (gtk_dialog_set_default_response *dialog GTK_RESPONSE_REJECT)
+
+  (let ((response (gtk_dialog_run *dialog)))
+    (cond
+     ;; Continue with the execution.
+     ((= response GTK_RESPONSE_ACCEPT)
+      'accept)
+     ;; Terminate.
+     (else (exit 0))))
+
+  (gtk_widget_destroy *dialog))
 
 
 (define (callback-edit-delete-attrib *action *parameter *data)
