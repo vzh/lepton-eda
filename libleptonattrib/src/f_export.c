@@ -94,14 +94,14 @@ void f_export_components(gchar *filename)
   fprintf(fp, "refdes, ");
   /*  Print out optional attrib names  */
   for (j = 0; j < num_cols-1; j++) {
-    text = g_strdup( s_string_list_get_data_at_index(
-                       sheet_head->master_comp_attrib_list_head, j) );
+    text =
+      g_strdup (s_string_list_get_data_at_index (attrib_sheet_data_get_component_attrib_list (sheet_head), j));
     fprintf(fp, "%s, ", text);
     g_free(text);
   }
   /*  Print out last attrib name with no comma and with \n.  */
-  text = g_strdup( s_string_list_get_data_at_index(
-                     sheet_head->master_comp_attrib_list_head, j) );
+  text =
+    g_strdup (s_string_list_get_data_at_index (attrib_sheet_data_get_component_attrib_list (sheet_head), j));
   fprintf(fp, "%s\n", text);
   g_free(text);
 
