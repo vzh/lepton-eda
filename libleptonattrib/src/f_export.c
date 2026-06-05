@@ -122,11 +122,11 @@ void f_export_components(gchar *filename)
 
     /*  Now export the attrib values for first n-1 cols */
     for (j = 0; j < num_cols-1; j++) {
-      if ((component_table)[i][j].attrib_value)
+      if (attrib_table_get_attrib_value (component_table, i, j))
       {
         /* found a string */
         /* make a copy of the text, escaping any special chars, like " */
-        text = (gchar *) g_strescape ((component_table)[i][j].attrib_value, "");
+        text = (gchar *) g_strescape (attrib_table_get_attrib_value (component_table, i, j), "");
 
         g_debug ("f_export_components: Output attribute %s.\n", text);
         /* if there's a comma anywhere in the field, wrap the field in " */
@@ -144,11 +144,11 @@ void f_export_components(gchar *filename)
       }
     }  /* end of for over cols  */
     /* Now export attrib value for last col (with no "," and with "\n" */
-    if ((component_table)[i][j].attrib_value)
+    if (attrib_table_get_attrib_value (component_table, i, j))
     {
       /* found a string */
       /* make a copy of the text, escaping any special chars, like " */
-      text = (gchar *) g_strescape ((component_table)[i][j].attrib_value, "");
+      text = (gchar *) g_strescape (attrib_table_get_attrib_value (component_table, i, j), "");
 
       g_debug ("f_export_components: Output final attribute %s.\n", text);
       /* if there's a comma anywhere in the field, wrap the field in " */
