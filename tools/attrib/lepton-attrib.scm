@@ -223,6 +223,11 @@ failure."
                                     response2
                                     %null-pointer))))
 
+
+(define (export-components *filename)
+  (f_export_components *filename))
+
+
 ;;; Runs the Export file dialog.  It asks for the filename for the
 ;;; CSV export file and then does the exporting.
 (define (export-file-dialog)
@@ -245,7 +250,7 @@ failure."
       (let ((*filename (gtk_file_chooser_get_filename *dialog)))
         (unless (null-pointer? *filename)
           (when (true? (x_dialog_confirm_overwrite *filename))
-            (f_export_components *filename))
+            (export-components *filename))
           (g_free *filename))))
      (else #f)))
 
