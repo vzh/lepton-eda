@@ -55,24 +55,12 @@
  */
 void f_export_components(gchar *filename)
 {
-  gint cur_page;
   gint num_rows;
   gint num_cols;
   gint i,j;
 
   gchar *text;
   FILE *fp;
-
-  /* -----  Check that we have a component ----- */
-  cur_page =
-    gtk_notebook_get_current_page (GTK_NOTEBOOK (attrib_get_notebook ()));
-  if (cur_page != 0) {
-    /* We only export the component table */
-    /* XXXXX  Maybe throw up error message in window instead? */
-    x_dialog_unimplemented_feature();
-    return;
-
-  }
 
   /* -----  First try to open file for writing ----- */
   g_debug ("f_export_components: Trying to open %s.\n", filename);

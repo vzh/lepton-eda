@@ -225,8 +225,14 @@ failure."
 
 
 (define (export-components *filename)
-  (f_export_components *filename))
+  ;; Check that we are on the component page.
+  (define current-page-id
+    (gtk_notebook_get_current_page (attrib_get_notebook)))
 
+  (if (zero? current-page-id)
+      ;; Only export the component table.
+      (f_export_components *filename)
+      (x_dialog_unimplemented_feature)))
 
 ;;; Runs the Export file dialog.  It asks for the filename for the
 ;;; CSV export file and then does the exporting.
