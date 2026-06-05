@@ -105,6 +105,8 @@ void f_export_components(gchar *filename)
   fprintf(fp, "%s\n", text);
   g_free(text);
 
+  TABLE **component_table =
+    attrib_sheet_data_get_component_table (sheet_head);
 
   /*  Now export the contents of the sheet  */
   for (i = 0; i < num_rows; i++) {
@@ -120,9 +122,11 @@ void f_export_components(gchar *filename)
 
     /*  Now export the attrib values for first n-1 cols */
     for (j = 0; j < num_cols-1; j++) {
-      if ( (sheet_head->component_table)[i][j].attrib_value ) { /* found a string */
+      if ((component_table)[i][j].attrib_value)
+      {
+        /* found a string */
         /* make a copy of the text, escaping any special chars, like " */
-        text = (gchar *) g_strescape( (sheet_head->component_table)[i][j].attrib_value, "" );
+        text = (gchar *) g_strescape ((component_table)[i][j].attrib_value, "");
 
         g_debug ("f_export_components: Output attribute %s.\n", text);
         /* if there's a comma anywhere in the field, wrap the field in " */
@@ -140,9 +144,11 @@ void f_export_components(gchar *filename)
       }
     }  /* end of for over cols  */
     /* Now export attrib value for last col (with no "," and with "\n" */
-    if ( (sheet_head->component_table)[i][j].attrib_value ) { /* found a string */
+    if ((component_table)[i][j].attrib_value)
+    {
+      /* found a string */
       /* make a copy of the text, escaping any special chars, like " */
-      text = (gchar *) g_strescape( (sheet_head->component_table)[i][j].attrib_value, "" );
+      text = (gchar *) g_strescape ((component_table)[i][j].attrib_value, "");
 
       g_debug ("f_export_components: Output final attribute %s.\n", text);
       /* if there's a comma anywhere in the field, wrap the field in " */
