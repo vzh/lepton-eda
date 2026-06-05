@@ -225,14 +225,8 @@ failure."
 
 
 (define (export-components *filename)
-  ;; Check that we are on the component page.
-  (define current-page-id
-    (gtk_notebook_get_current_page (attrib_get_notebook)))
+  (f_export_components *filename))
 
-  (if (zero? current-page-id)
-      ;; Only export the component table.
-      (f_export_components *filename)
-      (x_dialog_unimplemented_feature)))
 
 ;;; Runs the Export file dialog.  It asks for the filename for the
 ;;; CSV export file and then does the exporting.
@@ -248,6 +242,10 @@ failure."
      GTK_RESPONSE_ACCEPT
      %null-pointer))
 
+  ;; Check that we are on the component page.
+  (define current-page-id
+    (gtk_notebook_get_current_page (attrib_get_notebook)))
+
   (gtk_dialog_set_default_response *dialog GTK_RESPONSE_ACCEPT)
 
   (let ((response (gtk_dialog_run *dialog)))
@@ -256,7 +254,10 @@ failure."
       (let ((*filename (gtk_file_chooser_get_filename *dialog)))
         (unless (null-pointer? *filename)
           (when (true? (x_dialog_confirm_overwrite *filename))
-            (export-components *filename))
+            (if (zero? current-page-id)
+                ;; Only export the component table.
+                (export-components *filename)
+                (x_dialog_unimplemented_feature)))
           (g_free *filename))))
      (else #f)))
 
