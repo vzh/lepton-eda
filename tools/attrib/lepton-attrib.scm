@@ -17,7 +17,8 @@
 ;;; along with this program; if not, write to the Free Software
 ;;; Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 
-(use-modules (ice-9 getopt-long)
+(use-modules (ice-9 format)
+             (ice-9 getopt-long)
              (ice-9 receive)
              (rnrs bytevectors)
              (srfi srfi-1)
@@ -315,8 +316,25 @@ failure."
           (when (true? (x_dialog_confirm_overwrite *filename))
             (if (zero? current-page-id)
                 ;; Only export the component table.
-                (with-output-to-file (pointer->string *filename)
-                  export-components)
+                (catch 'system-error
+                  (lambda ()
+                    (with-output-to-file (pointer->string *filename)
+                      export-components))
+                  (lambda (key subr message args rest)
+                    (let ((msg (format #f
+                                       (G_ "Failed to save file: ~?\n")
+                                       message
+                                       args)))
+                      (log! 'warning msg)
+                      (let ((*dialog (gtk_message_dialog_new %null-pointer
+                                                             GTK_DIALOG_MODAL
+                                                             (symbol->gtk-message-type 'error)
+                                                             (symbol->gtk-buttons-type 'ok)
+                                                             (string->pointer msg))))
+                        (gtk_window_set_title *dialog
+                                              (string->pointer (G_ "Export error")))
+                        (gtk_dialog_run *dialog)
+                        (gtk_widget_destroy *dialog)))))
                 (x_dialog_unimplemented_feature)))
           (g_free *filename))))
      (else #f)))
