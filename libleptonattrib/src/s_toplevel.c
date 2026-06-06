@@ -91,21 +91,21 @@ void s_toplevel_add_new_attrib(gchar *new_attrib_name) {
 
     g_debug ("s_toplevel_add_new_attrib: "
             "Updated comp_attrib string list: new comp_attrib_count = %d\n",
-            sheet_head->comp_attrib_count);
+            attrib_sheet_data_get_component_attrib_count (sheet_head));
 
     /* resize table to accomodate new attrib col */
     sheet_head->component_table =
       s_table_resize (attrib_sheet_data_get_component_table (sheet_head),
                       attrib_sheet_data_get_component_count (sheet_head),
                       old_comp_attrib_count,
-                      sheet_head->comp_attrib_count);
+                      attrib_sheet_data_get_component_attrib_count (sheet_head));
 
     g_debug ("s_toplevel_add_new_attrib: Resized component table.\n");
 
     /* Fill out new sheet with new stuff from gtksheet */
     gtk_sheet_insert_columns(GTK_SHEET(sheets[0]), new_index, 1);
     x_gtksheet_add_col_labels(GTK_SHEET(sheets[0]),
-                              sheet_head->comp_attrib_count,
+                              attrib_sheet_data_get_component_attrib_count (sheet_head),
                               attrib_sheet_data_get_component_attrib_list (sheet_head));
 
     g_debug ("s_toplevel_add_new_attrib: Updated gtksheet.\n");
