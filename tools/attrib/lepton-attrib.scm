@@ -242,44 +242,38 @@ failure."
   ;; Print out optional attrib names.
   (for-each
    (lambda (j)
-     (let* ((*text
-             (g_strdup
-              (s_string_list_get_data_at_index
-               (attrib_sheet_data_get_component_attrib_list
-                *sheet-data)
-               j)))
-            (text (pointer->string *text)))
+     (let ((text
+            (pointer->string
+             (s_string_list_get_data_at_index
+              (attrib_sheet_data_get_component_attrib_list
+               *sheet-data)
+              j))))
        (display text)
-       (display ", ")
-       (g_free *text)))
+       (display ", ")))
    (iota (1- columns-number)))
 
 
   ;; Print out last attrib name with no comma and with \n.
-  (let* ((*text
-          (g_strdup
-           (s_string_list_get_data_at_index
-            (attrib_sheet_data_get_component_attrib_list
-             *sheet-data)
-            (1- columns-number))))
-         (text (pointer->string *text)))
+  (let ((text
+         (pointer->string
+          (s_string_list_get_data_at_index
+           (attrib_sheet_data_get_component_attrib_list
+            *sheet-data)
+           (1- columns-number)))))
     (display text)
-    (display "\n")
-    (g_free *text))
+    (display "\n"))
 
   ;; Now export the contents of the sheet.
   (for-each
    (lambda (i)
      ;; First output the component refdes.
-     (let* ((*text
-             (g_strdup
-              (s_string_list_get_data_at_index
-               (attrib_sheet_data_get_component_list *sheet-data)
-               i)))
-            (text (pointer->string *text)))
+     (let ((text
+            (pointer->string
+             (s_string_list_get_data_at_index
+              (attrib_sheet_data_get_component_list *sheet-data)
+              i))))
        (display text)
-       (display ", ")
-       (g_free *text))
+       (display ", "))
 
      ;; Now export the attrib values for first n-1 columns.
      (for-each
