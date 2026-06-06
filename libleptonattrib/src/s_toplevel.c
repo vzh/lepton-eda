@@ -67,10 +67,6 @@ void s_toplevel_add_new_attrib(gchar *new_attrib_name) {
   gint old_comp_attrib_count;
   gint new_index;
 
-  if (strcmp(new_attrib_name, N_("_cancel")) == 0) {
-    return;  /* user pressed cancel or closed window with no value in entry */
-  }
-
   /* Next must figure out which sheet the attrib belongs to. */
   cur_page = gtk_notebook_get_current_page(GTK_NOTEBOOK(notebook));
   g_debug ("s_toplevel_add_new_attrib: "
