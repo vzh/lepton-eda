@@ -272,6 +272,13 @@ failure."
            (g_free *text)
            text)))
 
+  (define (wrap-text text)
+    ;; If there's a comma anywhere in the field, wrap the field in
+    ;; double quotes.
+    (if (string-any #\, text)
+        (string-append "\"" text "\"")
+        text))
+
   ;; Now export the contents of the sheet.
   (for-each
    (lambda (i)
@@ -284,12 +291,8 @@ failure."
       (lambda (j)
         (let ((text (ids->attrib-value i j)))
           (if text
-              ;; If there's a comma anywhere in the field, wrap
-              ;; the field in double quotes.
-              (let ((contains-comma? (string-any #\, text)))
-                (when contains-comma? (display "\""))
-                (display text)
-                (when contains-comma? (display "\""))
+              (begin
+                (display (wrap-text text))
                 (display ", "))
               ;; No attrib string.
               (display ", "))))
@@ -298,12 +301,8 @@ failure."
      ;; and with "\n").
      (let ((text (ids->attrib-value i (1- columns-number))))
        (if text
-           ;; If there's a comma anywhere in the field, wrap the
-           ;; field in double quotes.
-           (let ((contains-comma? (string-any #\, text)))
-             (when contains-comma? (display "\""))
-             (display text)
-             (when contains-comma? (display "\""))
+           (begin
+             (display (wrap-text text))
              (display "\n"))
            ;; No attrib string.
            (display "\n"))))
