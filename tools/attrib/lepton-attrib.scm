@@ -266,30 +266,23 @@ failure."
   (define (list->record ls)
     (string-join ls ", " 'infix))
 
-  ;; Write out data.
-  ;;
-  ;; First export top row -- attribute names.  Print out "refdes"
-  ;; since that's always the first column and optional attrib
-  ;; names separated by comma.
-  (display
-   (string-append
-    (list->record
-     (cons "refdes"
-           (map id->attrib-name (iota columns-number))))
-    "\n"))
-
-  ;; Now export the contents of the sheet.
+  ;; Export the contents of the sheet.
   (display
    (string-join
     (map list->record
-         (map (lambda (i)
-                ;; Export the component refdes.
-                (cons (id->component-refdes i)
-                      (map
-                       ;; Export the attrib values.
-                       (lambda (j) (ids->attrib-value i j))
-                       (iota columns-number))))
-              (iota rows-number)))
+         (cons
+          ;; Make a list of attribute names.  "refdes" is always
+          ;; the first column.
+          (cons "refdes"
+                (map id->attrib-name (iota columns-number)))
+          (map (lambda (i)
+                 ;; Export the component refdes.
+                 (cons (id->component-refdes i)
+                       (map
+                        ;; Export the attrib values.
+                        (lambda (j) (ids->attrib-value i j))
+                        (iota columns-number))))
+               (iota rows-number))))
     "\n"
     'suffix)))
 
