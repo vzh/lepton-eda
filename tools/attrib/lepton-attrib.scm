@@ -247,6 +247,22 @@ failure."
       (attrib_sheet_data_get_component_list *sheet-data)
       id)))
 
+  (define (ids->attrib-value i j)
+    (define *val
+      (attrib_table_get_attrib_value *component-table i j))
+    (if (null-pointer? *val)
+        ""
+        ;; Found a string.  Make a copy of the text, escaping any
+        ;; special chars, like double quotes.
+        (let* ((*text (g_strescape *val (string->pointer "")))
+               (text (pointer->string *text)))
+          (g_free *text)
+          ;; If there's a comma anywhere in the field, wrap the
+          ;; field in double quotes.
+          (if (string-any #\, text)
+              (string-append "\"" text "\"")
+              text))))
+
   ;; Write out data.
   ;;
   ;; First export top row -- attribute names.  Print out "refdes"
@@ -261,25 +277,6 @@ failure."
      'infix)
     "\n"))
 
-  (define (ids->attrib-value i j)
-    (define *val
-      (attrib_table_get_attrib_value *component-table i j))
-    (if (null-pointer? *val)
-        ""
-        ;; Found a string.  Make a copy of the text, escaping any
-        ;; special chars, like double quotes.
-        (let* ((*text (g_strescape *val (string->pointer "")))
-               (text (pointer->string *text)))
-          (g_free *text)
-          text)))
-
-  (define (wrap-text text)
-    ;; If there's a comma anywhere in the field, wrap the field in
-    ;; double quotes.
-    (if (string-any #\, text)
-        (string-append "\"" text "\"")
-        text))
-
   ;; Now export the contents of the sheet.
   (for-each
    (lambda (i)
@@ -290,7 +287,7 @@ failure."
         (cons (id->component-refdes i)
               (map
                ;; Export the attrib values.
-               (lambda (j) (wrap-text (ids->attrib-value i j)))
+               (lambda (j) (ids->attrib-value i j))
                (iota columns-number)))
         ", "
         'infix)
