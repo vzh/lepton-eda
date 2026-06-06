@@ -446,6 +446,11 @@ failure."
                                     response2
                                     %null-pointer))))
 
+
+(define (add-attrib-column *name)
+  (s_toplevel_add_new_attrib *name))
+
+
 ;;; Runs the Add attribute dialog.  It asks for the name of the
 ;;; attrib column to insert and then inserts the column.
 (define (add-attrib-dialog)
@@ -489,7 +494,7 @@ failure."
       (let ((*entry-text
              (g_strdup (gtk_entry_get_text *attrib-entry))))
         (unless (null-pointer? *entry-text)
-          (s_toplevel_add_new_attrib *entry-text)
+          (add-attrib-column *entry-text)
           (g_free *entry-text))))
      (else #f)))
 
