@@ -558,6 +558,10 @@ failure."
   (procedure->pointer void callback-edit-add-attrib '(* * *)))
 
 
+(define (delete-attrib-column)
+  (s_toplevel_delete_attrib_col))
+
+
 ;; Runs the Delete attribute dialog.
 (define (delete-attrib)
   ;; First verify that exactly one column is selected.
@@ -590,7 +594,7 @@ failure."
              ((= response GTK_RESPONSE_YES)
               ;; Actually delete the attrib column.  This function
               ;; figures out which column to delete.
-              (s_toplevel_delete_attrib_col))
+              (delete-attrib-column))
              (else #f)))
 
           (gtk_widget_destroy *dialog))))))
