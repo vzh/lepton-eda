@@ -447,13 +447,50 @@ failure."
                                     %null-pointer))))
 
 
+
+;;; Adds a new attribute to the component sheet.
 (define (add-attrib-column *name)
+  (define *sheet-data (attrib_get_sheet_data))
   (define *notebook (attrib_get_notebook))
   (define current-page-id (gtk_notebook_get_current_page *notebook))
 
   ;; Only component sheet is supported yet.
   (when (zero? current-page-id)
-    (s_toplevel_add_new_attrib *name)))
+    ;; Eventually, I want to just resize the table to accomodate
+    ;; the new attrib.  However, that is difficult.  Therefore, I
+    ;; will just destroy the old table and recreate it for now.
+    (let ((old-component-attrib-count
+           (attrib_sheet_data_get_component_attrib_count *sheet-data)))
+
+      (s_string_list_add_item
+       (attrib_sheet_data_get_component_attrib_list *sheet-data)
+       (attrib_sheet_data_get_component_attrib_counter_address *sheet-data)
+       *name)
+      (s_string_list_sort_master_comp_attrib_list)
+
+      ;; Now, determine what index the new attrib ended up at.
+      ;; This is necessary to tell gtk_sheet_insert_columns
+      ;; where the data should be shifted.
+      (let ((new-index
+             (s_string_list_find_in_list
+              (attrib_sheet_data_get_component_attrib_list *sheet-data)
+              *name)))
+
+        ;; Resize table to accomodate new attrib column.
+        (attrib_sheet_data_set_component_table
+         *sheet-data
+         (s_table_resize
+          (attrib_sheet_data_get_component_table *sheet-data)
+          (attrib_sheet_data_get_component_count *sheet-data)
+          old-component-attrib-count
+          (attrib_sheet_data_get_component_attrib_count *sheet-data)))
+
+        ;; Fill out new sheet with new stuff from gtksheet.
+        (gtk_sheet_insert_columns (attrib_get_sheet 0) new-index 1)
+        (x_gtksheet_add_col_labels
+         (attrib_get_sheet 0)
+         (attrib_sheet_data_get_component_attrib_count *sheet-data)
+         (attrib_sheet_data_get_component_attrib_list *sheet-data))))))
 
 
 ;;; Runs the Add attribute dialog.  It asks for the name of the

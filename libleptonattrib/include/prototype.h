@@ -214,7 +214,6 @@ void s_table_gtksheet_to_table(GtkSheet *local_gtk_sheet,
                                TABLE **local_table, int num_rows, int num_cols);
 
 /* ------------- s_toplevel.c ------------- */
-void s_toplevel_add_new_attrib(gchar *new_attrib_name);
 void s_toplevel_delete_attrib_col();
 void
 s_toplevel_sheetdata_to_toplevel (LeptonToplevel *toplevel,

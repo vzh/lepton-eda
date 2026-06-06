@@ -51,68 +51,6 @@
 /* ===================  Public Functions  ====================== */
 
 /*------------------------------------------------------------------*/
-/*! \brief Add a new attribute to the top level
- *
- *  This function gets called when the user has entered a new attrib name,
- *  and clicked the OK button.  It does this:
- *  -# It figures out which attrib/sheet is being added to
- *  -# It destroys the old table in preparation for the new attrib.
- *  -# It adds the new attrib to the master lists.
- *  -# It creates a new table with the new attrib.
- *  -# It then adds the appropriate col to the gtksheet.
- * \param new_attrib_name attribute to be added
- */
-void s_toplevel_add_new_attrib(gchar *new_attrib_name) {
-  gint old_comp_attrib_count;
-  gint new_index;
-
-    /*  Eventually, I want to just resize the table to accomodate the
-     *  new attrib.  However, that is difficult.  Therefore, I will just
-     *  destroy the old table and recreate it for now. */
-
-  old_comp_attrib_count =
-    attrib_sheet_data_get_component_attrib_count (sheet_head);
-
-    g_debug ("s_toplevel_add_new_attrib: "
-             "Before adding new comp attrib: comp_attrib_count = %d\n",
-             old_comp_attrib_count);
-
-    s_string_list_add_item (attrib_sheet_data_get_component_attrib_list (sheet_head),
-                           attrib_sheet_data_get_component_attrib_counter_address (sheet_head),
-                           new_attrib_name);
-    s_string_list_sort_master_comp_attrib_list();
-
-    /* Now, determine what index the new attrib ended up at
-     * This is necessary to tell gtk_sheet_insert_columns
-     * where the data should be shifted                    */
-    new_index =
-      s_string_list_find_in_list (attrib_sheet_data_get_component_attrib_list (sheet_head),
-                                  (char*)new_attrib_name);
-
-    g_debug ("s_toplevel_add_new_attrib: "
-            "Updated comp_attrib string list: new comp_attrib_count = %d\n",
-            attrib_sheet_data_get_component_attrib_count (sheet_head));
-
-    /* resize table to accomodate new attrib col */
-    attrib_sheet_data_set_component_table (sheet_head,
-                                           s_table_resize (attrib_sheet_data_get_component_table (sheet_head),
-                                                           attrib_sheet_data_get_component_count (sheet_head),
-                                                           old_comp_attrib_count,
-                                                           attrib_sheet_data_get_component_attrib_count (sheet_head)));
-
-    g_debug ("s_toplevel_add_new_attrib: Resized component table.\n");
-
-    /* Fill out new sheet with new stuff from gtksheet */
-    gtk_sheet_insert_columns (attrib_get_sheet (0), new_index, 1);
-    x_gtksheet_add_col_labels (attrib_get_sheet (0),
-                               attrib_sheet_data_get_component_attrib_count (sheet_head),
-                               attrib_sheet_data_get_component_attrib_list (sheet_head));
-
-    g_debug ("s_toplevel_add_new_attrib: Updated gtksheet.\n");
-}
-
-
-/*------------------------------------------------------------------*/
 /*! \brief Delete an attribute column
  *
  *  This function gets called when the user has selected a single attrib

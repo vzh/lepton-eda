@@ -24,6 +24,7 @@
   #:use-module (lepton m4)
 
   #:export (gtk_sheet_set_active_cell
+            gtk_sheet_insert_columns
 
             attrib_get_notebook
             attrib_get_sheet
@@ -57,6 +58,7 @@
             attrib_sheet_data_set_changed
             attrib_sheet_data_get_component_attrib_count
             attrib_sheet_data_set_component_attrib_count
+            attrib_sheet_data_get_component_attrib_counter_address
             attrib_sheet_data_get_component_attrib_list
             attrib_sheet_data_set_component_attrib_list
             attrib_sheet_data_get_component_count
@@ -92,6 +94,8 @@
             s_sheet_data_set_changed
 
             s_string_list_new
+            s_string_list_add_item
+            s_string_list_find_in_list
             s_string_list_get_data_at_index
             s_string_list_sort_master_comp_list
             s_string_list_sort_master_comp_attrib_list
@@ -108,8 +112,8 @@
             s_table_add_toplevel_net_items_to_net_table
             s_table_add_toplevel_pin_items_to_pin_table
             s_table_gtksheet_to_all_tables
+            s_table_resize
 
-            s_toplevel_add_new_attrib
             s_toplevel_delete_attrib_col
             s_toplevel_sheetdata_to_toplevel
 
@@ -143,7 +147,7 @@
 (define libgtksheet (dynamic-link %libgtksheet))
 
 (define-lff-lib gtk_sheet_set_active_cell int (list '* int int) libgtksheet)
-
+(define-lff-lib gtk_sheet_insert_columns void (list '* unsigned-int unsigned-int) libgtksheet)
 
 ;;; attrib.c
 (define-lff attrib_get_notebook '* '())
@@ -183,6 +187,7 @@
 (define-lff attrib_sheet_data_set_changed void (list '* int))
 (define-lff attrib_sheet_data_get_component_attrib_count int '(*))
 (define-lff attrib_sheet_data_set_component_attrib_count void (list '* int))
+(define-lff attrib_sheet_data_get_component_attrib_counter_address '* '(*))
 (define-lff attrib_sheet_data_get_component_attrib_list '* '(*))
 (define-lff attrib_sheet_data_set_component_attrib_list void '(* *))
 (define-lff attrib_sheet_data_get_component_count int '(*))
@@ -219,6 +224,8 @@
 
 ;;; s_string_list.c
 (define-lff s_string_list_new '* '())
+(define-lff s_string_list_add_item void '(* * *))
+(define-lff s_string_list_find_in_list int '(* *))
 (define-lff s_string_list_get_data_at_index '* (list '* int))
 (define-lff s_string_list_sort_master_comp_list void '())
 (define-lff s_string_list_sort_master_comp_attrib_list void '())
@@ -236,10 +243,10 @@
 (define-lff s_table_add_toplevel_net_items_to_net_table void '(*))
 (define-lff s_table_add_toplevel_pin_items_to_pin_table void '(*))
 (define-lff s_table_gtksheet_to_all_tables void '())
+(define-lff s_table_resize '* (list '* int int int))
 
 ;;; s_toplevel.c
 (define-lff s_toplevel_sheetdata_to_toplevel void '(* *))
-(define-lff s_toplevel_add_new_attrib void '(*))
 (define-lff s_toplevel_delete_attrib_col void '())
 
 ;;; s_visibility.c
