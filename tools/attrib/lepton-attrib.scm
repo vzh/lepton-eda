@@ -243,20 +243,17 @@ failure."
 
   ;; Write out data.
   ;;
-  ;; First export top row -- attribute names.
-  ;; Print out "refdes" since that's always the first column.
-  (display "refdes, ")
-  ;; Print out optional attrib names.
-  (for-each
-   (lambda (j)
-     (display (id->attrib-name j))
-     (display ", "))
-   (iota (1- columns-number)))
-
-
-  ;; Print out last attrib name with no comma and with \n.
-  (display (id->attrib-name (1- columns-number)))
-  (display "\n")
+  ;; First export top row -- attribute names.  Print out "refdes"
+  ;; since that's always the first column and optional attrib
+  ;; names separated by comma.
+  (display
+   (string-append
+    (string-join
+     (cons "refdes"
+           (map id->attrib-name (iota columns-number)))
+     ", "
+     'infix)
+    "\n"))
 
   ;; Now export the contents of the sheet.
   (for-each
