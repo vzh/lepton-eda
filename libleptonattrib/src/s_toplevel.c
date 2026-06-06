@@ -96,7 +96,7 @@ void s_toplevel_add_new_attrib(gchar *new_attrib_name) {
     /* resize table to accomodate new attrib col */
     sheet_head->component_table =
       s_table_resize (attrib_sheet_data_get_component_table (sheet_head),
-                      sheet_head->comp_count,
+                      attrib_sheet_data_get_component_count (sheet_head),
                       old_comp_attrib_count,
                       sheet_head->comp_attrib_count);
 
