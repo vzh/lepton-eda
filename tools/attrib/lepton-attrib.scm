@@ -279,20 +279,19 @@ failure."
     "\n"))
 
   ;; Now export the contents of the sheet.
-  (for-each
-   (lambda (i)
-     (display
-      (string-append
-       (list->record
-        ;; Export the component refdes.
-        (cons (id->component-refdes i)
-              (map
-               ;; Export the attrib values.
-               (lambda (j) (ids->attrib-value i j))
-               (iota columns-number))))
-       "\n")))
-
-   (iota rows-number)))
+  (display
+   (string-join
+    (map list->record
+         (map (lambda (i)
+                ;; Export the component refdes.
+                (cons (id->component-refdes i)
+                      (map
+                       ;; Export the attrib values.
+                       (lambda (j) (ids->attrib-value i j))
+                       (iota columns-number))))
+              (iota rows-number)))
+    "\n"
+    'suffix)))
 
 
 ;;; Runs the Export file dialog.  It asks for the filename for the
