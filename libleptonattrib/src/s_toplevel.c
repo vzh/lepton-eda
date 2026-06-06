@@ -78,7 +78,7 @@ void s_toplevel_add_new_attrib(gchar *new_attrib_name) {
              old_comp_attrib_count);
 
     s_string_list_add_item (attrib_sheet_data_get_component_attrib_list (sheet_head),
-                           &(sheet_head->comp_attrib_count),
+                           attrib_sheet_data_get_component_attrib_counter_address (sheet_head),
                            new_attrib_name);
     s_string_list_sort_master_comp_attrib_list();
 
