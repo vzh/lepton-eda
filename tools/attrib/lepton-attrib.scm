@@ -283,17 +283,15 @@ failure."
   ;; Now export the contents of the sheet.
   (for-each
    (lambda (i)
-     ;; First output the component refdes.
-     (display (id->component-refdes i))
-     (display ", ")
-
-     ;; Export the attrib values.
      (display
       (string-append
        (string-join
-        (map
-         (lambda (j) (wrap-text (ids->attrib-value i j)))
-         (iota columns-number))
+        ;; Export the component refdes.
+        (cons (id->component-refdes i)
+              (map
+               ;; Export the attrib values.
+               (lambda (j) (wrap-text (ids->attrib-value i j)))
+               (iota columns-number)))
         ", "
         'infix)
        "\n")))
