@@ -2,7 +2,6 @@ lib_LTLIBRARIES = libleptonattrib.la
 
 libleptonattrib_la_SOURCES = \
 	attrib.c \
-	f_export.c \
 	globals.c \
 	listsort.c \
 	s_attrib.c \

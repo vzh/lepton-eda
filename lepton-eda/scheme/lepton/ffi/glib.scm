@@ -39,6 +39,7 @@
 
             g_log
             g_strdup
+            g_strescape
 
             g_slist_free
             g_slist_prepend
@@ -82,6 +83,7 @@
 (define-lff g_log void (list '* int '* '*))
 
 (define-lff g_strdup '* '(*))
+(define-lff g_strescape '* '(* *))
 
 (define-lff g_slist_free void '(*))
 (define-lff g_slist_free_full void '(*))

@@ -224,8 +224,111 @@ failure."
                                     %null-pointer))))
 
 
-(define (export-components *filename)
-  (f_export_components *filename))
+;;; Export design components to CSV for external processing.
+(define (export-components)
+  (define *sheet-data (attrib_get_sheet_data))
+  (define rows-number
+    (attrib_sheet_data_get_component_count *sheet-data))
+  (define columns-number
+    (attrib_sheet_data_get_component_attrib_count *sheet-data))
+  (define *component-table
+    (attrib_sheet_data_get_component_table *sheet-data))
+
+  ;; Write out data.
+  ;;
+  ;; First export top row -- attribute names.
+  ;; Print out "refdes" since that's always the first column.
+  (display "refdes, ")
+  ;; Print out optional attrib names.
+  (for-each
+   (lambda (j)
+     (let* ((*text
+             (g_strdup
+              (s_string_list_get_data_at_index
+               (attrib_sheet_data_get_component_attrib_list
+                *sheet-data)
+               j)))
+            (text (pointer->string *text)))
+       (display text)
+       (display ", ")
+       (g_free *text)))
+   (iota (1- columns-number)))
+
+
+  ;; Print out last attrib name with no comma and with \n.
+  (let* ((*text
+          (g_strdup
+           (s_string_list_get_data_at_index
+            (attrib_sheet_data_get_component_attrib_list
+             *sheet-data)
+            (1- columns-number))))
+         (text (pointer->string *text)))
+    (display text)
+    (display "\n")
+    (g_free *text))
+
+  ;; Now export the contents of the sheet.
+  (for-each
+   (lambda (i)
+     ;; First output the component refdes.
+     (let* ((*text
+             (g_strdup
+              (s_string_list_get_data_at_index
+               (attrib_sheet_data_get_component_list *sheet-data)
+               i)))
+            (text (pointer->string *text)))
+       (display text)
+       (display ", ")
+       (g_free *text))
+
+     ;; Now export the attrib values for first n-1 columns.
+     (for-each
+      (lambda (j)
+        (if (not
+             (null-pointer?
+              (attrib_table_get_attrib_value *component-table i j)))
+            ;; Found a string.  Make a copy of the text, escaping
+            ;; any special chars, like double quotes.
+            (let* ((*text
+                    (g_strescape
+                     (attrib_table_get_attrib_value *component-table i j)
+                     (string->pointer "")))
+                   (text (pointer->string *text)))
+              ;; If there's a comma anywhere in the field, wrap
+              ;; the field in double quotes.
+              (let ((contains-comma? (string-any #\, text)))
+                (when contains-comma? (display "\""))
+                (display text)
+                (when contains-comma? (display "\""))
+                (display ", "))
+              (g_free *text))
+            ;; No attrib string.
+            (display ", ")))
+      (iota (1- columns-number)))
+     ;; Now export attrib value for last column (with no ","
+     ;; and with "\n").
+     (if (not
+          (null-pointer?
+           (attrib_table_get_attrib_value *component-table i (1- columns-number))))
+         ;; Found a string.  Make a copy of the text, escaping any
+         ;; special chars, like double quotes.
+         (let* ((*text
+                 (g_strescape
+                  (attrib_table_get_attrib_value *component-table i (1- columns-number))
+                  (string->pointer "")))
+                (text (pointer->string *text)))
+           ;; If there's a comma anywhere in the field, wrap the
+           ;; field in double quotes.
+           (let ((contains-comma? (string-any #\, text)))
+             (when contains-comma? (display "\""))
+             (display text)
+             (when contains-comma? (display "\""))
+             (display "\n"))
+           (g_free *text))
+         ;; No attrib string.
+         (display "\n")))
+
+   (iota rows-number)))
 
 
 ;;; Runs the Export file dialog.  It asks for the filename for the
@@ -256,7 +359,8 @@ failure."
           (when (true? (x_dialog_confirm_overwrite *filename))
             (if (zero? current-page-id)
                 ;; Only export the component table.
-                (export-components *filename)
+                (with-output-to-file (pointer->string *filename)
+                  export-components)
                 (x_dialog_unimplemented_feature)))
           (g_free *filename))))
      (else #f)))

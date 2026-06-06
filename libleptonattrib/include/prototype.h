@@ -36,10 +36,6 @@ attrib_set_window (GtkWidget* window_widget);
 int cmp(STRING_LIST *a, STRING_LIST *b);
 STRING_LIST *listsort(STRING_LIST *list, int is_circular, int is_double);
 
-/* ------------- f_export.c ------------- */
-void f_export_components(gchar *filename);
-
-
 /* ------------- s_attrib.c ------------- */
 int s_attrib_name_in_list(STRING_LIST *name_value_list, char *name);
 char *s_attrib_get_refdes(LeptonObject *object);

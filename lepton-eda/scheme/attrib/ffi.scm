@@ -45,8 +45,6 @@
             x_dialog_unimplemented_feature
             x_dialog_unsaved_data
 
-            f_export_components
-
             x_gtksheet_add_cell_item
             x_gtksheet_add_col_labels
             x_gtksheet_add_row_labels
@@ -94,6 +92,7 @@
             s_sheet_data_set_changed
 
             s_string_list_new
+            s_string_list_get_data_at_index
             s_string_list_sort_master_comp_list
             s_string_list_sort_master_comp_attrib_list
             s_string_list_sort_master_net_list
@@ -170,9 +169,6 @@
 (define-lff x_dialog_unimplemented_feature void '())
 (define-lff x_dialog_unsaved_data '* '())
 
-;;; f_export.c
-(define-lff f_export_components void '(*))
-
 ;;; x_gtksheet.c
 (define-lff x_gtksheet_add_cell_item void (list '* int int '* int int))
 (define-lff x_gtksheet_add_col_labels void (list '* int '*))
@@ -223,6 +219,7 @@
 
 ;;; s_string_list.c
 (define-lff s_string_list_new '* '())
+(define-lff s_string_list_get_data_at_index '* (list '* int))
 (define-lff s_string_list_sort_master_comp_list void '())
 (define-lff s_string_list_sort_master_comp_attrib_list void '())
 (define-lff s_string_list_sort_master_net_list void '())
