@@ -264,13 +264,14 @@ failure."
   (define (ids->attrib-value i j)
     (define *val
       (attrib_table_get_attrib_value *component-table i j))
-    (and (not (null-pointer? *val))
-         ;; Found a string.  Make a copy of the text, escaping any
-         ;; special chars, like double quotes.
-         (let* ((*text (g_strescape *val (string->pointer "")))
-                (text (pointer->string *text)))
-           (g_free *text)
-           text)))
+    (if (null-pointer? *val)
+        ""
+        ;; Found a string.  Make a copy of the text, escaping any
+        ;; special chars, like double quotes.
+        (let* ((*text (g_strescape *val (string->pointer "")))
+               (text (pointer->string *text)))
+          (g_free *text)
+          text)))
 
   (define (wrap-text text)
     ;; If there's a comma anywhere in the field, wrap the field in
@@ -286,26 +287,16 @@ failure."
      (display (id->component-refdes i))
      (display ", ")
 
-     ;; Now export the attrib values for first n-1 columns.
-     (for-each
-      (lambda (j)
-        (let ((text (ids->attrib-value i j)))
-          (if text
-              (begin
-                (display (wrap-text text))
-                (display ", "))
-              ;; No attrib string.
-              (display ", "))))
-      (iota (1- columns-number)))
-     ;; Now export attrib value for last column (with no ","
-     ;; and with "\n").
-     (let ((text (ids->attrib-value i (1- columns-number))))
-       (if text
-           (begin
-             (display (wrap-text text))
-             (display "\n"))
-           ;; No attrib string.
-           (display "\n"))))
+     ;; Export the attrib values.
+     (display
+      (string-append
+       (string-join
+        (map
+         (lambda (j) (wrap-text (ids->attrib-value i j)))
+         (iota columns-number))
+        ", "
+        'infix)
+       "\n")))
 
    (iota rows-number)))
 
