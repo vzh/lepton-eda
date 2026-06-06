@@ -622,29 +622,6 @@ s_toplevel_update_component_attribs_in_toplevel (LeptonToplevel *toplevel,
 
 
 /*------------------------------------------------------------------*/
-/*!
- * \todo Function doesn't do anything - candidate for removal?
- */
-STRING_LIST *s_toplevel_get_net_attribs_in_sheet(char *netname)
-{
-  /* must be filled in */
-  return NULL;
-}
-
-
-/*------------------------------------------------------------------*/
-/*!
- * \todo Function doesn't do anything - candidate for removal?
- */
-void s_toplevel_update_net_attribs_in_toplevel(LeptonObject *o_current,
-                                   STRING_LIST *new_net_attrib_list)
-{
-  /* must be filled in */
-  return;
-}
-
-
-/*------------------------------------------------------------------*/
 /*! \brief Get pin attributes
  *
  * This function takes a pointer to the LeptonObject pin, and

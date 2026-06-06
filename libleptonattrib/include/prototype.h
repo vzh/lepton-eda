@@ -224,9 +224,6 @@ void
 s_toplevel_update_component_attribs_in_toplevel (LeptonToplevel *toplevel,
                                                  LeptonObject *o_current,
                                                  STRING_LIST *new_comp_attrib_list);
-STRING_LIST *s_toplevel_get_net_attribs_in_sheet(char *netname);
-void s_toplevel_update_net_attribs_in_toplevel(LeptonObject *o_current,
-                                               STRING_LIST *new_net_attrib_list);
 STRING_LIST *s_toplevel_get_pin_attribs_in_sheet(char *refdes, LeptonObject *pin);
 void
 s_toplevel_update_pin_attribs_in_toplevel (LeptonToplevel *toplevel,
