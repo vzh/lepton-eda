@@ -241,6 +241,12 @@ failure."
        *sheet-data)
       id)))
 
+  (define (id->component-refdes id)
+    (pointer->string
+     (s_string_list_get_data_at_index
+      (attrib_sheet_data_get_component_list *sheet-data)
+      id)))
+
   ;; Write out data.
   ;;
   ;; First export top row -- attribute names.  Print out "refdes"
@@ -259,13 +265,8 @@ failure."
   (for-each
    (lambda (i)
      ;; First output the component refdes.
-     (let ((text
-            (pointer->string
-             (s_string_list_get_data_at_index
-              (attrib_sheet_data_get_component_list *sheet-data)
-              i))))
-       (display text)
-       (display ", "))
+     (display (id->component-refdes i))
+     (display ", ")
 
      ;; Now export the attrib values for first n-1 columns.
      (for-each
