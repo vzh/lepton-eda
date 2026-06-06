@@ -249,16 +249,14 @@ failure."
   ;; Print out optional attrib names.
   (for-each
    (lambda (j)
-     (let ((text (id->attrib-name j)))
-       (display text)
-       (display ", ")))
+     (display (id->attrib-name j))
+     (display ", "))
    (iota (1- columns-number)))
 
 
   ;; Print out last attrib name with no comma and with \n.
-  (let ((text (id->attrib-name (1- columns-number))))
-    (display text)
-    (display "\n"))
+  (display (id->attrib-name (1- columns-number)))
+  (display "\n")
 
   ;; Now export the contents of the sheet.
   (for-each
