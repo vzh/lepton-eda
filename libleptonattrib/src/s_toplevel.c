@@ -103,10 +103,10 @@ void s_toplevel_add_new_attrib(gchar *new_attrib_name) {
     g_debug ("s_toplevel_add_new_attrib: Resized component table.\n");
 
     /* Fill out new sheet with new stuff from gtksheet */
-    gtk_sheet_insert_columns(GTK_SHEET(sheets[0]), new_index, 1);
-    x_gtksheet_add_col_labels(GTK_SHEET(sheets[0]),
-                              attrib_sheet_data_get_component_attrib_count (sheet_head),
-                              attrib_sheet_data_get_component_attrib_list (sheet_head));
+    gtk_sheet_insert_columns (attrib_get_sheet (0), new_index, 1);
+    x_gtksheet_add_col_labels (attrib_get_sheet (0),
+                               attrib_sheet_data_get_component_attrib_count (sheet_head),
+                               attrib_sheet_data_get_component_attrib_list (sheet_head));
 
     g_debug ("s_toplevel_add_new_attrib: Updated gtksheet.\n");
 }
