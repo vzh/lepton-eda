@@ -77,7 +77,7 @@ void s_toplevel_add_new_attrib(gchar *new_attrib_name) {
              "Before adding new comp attrib: comp_attrib_count = %d\n",
              old_comp_attrib_count);
 
-    s_string_list_add_item(sheet_head->master_comp_attrib_list_head,
+    s_string_list_add_item (attrib_sheet_data_get_component_attrib_list (sheet_head),
                            &(sheet_head->comp_attrib_count),
                            new_attrib_name);
     s_string_list_sort_master_comp_attrib_list();
@@ -85,8 +85,9 @@ void s_toplevel_add_new_attrib(gchar *new_attrib_name) {
     /* Now, determine what index the new attrib ended up at
      * This is necessary to tell gtk_sheet_insert_columns
      * where the data should be shifted                    */
-    new_index = s_string_list_find_in_list(sheet_head->master_comp_attrib_list_head,
-                                           (char*)new_attrib_name);
+    new_index =
+      s_string_list_find_in_list (attrib_sheet_data_get_component_attrib_list (sheet_head),
+                                  (char*)new_attrib_name);
 
     g_debug ("s_toplevel_add_new_attrib: "
             "Updated comp_attrib string list: new comp_attrib_count = %d\n",
@@ -109,7 +110,7 @@ void s_toplevel_add_new_attrib(gchar *new_attrib_name) {
     gtk_sheet_insert_columns(GTK_SHEET(sheets[0]), new_index, 1);
     x_gtksheet_add_col_labels(GTK_SHEET(sheets[0]),
                               sheet_head->comp_attrib_count,
-                              sheet_head->master_comp_attrib_list_head);
+                              attrib_sheet_data_get_component_attrib_list (sheet_head));
 
     g_debug ("s_toplevel_add_new_attrib: Updated gtksheet.\n");
 }
