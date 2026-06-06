@@ -220,7 +220,6 @@ void
 s_toplevel_sheetdata_to_toplevel (LeptonToplevel *toplevel,
                                   LeptonPage *page);
 
-STRING_LIST *s_toplevel_get_component_attribs_in_sheet(char *refdes);
 void
 s_toplevel_update_component_attribs_in_toplevel (LeptonToplevel *toplevel,
                                                  LeptonObject *o_current,
