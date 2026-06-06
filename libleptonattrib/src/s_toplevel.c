@@ -70,10 +70,6 @@ void s_toplevel_add_new_attrib(gchar *new_attrib_name) {
      *  new attrib.  However, that is difficult.  Therefore, I will just
      *  destroy the old table and recreate it for now. */
 
-    /*
-    s_table_destroy(sheet_head->component_table,
-                    sheet_head->comp_count, sheet_head->comp_attrib_count);
-    */
     old_comp_attrib_count = sheet_head->comp_attrib_count;
     g_debug ("s_toplevel_add_new_attrib: "
              "Before adding new comp attrib: comp_attrib_count = %d\n",
