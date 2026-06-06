@@ -261,6 +261,17 @@ failure."
      'infix)
     "\n"))
 
+  (define (ids->attrib-value i j)
+    (define *val
+      (attrib_table_get_attrib_value *component-table i j))
+    (and (not (null-pointer? *val))
+         ;; Found a string.  Make a copy of the text, escaping any
+         ;; special chars, like double quotes.
+         (let* ((*text (g_strescape *val (string->pointer "")))
+                (text (pointer->string *text)))
+           (g_free *text)
+           text)))
+
   ;; Now export the contents of the sheet.
   (for-each
    (lambda (i)
@@ -271,16 +282,8 @@ failure."
      ;; Now export the attrib values for first n-1 columns.
      (for-each
       (lambda (j)
-        (if (not
-             (null-pointer?
-              (attrib_table_get_attrib_value *component-table i j)))
-            ;; Found a string.  Make a copy of the text, escaping
-            ;; any special chars, like double quotes.
-            (let* ((*text
-                    (g_strescape
-                     (attrib_table_get_attrib_value *component-table i j)
-                     (string->pointer "")))
-                   (text (pointer->string *text)))
+        (let ((text (ids->attrib-value i j)))
+          (if text
               ;; If there's a comma anywhere in the field, wrap
               ;; the field in double quotes.
               (let ((contains-comma? (string-any #\, text)))
@@ -288,22 +291,13 @@ failure."
                 (display text)
                 (when contains-comma? (display "\""))
                 (display ", "))
-              (g_free *text))
-            ;; No attrib string.
-            (display ", ")))
+              ;; No attrib string.
+              (display ", "))))
       (iota (1- columns-number)))
      ;; Now export attrib value for last column (with no ","
      ;; and with "\n").
-     (if (not
-          (null-pointer?
-           (attrib_table_get_attrib_value *component-table i (1- columns-number))))
-         ;; Found a string.  Make a copy of the text, escaping any
-         ;; special chars, like double quotes.
-         (let* ((*text
-                 (g_strescape
-                  (attrib_table_get_attrib_value *component-table i (1- columns-number))
-                  (string->pointer "")))
-                (text (pointer->string *text)))
+     (let ((text (ids->attrib-value i (1- columns-number))))
+       (if text
            ;; If there's a comma anywhere in the field, wrap the
            ;; field in double quotes.
            (let ((contains-comma? (string-any #\, text)))
@@ -311,9 +305,8 @@ failure."
              (display text)
              (when contains-comma? (display "\""))
              (display "\n"))
-           (g_free *text))
-         ;; No attrib string.
-         (display "\n")))
+           ;; No attrib string.
+           (display "\n"))))
 
    (iota rows-number)))
 
