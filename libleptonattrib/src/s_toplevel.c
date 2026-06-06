@@ -93,11 +93,6 @@ void s_toplevel_add_new_attrib(gchar *new_attrib_name) {
             "Updated comp_attrib string list: new comp_attrib_count = %d\n",
             sheet_head->comp_attrib_count);
 
-    /* Now create new table */
-    /*     sheet_head->component_table = s_table_new(sheet_head->comp_count,
-                                              sheet_head->comp_attrib_count);
-    */
-
     /* resize table to accomodate new attrib col */
     sheet_head->component_table =
       s_table_resize(sheet_head->component_table,
