@@ -234,6 +234,13 @@ failure."
   (define *component-table
     (attrib_sheet_data_get_component_table *sheet-data))
 
+  (define (id->attrib-name id)
+    (pointer->string
+     (s_string_list_get_data_at_index
+      (attrib_sheet_data_get_component_attrib_list
+       *sheet-data)
+      id)))
+
   ;; Write out data.
   ;;
   ;; First export top row -- attribute names.
@@ -242,24 +249,14 @@ failure."
   ;; Print out optional attrib names.
   (for-each
    (lambda (j)
-     (let ((text
-            (pointer->string
-             (s_string_list_get_data_at_index
-              (attrib_sheet_data_get_component_attrib_list
-               *sheet-data)
-              j))))
+     (let ((text (id->attrib-name j)))
        (display text)
        (display ", ")))
    (iota (1- columns-number)))
 
 
   ;; Print out last attrib name with no comma and with \n.
-  (let ((text
-         (pointer->string
-          (s_string_list_get_data_at_index
-           (attrib_sheet_data_get_component_attrib_list
-            *sheet-data)
-           (1- columns-number)))))
+  (let ((text (id->attrib-name (1- columns-number))))
     (display text)
     (display "\n"))
 
