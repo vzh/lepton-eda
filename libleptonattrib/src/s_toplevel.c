@@ -63,18 +63,8 @@
  * \param new_attrib_name attribute to be added
  */
 void s_toplevel_add_new_attrib(gchar *new_attrib_name) {
-  gint cur_page;  /* current page in notbook  */
   gint old_comp_attrib_count;
   gint new_index;
-
-  /* Next must figure out which sheet the attrib belongs to. */
-  cur_page = gtk_notebook_get_current_page(GTK_NOTEBOOK(notebook));
-  g_debug ("s_toplevel_add_new_attrib: "
-           "Adding new attrib to page %d.\n",
-           cur_page);
-
-  switch (cur_page) {
-  case 0:  /* component attribute  */
 
     /*  Eventually, I want to just resize the table to accomodate the
      *  new attrib.  However, that is difficult.  Therefore, I will just
@@ -124,19 +114,6 @@ void s_toplevel_add_new_attrib(gchar *new_attrib_name) {
                               sheet_head->master_comp_attrib_list_head);
 
     g_debug ("s_toplevel_add_new_attrib: Updated gtksheet.\n");
-
-    break;
-
-  case 1:  /* net attribute  */
-    /* insert into net attribute list  */
-    break;
-
-  case 2:  /* pin attribute  */
-    /* insert into pin attribute list  */
-    break;
-  }  /* switch  */
-
-  return;
 }
 
 

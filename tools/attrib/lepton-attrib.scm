@@ -448,7 +448,12 @@ failure."
 
 
 (define (add-attrib-column *name)
-  (s_toplevel_add_new_attrib *name))
+  (define *notebook (attrib_get_notebook))
+  (define current-page-id (gtk_notebook_get_current_page *notebook))
+
+  ;; Only component sheet is supported yet.
+  (when (zero? current-page-id)
+    (s_toplevel_add_new_attrib *name)))
 
 
 ;;; Runs the Add attribute dialog.  It asks for the name of the
