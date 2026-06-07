@@ -558,6 +558,10 @@ failure."
   (procedure->pointer void callback-edit-add-attrib '(* * *)))
 
 
+(define (delete-component-attrib-column *sheet num)
+  (s_toplevel_delete_attrib_col *sheet num))
+
+
 (define (delete-attrib-column)
   (define *sheet-data (attrib_get_sheet_data))
   (define current-page-id
@@ -572,7 +576,7 @@ failure."
         (cond
          ;; Component sheet.
          ((= current-page-id 0)
-          (s_toplevel_delete_attrib_col *sheet mincol))
+          (delete-component-attrib-column *sheet mincol))
          ;; Net sheet.
          ((= current-page-id 1)
           ;; Delete column on gtksheet.
