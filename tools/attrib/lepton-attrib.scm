@@ -169,6 +169,10 @@ failure."
   (for-each save (active-pages)))
 
 
+(define (update-design *toplevel *page)
+  (s_toplevel_sheetdata_to_toplevel *toplevel *page))
+
+
 ;;; Copies data from gtksheet into LeptonToplevel struct.  The
 ;;; function is called when the user invokes File -> Save.  It
 ;;; first places all data from gtksheet into SHEET_DATA.  Then it
@@ -189,7 +193,7 @@ failure."
      ;; Only traverse pages which are toplevel.
      (when (zero? (lepton_page_get_page_control *page))
        ;; Add all objects from page.
-       (s_toplevel_sheetdata_to_toplevel *toplevel *page)))
+       (update-design *toplevel *page)))
    (glist->list
     (lepton_list_get_glist (lepton_toplevel_get_pages *toplevel))
     identity))
