@@ -92,7 +92,7 @@ s_toplevel_delete_attrib_col (GtkSheet *sheet,
             sheet_head->comp_attrib_count);
 
     s_string_list_delete_item(&(sheet_head->master_comp_attrib_list_head),
-                              &(sheet_head->comp_attrib_count),
+                              attrib_sheet_data_get_component_attrib_counter_address (sheet_head),
                               attrib_name);
     s_string_list_sort_master_comp_attrib_list(); /* this renumbers list also */
 
