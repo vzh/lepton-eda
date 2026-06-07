@@ -172,10 +172,22 @@ failure."
 (define (update-component-attribs *toplevel
                                   *object
                                   *new-component-attrib-pair-list)
+  ;; To remove dead attribs from an object, we need to form a
+  ;; complete list of unique attribs by taking the union of the
+  ;; new attribs from the sheet data, and the old attribs living
+  ;; on the object.  That's what we're doing here.  Later, we can
+  ;; delete those attribs in the object which don't appear in
+  ;; *new-component-attrib-pair-list.
+
+  ;; First duplicate the list.
+  (define *complete-component-attrib-list
+    (s_string_list_duplicate_string_list *new-component-attrib-pair-list))
+
   (s_toplevel_update_component_attribs_in_toplevel
    *toplevel
    *object
-   *new-component-attrib-pair-list))
+   *new-component-attrib-pair-list
+   *complete-component-attrib-list))
 
 
 (define (update-design-components *toplevel *page)

@@ -74,10 +74,10 @@
 void
 s_toplevel_update_component_attribs_in_toplevel (LeptonToplevel *toplevel,
                                                  LeptonObject *o_current,
-                                                 STRING_LIST *new_comp_attrib_list)
+                                                 STRING_LIST *new_comp_attrib_list,
+                                                 STRING_LIST *complete_comp_attrib_list)
 {
   STRING_LIST *local_list;
-  STRING_LIST *complete_comp_attrib_list;
   char *old_name_value_pair;
   char *new_attrib_name;
   char *new_attrib_value;
@@ -94,16 +94,6 @@ s_toplevel_update_component_attribs_in_toplevel (LeptonToplevel *toplevel,
   g_return_if_fail (o_current != NULL);
 
   g_debug ("==== Enter s_toplevel_update_component_attribs_in_toplevel()\n");
-
-  /*
-   * To remove dead attribs from o_current, we need to form a complete list of unique
-   * attribs by taking the union of the new attribs from the SHEET_DATA, and
-   * the old attribs living on o_current.  That's what we're doing here.
-   * Later, we can delete those attribs in o_current which don't apear in
-   * new_comp_attrib_list.
-   */
-  /* First duplicate new_comp_attrib_list */
-  complete_comp_attrib_list = s_string_list_duplicate_string_list(new_comp_attrib_list);
 
   /* Now create a complete list of unique attribute names.  This will be used in
   *  the loop below when updating attributes.  */
