@@ -108,6 +108,41 @@ lepton_object_set_id (LeptonObject *object, int id)
 }
 
 
+/*! \brief Get object's text.
+ *
+ *  \par Function Description
+ *
+ *  Returns the text field of an object.
+ *
+ *  \param [in] object The object to obtain the text of.
+ *  \return The object text.
+ */
+LeptonText*
+lepton_object_get_text (LeptonObject *object)
+{
+  g_return_val_if_fail (object != NULL, NULL);
+  return object->text;
+}
+
+
+/*! \brief Set object's text.
+ *
+ *  \par Function Description
+ *
+ *  Sets the text field of an object to given value.
+ *
+ *  \param [in] object The object to set the text.
+ *  \param [in] text The new text.
+ */
+void
+lepton_object_set_text (LeptonObject *object,
+                        LeptonText *text)
+{
+  g_return_if_fail (object != NULL);
+  object->text = text;
+}
+
+
 /*! \brief Get object's type
  *
  *  If this function fails, it returns -1.

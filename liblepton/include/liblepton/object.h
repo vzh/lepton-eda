@@ -81,6 +81,12 @@ lepton_object_get_id (LeptonObject *object);
 void
 lepton_object_set_id (LeptonObject *object,
                       int id);
+LeptonText*
+lepton_object_get_text (LeptonObject *object);
+
+void
+lepton_object_set_text (LeptonObject *object,
+                        LeptonText *text);
 int
 lepton_object_get_type (const LeptonObject *object);
 
