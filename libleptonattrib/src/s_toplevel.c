@@ -58,8 +58,7 @@
  *  menu, and then said "yes" to the confirm dialog.
  */
 void
-s_toplevel_delete_attrib_col (int cur_page,
-                              GtkSheet *sheet,
+s_toplevel_delete_attrib_col (GtkSheet *sheet,
                               int mincol)
 {
   gchar *attrib_name;
