@@ -59,17 +59,10 @@
  */
 void
 s_toplevel_delete_attrib_col (int cur_page,
-                              GtkSheet *sheet)
+                              GtkSheet *sheet,
+                              int mincol)
 {
-  gint mincol, maxcol;
   gchar *attrib_name;
-
-  /* Repeat previous checks  */
-  mincol = x_gtksheet_get_min_col(sheet);
-  maxcol =  x_gtksheet_get_max_col(sheet);
-  if ( (mincol != maxcol) || (mincol == -1) || (maxcol == -1) ) {
-    return;
-  }
 
   g_debug ("s_toplevel_delete_attrib_col: "
            "Checks were OK, now do real work\n");

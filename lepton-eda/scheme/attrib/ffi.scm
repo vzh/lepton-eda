@@ -247,7 +247,7 @@
 
 ;;; s_toplevel.c
 (define-lff s_toplevel_sheetdata_to_toplevel void '(* *))
-(define-lff s_toplevel_delete_attrib_col void (list int '*))
+(define-lff s_toplevel_delete_attrib_col void (list int '* int))
 
 ;;; s_visibility.c
 (define-lff s_visibility_set_invisible void '(* * *))
