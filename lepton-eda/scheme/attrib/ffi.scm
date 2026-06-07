@@ -24,6 +24,7 @@
   #:use-module (lepton m4)
 
   #:export (gtk_sheet_set_active_cell
+            gtk_sheet_delete_columns
             gtk_sheet_insert_columns
 
             attrib_get_notebook
@@ -147,6 +148,7 @@
 (define libgtksheet (dynamic-link %libgtksheet))
 
 (define-lff-lib gtk_sheet_set_active_cell int (list '* int int) libgtksheet)
+(define-lff-lib gtk_sheet_delete_columns void (list '* unsigned-int unsigned-int) libgtksheet)
 (define-lff-lib gtk_sheet_insert_columns void (list '* unsigned-int unsigned-int) libgtksheet)
 
 ;;; attrib.c

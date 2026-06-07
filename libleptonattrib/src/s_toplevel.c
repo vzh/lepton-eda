@@ -69,10 +69,7 @@ s_toplevel_delete_attrib_col (int cur_page,
 
   TABLE** table_new = NULL;
 
-  /*  Rebuild the gattrib-specific data structures  */
-  switch (cur_page) {
-
-  case 0:  /* component attribute  */
+  /* component attribute  */
 
     /*  Eventually, I want to just resize the table after deleting the
      *  attrib.  However, that is difficult.  Therefore, I will just
@@ -122,17 +119,6 @@ s_toplevel_delete_attrib_col (int cur_page,
     sheet_head->component_table = table_new;
 
     g_debug ("s_toplevel_delete_attrib_col: Updated SHEET_DATA info.\n");
-    break;
-
-  case 1:  /* net attribute  */
-    /* insert into net attribute list  */
-    break;
-
-  case 2:  /* pin attribute  */
-    /* insert into pin attribute list  */
-    break;
-  }  /* switch  */
-
 
   /* Delete col on gtksheet  */
   g_debug ("s_toplevel_delete_attrib_col: About to delete col in gtksheet.\n");

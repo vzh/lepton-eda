@@ -559,6 +559,7 @@ failure."
 
 
 (define (delete-attrib-column)
+  (define *sheet-data (attrib_get_sheet_data))
   (define current-page-id
     (gtk_notebook_get_current_page (attrib_get_notebook)))
   (define *sheet (attrib_get_sheet current-page-id))
@@ -568,7 +569,22 @@ failure."
       (unless (or (not (= mincol maxcol))
                   (= mincol -1)
                   (= maxcol -1))
-        (s_toplevel_delete_attrib_col current-page-id *sheet mincol)))))
+        (cond
+         ;; Component sheet.
+         ((= current-page-id 0)
+          (s_toplevel_delete_attrib_col current-page-id *sheet mincol))
+         ;; Net sheet.
+         ((= current-page-id 1)
+          ;; Delete column on gtksheet.
+          (gtk_sheet_delete_columns *sheet mincol 1)
+          ;; Set changed flag so user is prompted when exiting.
+          (s_sheet_data_set_changed *sheet-data TRUE))
+         ;; Pin sheet.
+         ((= current-page-id 2)
+          ;; Delete column on gtksheet.
+          (gtk_sheet_delete_columns *sheet mincol 1)
+          ;; Set changed flag so user is prompted when exiting.
+          (s_sheet_data_set_changed *sheet-data TRUE)))))))
 
 
 ;; Runs the Delete attribute dialog.
