@@ -559,7 +559,11 @@ failure."
 
 
 (define (delete-attrib-column)
-  (s_toplevel_delete_attrib_col))
+  (define current-page-id
+    (gtk_notebook_get_current_page (attrib_get_notebook)))
+  (define *sheet (attrib_get_sheet current-page-id))
+  (unless (null-pointer? *sheet)
+    (s_toplevel_delete_attrib_col current-page-id *sheet)))
 
 
 ;; Runs the Delete attribute dialog.

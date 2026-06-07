@@ -57,18 +57,14 @@
  *  column, selected the edit->delete attrib item from the pull-down
  *  menu, and then said "yes" to the confirm dialog.
  */
-void s_toplevel_delete_attrib_col() {
-  gint cur_page;  /* current page in notbook  */
+void
+s_toplevel_delete_attrib_col (int cur_page,
+                              GtkSheet *sheet)
+{
   gint mincol, maxcol;
-  GtkSheet *sheet;
   gchar *attrib_name;
 
   /* Repeat previous checks  */
-  cur_page = gtk_notebook_get_current_page(GTK_NOTEBOOK(notebook));
-  sheet = GTK_SHEET(sheets[cur_page]);
-  if (sheet == NULL) {
-    return;
-  }
   mincol = x_gtksheet_get_min_col(sheet);
   maxcol =  x_gtksheet_get_max_col(sheet);
   if ( (mincol != maxcol) || (mincol == -1) || (maxcol == -1) ) {
