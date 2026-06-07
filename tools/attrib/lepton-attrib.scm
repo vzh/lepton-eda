@@ -170,6 +170,60 @@ failure."
 
 
 (define (update-design *toplevel *page)
+  (define *sheet-data (attrib_get_sheet_data))
+  ;; First deal with all components on the page.
+
+  ;; Work from a copy list, as objects can be deleted from the
+  ;; list during iteration over the list.
+  (define *copy-list (g_list_copy (lepton_page_objects *page)))
+
+  (for-each
+   (lambda (*object)
+     ;; Object is a component.  Handle component attributes.
+     (when (true? (lepton_object_is_component *object))
+       (let ((*graphical
+              (lepton_attrib_search_object_attribs_by_name
+               *object
+               (string->pointer "graphical")
+               0)))
+         (if (not (null-pointer? *graphical))
+             ;; Ignore graphical components.
+             (g_free *graphical)
+
+             (let ((*temp-uref (s_attrib_get_refdes *object)))
+               (if (not (null-pointer? *temp-uref))
+                   (let ((*new-component-attrib-pair-list
+                          (s_table_create_attrib_pair
+                           *temp-uref
+                           (attrib_sheet_data_get_component_table *sheet-data)
+                           (attrib_sheet_data_get_component_list *sheet-data)
+                           (attrib_sheet_data_get_component_attrib_count *sheet-data))))
+                     ;; Must create a name=value pair list for
+                     ;; each particular component which we can
+                     ;; pass to function updating *OBJECT.  This
+                     ;; function places all attribs found in the
+                     ;; row into *new-component-attrib-pair-list.
+
+                     ;; Now update attribs in toplevel using this
+                     ;; list.
+                     (s_toplevel_update_component_attribs_in_toplevel
+                      *toplevel
+                      *object
+                      *new-component-attrib-pair-list)
+
+                     (g_free *temp-uref))
+
+                   (log! 'debug
+                         "update-design(): Found component with no refdes. id = ~A"
+                         (lepton_object_get_id *object))))))))
+
+   ;; Iterate backwards since attributes are attached after their
+   ;; parent objects in the list. Attributes can get deleted
+   ;; during the iteration.
+   (reverse (glist->list *copy-list identity)))
+
+  (g_list_free *copy-list)
+
   (s_toplevel_sheetdata_to_toplevel *toplevel *page))
 
 

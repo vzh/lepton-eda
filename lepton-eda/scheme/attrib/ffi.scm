@@ -38,6 +38,8 @@
             attrib_get_window
             attrib_set_window
 
+            s_attrib_get_refdes
+
             set_verbose_mode
 
             x_fileselect_open
@@ -112,6 +114,7 @@
             attrib_table_get_show_name_value
             attrib_table_get_visibility
             s_table_copy
+            s_table_create_attrib_pair
             s_table_destroy
             s_table_new
             s_table_add_toplevel_comp_items_to_comp_table
@@ -121,6 +124,7 @@
             s_table_resize
 
             s_toplevel_sheetdata_to_toplevel
+            s_toplevel_update_component_attribs_in_toplevel
 
             s_visibility_set_invisible
             s_visibility_set_name_and_value
@@ -166,6 +170,9 @@
 (define-lff attrib_set_toplevel void '(*))
 (define-lff attrib_get_window '* '())
 (define-lff attrib_set_window void '(*))
+
+;; s_attrib.c
+(define-lff s_attrib_get_refdes '* '(*))
 
 ;;; s_misc.c
 (define-lff set_verbose_mode void '())
@@ -248,6 +255,7 @@
 (define-lff attrib_table_get_show_name_value int (list '* int int))
 (define-lff attrib_table_get_visibility int (list '* int int))
 (define-lff s_table_copy '* (list '* int int int))
+(define-lff s_table_create_attrib_pair '* (list '* '* '* int))
 (define-lff s_table_destroy void (list '* int int))
 (define-lff s_table_new '* (list int int))
 (define-lff s_table_add_toplevel_comp_items_to_comp_table void '(*))
@@ -258,6 +266,7 @@
 
 ;;; s_toplevel.c
 (define-lff s_toplevel_sheetdata_to_toplevel void '(* *))
+(define-lff s_toplevel_update_component_attribs_in_toplevel void '(* * *))
 
 ;;; s_visibility.c
 (define-lff s_visibility_set_invisible void '(* * *))

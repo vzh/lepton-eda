@@ -71,67 +71,7 @@ s_toplevel_sheetdata_to_toplevel (LeptonToplevel *toplevel,
   GList *copy_list;
   GList *o_iter, *prim_iter;
   char *temp_uref;
-  STRING_LIST *new_comp_attrib_pair_list;
   STRING_LIST *new_pin_attrib_list;
-
-  /* -----  First deal with all components on the page.  ----- */
-  g_debug ("s_toplevel_sheetdata_to_toplevel: Handling components\n");
-
-  /* Work from a copy list, as objects can be deleted
-   * from the list during iteration over the list.
-   */
-  /* NB: g_list_copy doesn't declare its input const, so we cast */
-  copy_list = g_list_copy ((GList *) lepton_page_objects (page));
-
-  /* Iterate backwards since attributes are attached after their
-   * parent objects in the list. Attributes can get deleted during
-   * the iteration.
-   */
-  for (o_iter = g_list_last (copy_list);
-       o_iter != NULL;
-       o_iter = g_list_previous (o_iter)) {
-    LeptonObject *o_current = (LeptonObject*) o_iter->data;
-
-    /* ------- Object is a component.  Handle component attributes. ------- */
-    if (lepton_object_is_component (o_current)) /* Note that OBJ_COMPONENT = component + attribs */
-    {
-
-      char *graphical =
-        lepton_attrib_search_object_attribs_by_name (o_current, "graphical", 0);
-      if (graphical != NULL)
-      {
-        g_free (graphical);
-        continue;  /* Ignore graphical components */
-      }
-
-      temp_uref = s_attrib_get_refdes(o_current);
-      if (temp_uref != NULL) {
-        /* Must create a name=value pair list for each particular component
-         * which we can pass to function updating o_current.  This function
-         * places all attribs
-         * found in the row into new_comp_attrib_pair_list.  */
-        new_comp_attrib_pair_list = s_table_create_attrib_pair(temp_uref,
-                                                               attrib_sheet_data_get_component_table (sheet_head),
-                                                               attrib_sheet_data_get_component_list (sheet_head),
-                                                               attrib_sheet_data_get_component_attrib_count (sheet_head));
-
-
-        /* Now update attribs in toplevel using this list.  */
-        s_toplevel_update_component_attribs_in_toplevel(toplevel,
-                                                        o_current,
-                                                        new_comp_attrib_pair_list);
-
-        g_free(temp_uref);
-      } else {
-        g_debug ("s_toplevel_sheetdata_to_toplevel: "
-                 "Found component with no refdes. name = %s\n",
-                 o_current->name);
-      }
-    }  /* if (lepton_object_is_component (o_current)) */
-
-  }
-
-  g_list_free (copy_list);
 
   /* -----  Next deal with all nets on the page.  ----- */
   /* This is TBD */
