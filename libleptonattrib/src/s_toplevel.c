@@ -73,11 +73,6 @@ s_toplevel_sheetdata_to_toplevel (LeptonToplevel *toplevel,
   char *temp_uref;
   STRING_LIST *new_pin_attrib_list;
 
-  /* -----  Next deal with all nets on the page.  ----- */
-  /* This is TBD */
-
-  /* -----  Finally deal with all pins on the page.  ----- */
-  /* -----  Next deal with all nets on the page.  ----- */
   g_debug ("s_toplevel_sheetdata_to_toplevel: Handling pins\n");
 
   /* Work from a copy list in case objects are

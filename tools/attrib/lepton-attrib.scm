@@ -223,10 +223,22 @@ failure."
   (g_list_free *copy-list))
 
 
+(define (update-design-nets *toplevel *page)
+  ;; Not implemented yet.
+  #f)
+
+
+(define (update-design-pins *toplevel *page)
+  (s_toplevel_sheetdata_to_toplevel *toplevel *page))
+
+
 (define (update-design *toplevel *page)
   ;; First deal with all components on the page.
   (update-design-components *toplevel *page)
-  (s_toplevel_sheetdata_to_toplevel *toplevel *page))
+  ;; Next deal with all nets on the page.
+  (update-design-nets *toplevel *page)
+  ;; Finally deal with all pins on the page.
+  (update-design-pins *toplevel *page))
 
 
 ;;; Copies data from gtksheet into LeptonToplevel struct.  The
