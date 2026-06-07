@@ -113,7 +113,7 @@ s_toplevel_sheetdata_to_toplevel (LeptonToplevel *toplevel,
         new_comp_attrib_pair_list = s_table_create_attrib_pair(temp_uref,
                                                                attrib_sheet_data_get_component_table (sheet_head),
                                                                attrib_sheet_data_get_component_list (sheet_head),
-                                                               sheet_head->comp_attrib_count);
+                                                               attrib_sheet_data_get_component_attrib_count (sheet_head));
 
 
         /* Now update attribs in toplevel using this list.  */
