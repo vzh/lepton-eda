@@ -559,8 +559,15 @@ failure."
 
 
 (define (delete-component-attrib-column *sheet num)
-  (s_toplevel_delete_attrib_col *sheet num))
+  ;; Get name (label) of the column to delete from the gtk sheet.
+  (define *attrib-name
+    (g_strdup (gtk_sheet_column_button_get_label *sheet num)))
 
+  (if (null-pointer? *attrib-name)
+      (begin
+        (format (current-error-port) "delete-component-attrib-column: ")
+        (format (current-error-port) (G_ "Can't get attrib name\n")))
+      (s_toplevel_delete_attrib_col *sheet num *attrib-name)))
 
 (define (delete-attrib-column)
   (define *sheet-data (attrib_get_sheet_data))

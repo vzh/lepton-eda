@@ -59,10 +59,9 @@
  */
 void
 s_toplevel_delete_attrib_col (GtkSheet *sheet,
-                              int mincol)
+                              int mincol,
+                              char *attrib_name)
 {
-  gchar *attrib_name;
-
   g_debug ("s_toplevel_delete_attrib_col: "
            "Checks were OK, now do real work\n");
 
@@ -73,18 +72,6 @@ s_toplevel_delete_attrib_col (GtkSheet *sheet,
     /*  Eventually, I want to just resize the table after deleting the
      *  attrib.  However, that is difficult.  Therefore, I will just
      *  destroy the old table and recreate it for now. */
-
-    /*  Get name (label) of the col to delete from the gtk sheet */
-    attrib_name = g_strdup( gtk_sheet_column_button_get_label(sheet, mincol) );
-
-    if (attrib_name != NULL) {
-      g_debug ("s_toplevel_delete_attrib_col: Attrib to delete = %s\n",
-               attrib_name);
-    } else {
-      fprintf (stderr, "s_toplevel_delete_attrib_col: ");
-      fprintf (stderr, _("Can't get attrib name\n"));
-      return;
-    }
 
     /* Make a copy of the TABLE array, minus data in col to delete:
     */

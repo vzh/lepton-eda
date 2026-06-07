@@ -24,6 +24,7 @@
   #:use-module (lepton m4)
 
   #:export (gtk_sheet_set_active_cell
+            gtk_sheet_column_button_get_label
             gtk_sheet_delete_columns
             gtk_sheet_insert_columns
 
@@ -148,6 +149,7 @@
 (define libgtksheet (dynamic-link %libgtksheet))
 
 (define-lff-lib gtk_sheet_set_active_cell int (list '* int int) libgtksheet)
+(define-lff-lib gtk_sheet_column_button_get_label '* (list '* int) libgtksheet)
 (define-lff-lib gtk_sheet_delete_columns void (list '* unsigned-int unsigned-int) libgtksheet)
 (define-lff-lib gtk_sheet_insert_columns void (list '* unsigned-int unsigned-int) libgtksheet)
 
@@ -249,7 +251,7 @@
 
 ;;; s_toplevel.c
 (define-lff s_toplevel_sheetdata_to_toplevel void '(* *))
-(define-lff s_toplevel_delete_attrib_col void (list '* int))
+(define-lff s_toplevel_delete_attrib_col void (list '* int '*))
 
 ;;; s_visibility.c
 (define-lff s_visibility_set_invisible void '(* * *))
