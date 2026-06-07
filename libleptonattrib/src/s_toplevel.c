@@ -75,15 +75,17 @@ s_toplevel_delete_attrib_col (GtkSheet *sheet,
 
     /* Make a copy of the TABLE array, minus data in col to delete:
     */
-    table_new = s_table_copy (sheet_head->component_table,
-                              mincol,
-                              sheet_head->comp_count,
-                              sheet_head->comp_attrib_count);
+  table_new =
+    s_table_copy (attrib_sheet_data_get_component_table (sheet_head),
+                  mincol,
+                  sheet_head->comp_count,
+                  sheet_head->comp_attrib_count);
 
     /* Destroy the current TABLE array:
     */
-    s_table_destroy(sheet_head->component_table,
-        sheet_head->comp_count, sheet_head->comp_attrib_count);
+  s_table_destroy (attrib_sheet_data_get_component_table (sheet_head),
+                   sheet_head->comp_count,
+                   sheet_head->comp_attrib_count);
 
     g_debug ("s_toplevel_delete_attrib_col: "
             "Before deleting comp attrib: comp_attrib_count = %d\n",
@@ -102,7 +104,7 @@ s_toplevel_delete_attrib_col (GtkSheet *sheet,
 
     /* Use the copy made above as the current TABLE array:
     */
-    sheet_head->component_table = table_new;
+  attrib_sheet_data_set_component_table (sheet_head, table_new);
 
     g_debug ("s_toplevel_delete_attrib_col: Updated SHEET_DATA info.\n");
 
