@@ -169,6 +169,15 @@ failure."
   (for-each save (active-pages)))
 
 
+(define (update-component-attribs *toplevel
+                                  *object
+                                  *new-component-attrib-pair-list)
+  (s_toplevel_update_component_attribs_in_toplevel
+   *toplevel
+   *object
+   *new-component-attrib-pair-list))
+
+
 (define (update-design-components *toplevel *page)
   (define *sheet-data (attrib_get_sheet_data))
   ;; Work from a copy list, as objects can be deleted from the
@@ -204,7 +213,7 @@ failure."
 
                      ;; Now update attribs in toplevel using this
                      ;; list.
-                     (s_toplevel_update_component_attribs_in_toplevel
+                     (update-component-attribs
                       *toplevel
                       *object
                       *new-component-attrib-pair-list)
