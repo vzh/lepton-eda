@@ -559,6 +559,7 @@ failure."
 
 
 (define (delete-component-attrib-column *sheet num)
+  (define *sheet-data (attrib_get_sheet_data))
   ;; Get name (label) of the column to delete from the gtk sheet.
   (define *attrib-name
     (g_strdup (gtk_sheet_column_button_get_label *sheet num)))
@@ -567,8 +568,46 @@ failure."
       (begin
         (format (current-error-port) "delete-component-attrib-column: ")
         (format (current-error-port) (G_ "Can't get attrib name\n")))
-      (s_toplevel_delete_attrib_col *sheet num *attrib-name)))
 
+      ;; Eventually, I want to just resize the table after
+      ;; deleting the attrib.  However, that is difficult.
+      ;; Therefore, I will just destroy the old table and recreate
+      ;; it for now.
+
+      ;; Make a copy of the TABLE array, minus data in column to
+      ;; delete.
+      (let ((*new-table
+             (s_table_copy
+              (attrib_sheet_data_get_component_table *sheet-data)
+              num
+              (attrib_sheet_data_get_component_count *sheet-data)
+              (attrib_sheet_data_get_component_attrib_count *sheet-data))))
+        ;; Destroy the current TABLE array:
+        (s_table_destroy
+         (attrib_sheet_data_get_component_table *sheet-data)
+         (attrib_sheet_data_get_component_count *sheet-data)
+         (attrib_sheet_data_get_component_attrib_count *sheet-data))
+
+        (s_string_list_delete_item
+         (attrib_sheet_data_get_component_attrib_list_address *sheet-data)
+         (attrib_sheet_data_get_component_attrib_counter_address *sheet-data)
+         *attrib-name)
+        ;; This renumbers list also.
+        (s_string_list_sort_master_comp_attrib_list)
+
+        (g_free *attrib-name)
+
+        ;; Use the copy made above as the current TABLE array.
+        (attrib_sheet_data_set_component_table *sheet-data *new-table)
+
+        ;; Delete column on gtksheet.
+        (gtk_sheet_delete_columns *sheet num 1)
+
+        ;; Set changed flag so user is prompted when exiting.
+        (s_sheet_data_set_changed *sheet-data TRUE))))
+
+
+;;; Delete an attribute column.
 (define (delete-attrib-column)
   (define *sheet-data (attrib_get_sheet_data))
   (define current-page-id

@@ -202,7 +202,7 @@ attrib_table_get_show_name_value (TABLE **table,
  * Returns a copy of the 2-dimensional array of the TABLE
  * structures \a src, excluding data in the culumn \a col_skip.
  * It's a helper function to be used in the "delete attrib
- * column" operation: s_toplevel_delete_attrib_col().
+ * column" operation.
  * The resulting array has a dimensions of \a rows x \a cols - 1.
  *
  * \param src       an array of the TABLE structures to copy

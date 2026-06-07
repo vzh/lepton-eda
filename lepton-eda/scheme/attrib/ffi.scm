@@ -63,6 +63,7 @@
             attrib_sheet_data_get_component_attrib_counter_address
             attrib_sheet_data_get_component_attrib_list
             attrib_sheet_data_set_component_attrib_list
+            attrib_sheet_data_get_component_attrib_list_address
             attrib_sheet_data_get_component_count
             attrib_sheet_data_set_component_count
             attrib_sheet_data_get_component_list
@@ -97,6 +98,7 @@
 
             s_string_list_new
             s_string_list_add_item
+            s_string_list_delete_item
             s_string_list_find_in_list
             s_string_list_get_data_at_index
             s_string_list_sort_master_comp_list
@@ -109,6 +111,8 @@
             attrib_table_get_attrib_value
             attrib_table_get_show_name_value
             attrib_table_get_visibility
+            s_table_copy
+            s_table_destroy
             s_table_new
             s_table_add_toplevel_comp_items_to_comp_table
             s_table_add_toplevel_net_items_to_net_table
@@ -116,7 +120,6 @@
             s_table_gtksheet_to_all_tables
             s_table_resize
 
-            s_toplevel_delete_attrib_col
             s_toplevel_sheetdata_to_toplevel
 
             s_visibility_set_invisible
@@ -194,6 +197,7 @@
 (define-lff attrib_sheet_data_get_component_attrib_counter_address '* '(*))
 (define-lff attrib_sheet_data_get_component_attrib_list '* '(*))
 (define-lff attrib_sheet_data_set_component_attrib_list void '(* *))
+(define-lff attrib_sheet_data_get_component_attrib_list_address '* '(*))
 (define-lff attrib_sheet_data_get_component_count int '(*))
 (define-lff attrib_sheet_data_set_component_count void (list '* int))
 (define-lff attrib_sheet_data_get_component_list '* '(*))
@@ -229,6 +233,7 @@
 ;;; s_string_list.c
 (define-lff s_string_list_new '* '())
 (define-lff s_string_list_add_item void '(* * *))
+(define-lff s_string_list_delete_item void '(* * *))
 (define-lff s_string_list_find_in_list int '(* *))
 (define-lff s_string_list_get_data_at_index '* (list '* int))
 (define-lff s_string_list_sort_master_comp_list void '())
@@ -242,6 +247,8 @@
 (define-lff attrib_table_get_attrib_value '* (list '* int int))
 (define-lff attrib_table_get_show_name_value int (list '* int int))
 (define-lff attrib_table_get_visibility int (list '* int int))
+(define-lff s_table_copy '* (list '* int int int))
+(define-lff s_table_destroy void (list '* int int))
 (define-lff s_table_new '* (list int int))
 (define-lff s_table_add_toplevel_comp_items_to_comp_table void '(*))
 (define-lff s_table_add_toplevel_net_items_to_net_table void '(*))
@@ -251,7 +258,6 @@
 
 ;;; s_toplevel.c
 (define-lff s_toplevel_sheetdata_to_toplevel void '(* *))
-(define-lff s_toplevel_delete_attrib_col void (list '* int '*))
 
 ;;; s_visibility.c
 (define-lff s_visibility_set_invisible void '(* * *))

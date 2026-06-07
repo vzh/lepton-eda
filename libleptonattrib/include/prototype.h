@@ -218,10 +218,6 @@ void s_table_gtksheet_to_table(GtkSheet *local_gtk_sheet,
 
 /* ------------- s_toplevel.c ------------- */
 void
-s_toplevel_delete_attrib_col (GtkSheet *sheet,
-                              int mincol,
-                              char *attrib_name);
-void
 s_toplevel_sheetdata_to_toplevel (LeptonToplevel *toplevel,
                                   LeptonPage *page);
 
