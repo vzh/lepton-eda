@@ -101,7 +101,9 @@ s_toplevel_update_component_attribs_in_toplevel (LeptonToplevel *toplevel,
   while (a_iter != NULL) {
     a_current = (LeptonObject*) a_iter->data;
     if (lepton_object_is_text (a_current)
-        && a_current->text != NULL) {  /* found a name=value attribute pair. */
+        && lepton_object_get_text (a_current) != NULL)
+    {
+      /* found a name=value attribute pair. */
       /* may need to check more thoroughly here. . . . */
       old_name_value_pair = g_strdup (lepton_text_object_get_string (a_current));
 
