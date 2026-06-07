@@ -169,10 +169,8 @@ failure."
   (for-each save (active-pages)))
 
 
-(define (update-design *toplevel *page)
+(define (update-design-components *toplevel *page)
   (define *sheet-data (attrib_get_sheet_data))
-  ;; First deal with all components on the page.
-
   ;; Work from a copy list, as objects can be deleted from the
   ;; list during iteration over the list.
   (define *copy-list (g_list_copy (lepton_page_objects *page)))
@@ -222,8 +220,12 @@ failure."
    ;; during the iteration.
    (reverse (glist->list *copy-list identity)))
 
-  (g_list_free *copy-list)
+  (g_list_free *copy-list))
 
+
+(define (update-design *toplevel *page)
+  ;; First deal with all components on the page.
+  (update-design-components *toplevel *page)
   (s_toplevel_sheetdata_to_toplevel *toplevel *page))
 
 
