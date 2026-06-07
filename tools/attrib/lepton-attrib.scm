@@ -229,9 +229,60 @@ failure."
 
 
 (define (update-design-pins *toplevel *page)
-  (s_toplevel_sheetdata_to_toplevel *toplevel *page))
+  (define *sheet-data (attrib_get_sheet_data))
+  ;; Work from a copy list in case objects are deleted from the
+  ;; list during its iteration.
+  (define *copy-list (g_list_copy (lepton_page_objects *page)))
+
+  (for-each
+   (lambda (*object)
+     ;; Object is a component.  Handle pins by looking for all
+     ;; pins attached to a component.
+     (when (true? (lepton_object_is_component *object))
+       ;;  Upon finding a component, here's what to do:
+       ;;  0.  Get refdes of component.
+       ;;  1.  Loop over primitive objects, looking for pins.
+       ;;  2.  When a pin is found, create refdes:pinnumber pair
+       ;;      used in searching TABLE.
+       ;;  3.  Search TABLE using refdes:pinnumber as key, and get
+       ;;      list of attribs corresponding to this
+       ;;      refdes:pinnumber
+       ;;  4.  Stick the attribs into the LeptonToplevel data
+       ;;      structure.
+       (let ((*temp-uref (s_attrib_get_refdes *object)))
+         ;; Make sure object component has a refdes.
+         (unless (null-pointer? *temp-uref)
+           (for-each
+            (lambda (*component-primitive-object)
+              (when (true? (lepton_object_is_pin *component-primitive-object))
+                (let ((*new-pin-attrib-list
+                       (s_toplevel_get_pin_attribs_in_sheet
+                        *temp-uref
+                        *component-primitive-object)))
+                  (s_toplevel_update_pin_attribs_in_toplevel
+                   *toplevel
+                   *temp-uref
+                   *component-primitive-object
+                   *new-pin-attrib-list))))
+            (glist->list (lepton_component_object_get_contents *object)
+                         identity)))
+
+         (g_free *temp-uref))))
+   (reverse (glist->list *copy-list identity)))
+
+  (g_list_free *copy-list))
 
 
+;;; Copies sheet data content to *PAGE of *TOPLEVEL.
+;;;
+;;; This function loops through all objects on *PAGE It takes the
+;;; updated sheet data table and then updates the objects with the
+;;; new attribs and attrib values.  For each component, it updates
+;;; the attached attrib values using the updated values held in
+;;; the sheet data table structure.  It does so in three steps:
+;;; - First find and update component attribs.
+;;; - Then find and update net attribs.
+;;; - Finally find and update pin attribs.
 (define (update-design *toplevel *page)
   ;; First deal with all components on the page.
   (update-design-components *toplevel *page)

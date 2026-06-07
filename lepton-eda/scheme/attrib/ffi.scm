@@ -123,8 +123,9 @@
             s_table_gtksheet_to_all_tables
             s_table_resize
 
-            s_toplevel_sheetdata_to_toplevel
+            s_toplevel_get_pin_attribs_in_sheet
             s_toplevel_update_component_attribs_in_toplevel
+            s_toplevel_update_pin_attribs_in_toplevel
 
             s_visibility_set_invisible
             s_visibility_set_name_and_value
@@ -265,8 +266,9 @@
 (define-lff s_table_resize '* (list '* int int int))
 
 ;;; s_toplevel.c
-(define-lff s_toplevel_sheetdata_to_toplevel void '(* *))
+(define-lff s_toplevel_get_pin_attribs_in_sheet '* '(* *))
 (define-lff s_toplevel_update_component_attribs_in_toplevel void '(* * *))
+(define-lff s_toplevel_update_pin_attribs_in_toplevel void '(* * * *))
 
 ;;; s_visibility.c
 (define-lff s_visibility_set_invisible void '(* * *))

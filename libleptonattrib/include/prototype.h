@@ -218,10 +218,6 @@ void s_table_gtksheet_to_table(GtkSheet *local_gtk_sheet,
 
 /* ------------- s_toplevel.c ------------- */
 void
-s_toplevel_sheetdata_to_toplevel (LeptonToplevel *toplevel,
-                                  LeptonPage *page);
-
-void
 s_toplevel_update_component_attribs_in_toplevel (LeptonToplevel *toplevel,
                                                  LeptonObject *o_current,
                                                  STRING_LIST *new_comp_attrib_list);
