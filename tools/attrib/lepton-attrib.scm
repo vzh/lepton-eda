@@ -429,9 +429,20 @@ failure."
   #f)
 
 
+
+;;; Returns a list of attributes attached to *PIN of the component
+;;; with reference designator *REFDES.  The returned list is a
+;;; STRING_LIST where the data holds a name=value string.
+;;; The algorithm is as follows:
+;;; - Form refdes:pinnumber label for this pin.
+;;; - Get row number of this refdes:pinnumber
+;;; - Create a list of name=value pairs from entries in the
+;;;   pin table on this row.
+;;; - Return list of name=value pairs found.
 (define (pin->pin-attrib-list *refdes *pin)
   (define *sheet-data (attrib_get_sheet_data))
-
+  (define count-bv (make-bytevector (sizeof int) 0))
+  (define *count (bytevector->pointer count-bv))
   (define *pinnumber
     (lepton_attrib_search_object_attribs_by_name
      *pin
@@ -462,7 +473,52 @@ failure."
                       (G_ "We didn't find the refdes:pin in the master list.\n"))
               %null-pointer)
 
-            (s_toplevel_get_pin_attribs_in_sheet *refdes *pin row)))
+            ;; Now get all attribs associated with this refdes
+            ;; (in TABLE, indexed by position), and insert them
+            ;; into new attrib list.
+
+            ;; Init the new attrib list.
+            (let loop ((*new-attrib-list (s_string_list_new))
+                       (i 0)
+                       (*local-attrib-list
+                        (attrib_sheet_data_get_pin_attrib_list *sheet-data)))
+              (if (null-pointer? *local-attrib-list)
+                  *new-attrib-list
+
+                  ;; Iterate over all possible attribs.  Take
+                  ;; attrib name from column headings.
+                  (let* ((new-attrib-name
+                          (pointer->string
+                           (attrib_string_list_get_data *local-attrib-list)))
+                         (*table-value
+                          (attrib_table_get_attrib_value
+                           (attrib_sheet_data_get_pin_table *sheet-data) row i))
+                         (new-attrib-value
+                          (if (not (null-pointer? *table-value))
+                              (pointer->string *table-value)
+                              ;; Empty attrib.
+                              ""))
+                         (name-value-pair
+                          (string-append new-attrib-name "=" new-attrib-value))
+                         (*name-value-pair (string->pointer name-value-pair)))
+
+                    ;; Add name=value to the new list.
+                    (s_string_list_add_item *new-attrib-list *count *name-value-pair)
+
+                    ;; Sanity check
+                    (let ((count (bytevector-sint-ref count-bv 0 (native-endianness) (sizeof int))))
+                      (if (not (= count (1+ i)))
+                          (begin
+                            ;; For some reason, we have lost a
+                            ;; *name-value-pair somewhere...
+                            (format (current-error-port) "pin->pin-attrib-list(): ")
+                            (format (current-error-port) "count != i.\n")
+                            (exit -1))
+
+                          ;; Iterate.
+                          (loop *new-attrib-list
+                                (1+ i)
+                                (attrib_string_list_get_next *local-attrib-list)))))))))
 
       (begin
         (format (current-error-port) "pin->pin-attrib-list(): ")
