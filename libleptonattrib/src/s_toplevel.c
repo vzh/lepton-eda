@@ -64,35 +64,23 @@
  *
  * \param refdes Ref des string
  * \param pin Pin object
+ * \param row_label The row label.
  * \returns name=value pair as a STRING_LIST
  */
-STRING_LIST *s_toplevel_get_pin_attribs_in_sheet(char *refdes, LeptonObject *pin)
+STRING_LIST*
+s_toplevel_get_pin_attribs_in_sheet (char *refdes,
+                                     LeptonObject *pin,
+                                     char *row_label)
 {
   STRING_LIST *new_attrib_list;
   STRING_LIST *local_attrib_list;
   int i;
   int row = -1;
   int count = 0;
-  char *pinnumber;
-  char *row_label;
   char *name_value_pair;
   char *new_attrib_value;
   char *new_attrib_name;
 
-  g_debug ("==== Enter s_toplevel_get_pin_attribs_in_sheet()\n");
-
-  /* First find pos of this pin in the master pin list */
-  /* first convert refdes, pin to refdes:pinno text string. Then call table_get_index.  */
-
-  pinnumber = lepton_attrib_search_object_attribs_by_name (pin, "pinnumber", 0);
-
-  if ( (refdes != NULL) && (pinnumber != NULL) ) {
-    row_label = g_strconcat(refdes, ":", pinnumber, NULL);
-  } else {
-    fprintf (stderr, "s_toplevel_get_pin_attribs_in_sheet: ");
-    fprintf (stderr, _("Either refdes or pinnumber of object missing.\n"));
-    return NULL;
-  }
   row = s_table_get_index (attrib_sheet_data_get_pin_list (sheet_head), row_label);
 
   /* Sanity check */

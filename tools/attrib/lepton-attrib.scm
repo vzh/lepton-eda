@@ -430,7 +430,30 @@ failure."
 
 
 (define (pin->pin-attrib-list *refdes *pin)
-  (s_toplevel_get_pin_attribs_in_sheet *refdes *pin))
+  (define *pinnumber
+    (lepton_attrib_search_object_attribs_by_name
+     *pin
+     (string->pointer "pinnumber")
+     0))
+
+  ;; First find position of this pin in the master pin list.
+
+  ;; First convert refdes-pin pair to 'refdes:pinnumber' text
+  ;; string. Then call s_table_get_index().
+  (if (and (not (null-pointer? *refdes))
+           (not (null-pointer? *pinnumber)) )
+      (let ((*row-label
+             (string->pointer
+              (string-append (pointer->string *refdes)
+                             ":"
+                             (pointer->string *pinnumber)))))
+        (s_toplevel_get_pin_attribs_in_sheet *refdes *pin *row-label))
+
+      (begin
+        (format (current-error-port) "pin->pin-attrib-list(): ")
+        (format (current-error-port)
+                (G_ "Either refdes or pinnumber of object missing.\n"))
+        %null-pointer)))
 
 
 (define (update-design-pins *toplevel *page)
