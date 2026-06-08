@@ -135,7 +135,7 @@ STRING_LIST *s_toplevel_get_pin_attribs_in_sheet(char *refdes, LeptonObject *pin
 
     /* iterate */
     i++;
-    local_attrib_list = local_attrib_list->next;
+    local_attrib_list = attrib_string_list_get_next (local_attrib_list);
   } /* while (local_attrib_list != NULL)  */
 
   return new_attrib_list;
