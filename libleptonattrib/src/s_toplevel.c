@@ -144,7 +144,8 @@ s_toplevel_update_component_attribs_in_toplevel (LeptonToplevel *toplevel,
   /* We'll need this later */
   refdes = g_strdup(s_attrib_get_refdes(o_current));
   row = s_table_get_index (attrib_sheet_data_get_component_list (sheet_head), refdes);
-  col = s_table_get_index(sheet_head->master_comp_attrib_list_head, new_attrib_name);
+  col = s_table_get_index (attrib_sheet_data_get_component_attrib_list (sheet_head),
+                           new_attrib_name);
   /* if attribute has been deleted from the sheet, here is where we detect that */
   if ( (row == -1) || (col == -1) ) {
     new_attrib_value = NULL;  /* attrib will be deleted below */
