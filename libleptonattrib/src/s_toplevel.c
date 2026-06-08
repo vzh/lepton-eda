@@ -98,7 +98,7 @@ s_toplevel_update_component_attribs_in_toplevel (LeptonToplevel *toplevel,
    */
 
   /* First handle a special case: the component has no attribs (beside refdes). */
-  if (complete_comp_attrib_list->data == NULL)
+  if (attrib_string_list_get_data (complete_comp_attrib_list) == NULL)
     return;
 
   /* Now the normal case. . . . */
@@ -107,11 +107,12 @@ s_toplevel_update_component_attribs_in_toplevel (LeptonToplevel *toplevel,
 
     g_debug ("s_toplevel_update_component_attribs_in_toplevel: "
              "Handling entry in complete list %s.\n",
-             local_list->data);
+             attrib_string_list_get_data (local_list));
 
   /*  Now get the old attrib name & value from complete_comp_attrib_list
    *  and value from o_current  */
-  old_attrib_name = u_basic_breakup_string(local_list->data, '=', 0);
+  old_attrib_name =
+    u_basic_breakup_string (attrib_string_list_get_data (local_list), '=', 0);
   old_attrib_value = lepton_attrib_search_attached_attribs_by_name (o_current,
                                                                     old_attrib_name,
                                                                     0);
@@ -122,9 +123,13 @@ s_toplevel_update_component_attribs_in_toplevel (LeptonToplevel *toplevel,
            old_attrib_value);
 
   /*  Next try to get this attrib from new_comp_attrib_list  */
-  new_attrib_name = u_basic_breakup_string(local_list->data, '=', 0);
-  if (s_string_list_in_list(new_comp_attrib_list, local_list->data)) {
-    new_attrib_value = s_misc_remaining_string(local_list->data, '=', 1);
+  new_attrib_name =
+    u_basic_breakup_string (attrib_string_list_get_data (local_list), '=', 0);
+  if (s_string_list_in_list (new_comp_attrib_list,
+                             attrib_string_list_get_data (local_list)))
+  {
+    new_attrib_value =
+      s_misc_remaining_string (attrib_string_list_get_data (local_list), '=', 1);
   } else {
     new_attrib_value = NULL;
   }
