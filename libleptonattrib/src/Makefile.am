@@ -10,7 +10,6 @@ libleptonattrib_la_SOURCES = \
 	s_sheet_data.c \
 	s_string_list.c \
 	s_table.c \
-	s_toplevel.c \
 	s_visibility.c \
 	x_dialog.c \
 	x_fileselect.c \

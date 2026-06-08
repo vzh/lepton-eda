@@ -61,6 +61,7 @@
             x_gtksheet_init
 
             s_object_add_comp_attrib_to_object
+            s_object_add_pin_attrib_to_object
             s_object_remove_attrib_in_object
             s_object_replace_attrib_in_object
 
@@ -134,8 +135,6 @@
             s_table_add_toplevel_pin_items_to_pin_table
             s_table_gtksheet_to_all_tables
             s_table_resize
-
-            s_toplevel_update_pin_attribs_in_toplevel
 
             s_visibility_set_invisible
             s_visibility_set_name_and_value
@@ -211,6 +210,7 @@
 
 ;;; s_object.c
 (define-lff s_object_add_comp_attrib_to_object void (list '* '* '* '* int int))
+(define-lff s_object_add_pin_attrib_to_object void '(* * * *))
 (define-lff s_object_remove_attrib_in_object void '(* * *))
 (define-lff s_object_replace_attrib_in_object void (list '* '* '* int int))
 
@@ -287,9 +287,6 @@
 (define-lff s_table_add_toplevel_pin_items_to_pin_table void '(*))
 (define-lff s_table_gtksheet_to_all_tables void '())
 (define-lff s_table_resize '* (list '* int int int))
-
-;;; s_toplevel.c
-(define-lff s_toplevel_update_pin_attribs_in_toplevel void '(* * * *))
 
 ;;; s_visibility.c
 (define-lff s_visibility_set_invisible void '(* * *))

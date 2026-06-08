@@ -527,11 +527,91 @@ failure."
         %null-pointer)))
 
 
+(define LEAVE_NAME_VALUE_ALONE -1)
+(define LEAVE_VISIBILITY_ALONE -1)
+
+
+;;; Updates attributes of *PIN in *TOPLEVEL using new
+;;; *PIN-ATTRIB-LIST.  The *REFDES argument is unused.
+;;;
+;;; For each attrib string attached to the pin, the function
+;;; updates it using the value held in new_pin_attrib_list.
+;;; Algorithm:
+;;; - Loop over name=value pairs held in new *PIN-ATTRIB-LIST.
+;;; - For each name=value pair, look for corresponding attrib on
+;;;   *PIN.
+;;; - If the attrib exists on pin and in name=value pair, write
+;;;   the new value in.
+;;; - If the attrib exists on pin, but is NULL in name=value pair,
+;;;   delete the attrib.
+;;; - If the attrib doesn't exist on pin, but is non-NULL in the
+;;;   name=value pair, create an attrib object and add it to the
+;;;   pin.
 (define (update-pin-attribs *toplevel *refdes *pin *pin-attrib-list)
-  (s_toplevel_update_pin_attribs_in_toplevel *toplevel
-                                             *refdes
-                                             *pin
-                                             *pin-attrib-list))
+  (when (null-pointer? *pin)
+    (error "NULL pin."))
+
+  ;; Loop on name=value pairs held in the pin attrib list.
+  (let loop ((*local-list *pin-attrib-list))
+    (unless (null-pointer? *local-list)
+      (let* ((*new-name-value-pair
+              (g_strdup (attrib_string_list_get_data *local-list)))
+             (*new-attrib-name
+              (u_basic_breakup_string *new-name-value-pair
+                                      (char->integer #\=)
+                                      0))
+             (*value (u_basic_breakup_string *new-name-value-pair
+                                             (char->integer #\=)
+                                             1))
+             (*new-attrib-value
+              (if (or (null-pointer? *value)
+                      (string-null? (pointer->string *value)))
+                  (begin
+                    (g_free *value)
+                    ;; s_misc_remaining_string() doesn't return
+                    ;; NULL for empty substring.
+                    %null-pointer)
+                  *value))
+             (*old-attrib-value
+              (lepton_attrib_search_attached_attribs_by_name
+               *pin
+               *new-attrib-name
+               0)))
+        ;; Four cases to consider: Case 1: old and new attribs exist
+        (if (and (not (null-pointer? *old-attrib-value))
+                 (not (null-pointer? *new-attrib-value))
+                 (not (string-null? (pointer->string *new-attrib-value))))
+            ;; Simply write new attrib into place of old one.
+            (s_object_replace_attrib_in_object *pin
+                                               *new-attrib-name
+                                               *new-attrib-value
+                                               LEAVE_VISIBILITY_ALONE
+                                               LEAVE_NAME_VALUE_ALONE)
+            ;; Four cases to consider: Case 2: old attrib exists, new one
+            ;; doesn't.
+            (if (and (not (null-pointer? *old-attrib-value))
+                     (null-pointer? *new-attrib-value))
+                ;; Remove attrib from pin.
+                (s_object_remove_attrib_in_object *toplevel *pin *new-attrib-name)
+                ;; Four cases to consider: Case 3: No old attrib, new one
+                ;; exists.
+                (if (and (null-pointer? *old-attrib-value)
+                         (not (null-pointer? *new-attrib-value)))
+                    ;; Add new attrib to pin.
+                    (s_object_add_pin_attrib_to_object *toplevel
+                                                       *pin
+                                                       *new-attrib-name
+                                                       *new-attrib-value)
+                    ;; Four cases to consider: Case 4
+                    ;; Do nothing.
+                    #f)))
+
+        ;; Free everything and iterate.
+        (g_free *new-name-value-pair)
+        (g_free *new-attrib-name)
+        (g_free *new-attrib-value)
+        (g_free *old-attrib-value)
+        (loop (attrib_string_list_get_next *local-list))))))
 
 
 (define (update-design-pins *toplevel *page)
