@@ -214,7 +214,7 @@ s_toplevel_update_component_attribs_in_toplevel (LeptonToplevel *toplevel,
     g_free(new_attrib_value);
     g_free(old_attrib_name);
     g_free(old_attrib_value);
-    local_list = local_list->next;
+    local_list = attrib_string_list_get_next (local_list);
   }   /*   while (local_list != NULL)  */
   return;
 }
