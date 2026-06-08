@@ -52,6 +52,73 @@
 #include "../include/gettext.h"
 
 
+/*! \brief Get the \a data field of a string list.
+ *
+ *  \par Function Description
+ *
+ *  Returns the \a data field of a string list.  It points to a
+ *  zero-terminated string.
+ *
+ *  \param [in] list The string list.
+ *  \return The data.
+ */
+char*
+attrib_string_list_get_data (STRING_LIST *list)
+{
+  return list->data;
+}
+
+
+/*! \brief Get the \a pos field of a string list.
+ *
+ *  \par Function Description
+ *
+ *  Returns the \a pos field of a string list.  It is a position
+ *  of string list data on spreadsheet.
+ *
+ *  \param [in] list The string list.
+ *  \return The position.
+ */
+int
+attrib_string_list_get_pos (STRING_LIST *list)
+{
+  return list->pos;
+}
+
+
+/*! \brief Get the \a prev field of a string list.
+ *
+ *  \par Function Description
+ *
+ *  Returns the \a prev field of a string list.  It is a pointer
+ *  to the previous item in the linked list.
+ *
+ *  \param [in] list The string list.
+ *  \return The previous list item.
+ */
+STRING_LIST*
+attrib_string_list_get_prev (STRING_LIST *list)
+{
+  return list->prev;
+}
+
+
+/*! \brief Get the \a next field of a string list.
+ *
+ *  \par Function Description
+ *
+ *  Returns the \a next field of a string list.  It is a pointer
+ *  to the next item in the linked list.
+ *
+ *  \param [in] list The string list.
+ *  \return The next list item.
+ */
+STRING_LIST*
+attrib_string_list_get_next (STRING_LIST *list)
+{
+  return list->next;
+}
+
 
 /*------------------------------------------------------------------*/
 /*! \brief Return a pointer to a new STRING_LIST

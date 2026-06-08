@@ -165,6 +165,18 @@ void s_sheet_data_add_master_pin_attrib_list_items(const GList *obj_list);
 
 
 /* ------------- s_string_list.c ------------- */
+char*
+attrib_string_list_get_data (STRING_LIST *list);
+
+int
+attrib_string_list_get_pos (STRING_LIST *list);
+
+STRING_LIST*
+attrib_string_list_get_prev (STRING_LIST *list);
+
+STRING_LIST*
+attrib_string_list_get_next (STRING_LIST *list);
+
 STRING_LIST *s_string_list_new();
 STRING_LIST *s_string_list_duplicate_string_list(STRING_LIST *old_string_list);
 void s_string_list_add_item(STRING_LIST *list, int *count, char *item);
