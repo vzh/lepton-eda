@@ -430,6 +430,8 @@ failure."
 
 
 (define (pin->pin-attrib-list *refdes *pin)
+  (define *sheet-data (attrib_get_sheet_data))
+
   (define *pinnumber
     (lepton_attrib_search_object_attribs_by_name
      *pin
@@ -442,12 +444,25 @@ failure."
   ;; string. Then call s_table_get_index().
   (if (and (not (null-pointer? *refdes))
            (not (null-pointer? *pinnumber)) )
-      (let ((*row-label
-             (string->pointer
-              (string-append (pointer->string *refdes)
-                             ":"
-                             (pointer->string *pinnumber)))))
-        (s_toplevel_get_pin_attribs_in_sheet *refdes *pin *row-label))
+      (let* ((*row-label
+              (string->pointer
+               (string-append (pointer->string *refdes)
+                              ":"
+                              (pointer->string *pinnumber))))
+             (row (s_table_get_index
+                   (attrib_sheet_data_get_pin_list *sheet-data)
+                   *row-label)))
+
+        ;; Sanity check.
+        (if (= row -1)
+            (begin
+              ;; We didn't find the item in the list.
+              (format (current-error-port) "pin->pin-attrib-list(): ")
+              (format (current-error-port)
+                      (G_ "We didn't find the refdes:pin in the master list.\n"))
+              %null-pointer)
+
+            (s_toplevel_get_pin_attribs_in_sheet *refdes *pin row)))
 
       (begin
         (format (current-error-port) "pin->pin-attrib-list(): ")

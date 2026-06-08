@@ -64,32 +64,21 @@
  *
  * \param refdes Ref des string
  * \param pin Pin object
- * \param row_label The row label.
+ * \param row The row number.
  * \returns name=value pair as a STRING_LIST
  */
 STRING_LIST*
 s_toplevel_get_pin_attribs_in_sheet (char *refdes,
                                      LeptonObject *pin,
-                                     char *row_label)
+                                     int row)
 {
   STRING_LIST *new_attrib_list;
   STRING_LIST *local_attrib_list;
   int i;
-  int row = -1;
   int count = 0;
   char *name_value_pair;
   char *new_attrib_value;
   char *new_attrib_name;
-
-  row = s_table_get_index (attrib_sheet_data_get_pin_list (sheet_head), row_label);
-
-  /* Sanity check */
-  if (row == -1) {
-    /* we didn't find the item in the list */
-    fprintf (stderr, "s_toplevel_get_pin_attribs_in_sheet: ");
-    fprintf (stderr, _("We didn't find the refdes:pin in the master list.\n"));
-    return NULL;
-  }
 
   /* Now get all attribs associated with this refdes (in TABLE, indexed
    * by position), and insert them into new_attrib_list.  */

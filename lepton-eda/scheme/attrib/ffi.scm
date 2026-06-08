@@ -290,7 +290,7 @@
 (define-lff s_table_resize '* (list '* int int int))
 
 ;;; s_toplevel.c
-(define-lff s_toplevel_get_pin_attribs_in_sheet '* '(* * *))
+(define-lff s_toplevel_get_pin_attribs_in_sheet '* (list '* '* int))
 (define-lff s_toplevel_update_pin_attribs_in_toplevel void '(* * * *))
 
 ;;; s_visibility.c

@@ -232,7 +232,7 @@ void s_table_gtksheet_to_table(GtkSheet *local_gtk_sheet,
 STRING_LIST*
 s_toplevel_get_pin_attribs_in_sheet (char *refdes,
                                      LeptonObject *pin,
-                                     char *row_label);
+                                     int row);
 void
 s_toplevel_update_pin_attribs_in_toplevel (LeptonToplevel *toplevel,
                                            char *refdes,
