@@ -138,6 +138,17 @@ failure."
   (for-each save (active-pages)))
 
 
+(define (replace-attrib *object
+                        *new-attrib-name
+                        *new-attrib-value
+                        visibility
+                        show-name-value)
+  (s_object_replace_attrib_in_object *object
+                                     *new-attrib-name
+                                     *new-attrib-value
+                                     visibility
+                                     show-name-value))
+
 
 ;;; Updates *OBJECT component attributes in *TOPLEVEL using the
 ;;; value held in the list of name=value attribute pairs
@@ -300,12 +311,11 @@ failure."
                    (not (null-pointer? *new-attrib-value))
                    (not (string-null? (pointer->string *new-attrib-value))))
               ;; simply write new attrib into place of old one.
-              (s_object_replace_attrib_in_object *object
-                                                 *new-attrib-name
-                                                 *new-attrib-value
-                                                 visibility
-                                                 show-name-value)
-
+              (replace-attrib *object
+                              *new-attrib-name
+                              *new-attrib-value
+                              visibility
+                              show-name-value)
 
               ;; Four cases to consider: Case 2.
               (if (and (not (null-pointer? *old-attrib-value))
@@ -551,11 +561,11 @@ failure."
                  (not (null-pointer? *new-attrib-value))
                  (not (string-null? (pointer->string *new-attrib-value))))
             ;; Simply write new attrib into place of old one.
-            (s_object_replace_attrib_in_object *pin
-                                               *new-attrib-name
-                                               *new-attrib-value
-                                               LEAVE_VISIBILITY_ALONE
-                                               LEAVE_NAME_VALUE_ALONE)
+            (replace-attrib *pin
+                            *new-attrib-name
+                            *new-attrib-value
+                            LEAVE_VISIBILITY_ALONE
+                            LEAVE_NAME_VALUE_ALONE)
             ;; Four cases to consider: Case 2: old attrib exists, new one
             ;; doesn't.
             (if (and (not (null-pointer? *old-attrib-value))
