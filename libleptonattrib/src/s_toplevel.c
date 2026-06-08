@@ -78,15 +78,11 @@ s_toplevel_update_component_attribs_in_toplevel (LeptonToplevel *toplevel,
                                                  STRING_LIST *complete_comp_attrib_list)
 {
   STRING_LIST *local_list;
-  char *old_name_value_pair;
   char *new_attrib_name;
   char *new_attrib_value;
   char *old_attrib_name;
   char *old_attrib_value;
   gchar *refdes;
-  GList *a_iter;
-  LeptonObject *a_current;
-  int count = 0;  /* This is to fake out a function called later */
   gint row, col;
   gint visibility = 0;
   gint show_name_value = 0;
@@ -94,51 +90,6 @@ s_toplevel_update_component_attribs_in_toplevel (LeptonToplevel *toplevel,
   g_return_if_fail (o_current != NULL);
 
   g_debug ("==== Enter s_toplevel_update_component_attribs_in_toplevel()\n");
-
-  /* Now create a complete list of unique attribute names.  This will be used in
-  *  the loop below when updating attributes.  */
-  a_iter = lepton_object_get_attribs (o_current);
-  while (a_iter != NULL) {
-    a_current = (LeptonObject*) a_iter->data;
-    if (lepton_object_is_text (a_current)
-        && lepton_object_get_text (a_current) != NULL)
-    {
-      /* found a name=value attribute pair. */
-      /* may need to check more thoroughly here. . . . */
-      old_name_value_pair = g_strdup (lepton_text_object_get_string (a_current));
-
-      /* Else clause is suggestion from Ales */
-#if 1
-      old_attrib_name = u_basic_breakup_string(old_name_value_pair, '=', 0);
-      if ( (strcmp(old_attrib_name, "refdes") != 0) &&
-           (strcmp(old_attrib_name, "net") != 0) &&
-           (strcmp(old_attrib_name, "slot") != 0) &&
-           (s_attrib_name_in_list(new_comp_attrib_list, old_attrib_name) == FALSE) ) {
-        s_string_list_add_item(complete_comp_attrib_list, &count, old_name_value_pair);
-      }
-#else
-      /* might now compile now, but this #if'd out branch isn't being built */
-      gint status;
-      old_attrib_name = g_strdup (lepton_text_object_get_name (a_current));
-      if (old_attrib_name != NULL)
-      {
-        /* Don't put "refdes" or "slot" into list.  Don't put old name=value pair into list if a new
-         * one is already in there. */
-        if ( (strcmp(old_attrib_name, "refdes") != 0) &&
-             (strcmp(old_attrib_name, "net") != 0) &&
-             (strcmp(old_attrib_name, "slot") != 0) &&
-             (s_attrib_name_in_list(new_comp_attrib_list, old_attrib_name) == FALSE) ) {
-          s_string_list_add_item(complete_comp_attrib_list, &count, old_name_value_pair);
-        }
-        g_free (old_attrib_name);
-      }
- #endif
-     g_free(old_name_value_pair);
-     g_free(old_attrib_name);
-    }
-    a_iter = g_list_next (a_iter);
-  }  /* while (a_current != NULL) */
-
 
   /*
    *Now the main business of this function:  updating the attribs attached to this o_current.

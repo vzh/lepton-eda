@@ -39,8 +39,10 @@
             attrib_set_window
 
             s_attrib_get_refdes
+            s_attrib_name_in_list
 
             set_verbose_mode
+            u_basic_breakup_string
 
             x_fileselect_open
 
@@ -175,9 +177,11 @@
 
 ;; s_attrib.c
 (define-lff s_attrib_get_refdes '* '(*))
+(define-lff s_attrib_name_in_list int '(* *))
 
 ;;; s_misc.c
 (define-lff set_verbose_mode void '())
+(define-lff u_basic_breakup_string '* (list '* int int))
 
 ;;; x_fileselect.c
 (define-lff x_fileselect_open '* '())

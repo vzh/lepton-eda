@@ -142,6 +142,7 @@
             lepton_object_set_stroke_dash_length
             lepton_object_get_stroke_space_length
             lepton_object_set_stroke_space_length
+            lepton_object_get_text
             lepton_object_get_type
             lepton_object_get_whichend
 
@@ -567,6 +568,7 @@
 (define-lff lepton_object_set_stroke_dash_length void (list '* int))
 (define-lff lepton_object_get_stroke_space_length int '(*))
 (define-lff lepton_object_set_stroke_space_length void (list '* int))
+(define-lff lepton_object_get_text '* '(*))
 (define-lff lepton_object_get_type int '(*))
 (define-lff lepton_object_get_whichend int '(*))
 

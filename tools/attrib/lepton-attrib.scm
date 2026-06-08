@@ -182,6 +182,42 @@ failure."
   ;; First duplicate the list.
   (define *complete-component-attrib-list
     (s_string_list_duplicate_string_list *new-component-attrib-pair-list))
+  ;; This is to fake out a function called later.
+  (define *count (bytevector->pointer (make-bytevector (sizeof int) 0)))
+
+  ;; Now create a complete list of unique attribute names.  This
+  ;; will be used in the loop below when updating attributes.
+  (for-each
+   (lambda (*attrib)
+     (when (and (true? (lepton_object_is_text *attrib))
+                (not (null-pointer? (lepton_object_get_text *attrib))))
+       (let* ((*old-name-value-pair
+               (g_strdup (lepton_text_object_get_string *attrib)))
+              (*old-attrib-name
+               (u_basic_breakup_string *old-name-value-pair
+                                       (char->integer #\=)
+                                       0))
+              (old-attrib-name (if (null-pointer? *old-attrib-name)
+                                   ""
+                                   (pointer->string *old-attrib-name))))
+         ;; Found a name=value attribute pair.
+
+         ;; Don't put "refdes" or "slot" into list.
+         ;; Don't put old name=value pair into list if a
+         ;; new one is already in there.
+         (when (and (not (string= old-attrib-name "refdes"))
+                    (not (string= old-attrib-name "net"))
+                    (not (string= old-attrib-name "slot"))
+                    (false? (s_attrib_name_in_list
+                             *new-component-attrib-pair-list
+                             *old-attrib-name)))
+           (s_string_list_add_item *complete-component-attrib-list
+                                   *count
+                                   *old-name-value-pair))
+
+         (g_free *old-name-value-pair)
+         (g_free *old-attrib-name))))
+   (glist->list (lepton_object_get_attribs *object) identity))
 
   (s_toplevel_update_component_attribs_in_toplevel
    *toplevel
