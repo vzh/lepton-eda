@@ -527,6 +527,13 @@ failure."
         %null-pointer)))
 
 
+(define (update-pin-attribs *toplevel *refdes *pin *pin-attrib-list)
+  (s_toplevel_update_pin_attribs_in_toplevel *toplevel
+                                             *refdes
+                                             *pin
+                                             *pin-attrib-list))
+
+
 (define (update-design-pins *toplevel *page)
   (define *sheet-data (attrib_get_sheet_data))
   ;; Work from a copy list in case objects are deleted from the
@@ -557,7 +564,7 @@ failure."
                 (let ((*new-pin-attrib-list
                        (pin->pin-attrib-list *temp-uref
                                              *component-primitive-object)))
-                  (s_toplevel_update_pin_attribs_in_toplevel
+                  (update-pin-attribs
                    *toplevel
                    *temp-uref
                    *component-primitive-object
