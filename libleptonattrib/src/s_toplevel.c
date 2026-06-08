@@ -110,7 +110,8 @@ STRING_LIST *s_toplevel_get_pin_attribs_in_sheet(char *refdes, LeptonObject *pin
   i = 0;
   local_attrib_list = attrib_sheet_data_get_pin_attrib_list (sheet_head);
   while (local_attrib_list != NULL) {  /* iterate over all possible attribs */
-    new_attrib_name = g_strdup(local_attrib_list->data);  /* take attrib name from column headings */
+    /* take attrib name from column headings */
+    new_attrib_name = g_strdup (attrib_string_list_get_data (local_attrib_list));
 
     if (((attrib_sheet_data_get_pin_table (sheet_head))[row][i]).attrib_value)
     {
