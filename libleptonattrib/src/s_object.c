@@ -1,7 +1,7 @@
 /* Lepton EDA attribute editor
  * Copyright (C) 2003-2010 Stuart D. Brorson.
  * Copyright (C) 2003-2016 gEDA Contributors
- * Copyright (C) 2017-2024 Lepton EDA Contributors
+ * Copyright (C) 2017-2026 Lepton EDA Contributors
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -201,7 +201,7 @@ s_object_replace_attrib_in_object(LeptonObject *o_current,
   while (a_iter != NULL) {
     a_current = (LeptonObject*) a_iter->data;
     if (lepton_object_is_text (a_current)
-        && a_current->text != NULL) {  /* found an attribute */
+        && lepton_object_get_text (a_current) != NULL) {  /* found an attribute */
 
       /* may need to check more thoroughly here. . . . */
       old_attrib_text = g_strdup (lepton_text_object_get_string (a_current));
