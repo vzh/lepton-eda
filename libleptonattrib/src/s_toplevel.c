@@ -150,8 +150,8 @@ s_toplevel_update_component_attribs_in_toplevel (LeptonToplevel *toplevel,
   if ( (row == -1) || (col == -1) ) {
     new_attrib_value = NULL;  /* attrib will be deleted below */
   } else { /* we need a better place to get this info since the TABLE can be out of date */
-    visibility = sheet_head->component_table[row][col].visibility;
-    show_name_value = sheet_head->component_table[row][col].show_name_value;
+    visibility = attrib_sheet_data_get_component_table (sheet_head)[row][col].visibility;
+    show_name_value = attrib_sheet_data_get_component_table (sheet_head)[row][col].show_name_value;
   }
   g_free(refdes);
 
