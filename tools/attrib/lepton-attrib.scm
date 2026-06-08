@@ -429,6 +429,10 @@ failure."
   #f)
 
 
+(define (pin->pin-attrib-list *refdes *pin)
+  (s_toplevel_get_pin_attribs_in_sheet *refdes *pin))
+
+
 (define (update-design-pins *toplevel *page)
   (define *sheet-data (attrib_get_sheet_data))
   ;; Work from a copy list in case objects are deleted from the
@@ -457,9 +461,8 @@ failure."
             (lambda (*component-primitive-object)
               (when (true? (lepton_object_is_pin *component-primitive-object))
                 (let ((*new-pin-attrib-list
-                       (s_toplevel_get_pin_attribs_in_sheet
-                        *temp-uref
-                        *component-primitive-object)))
+                       (pin->pin-attrib-list *temp-uref
+                                             *component-primitive-object)))
                   (s_toplevel_update_pin_attribs_in_toplevel
                    *toplevel
                    *temp-uref
