@@ -85,7 +85,7 @@ s_toplevel_update_pin_attribs_in_toplevel (LeptonToplevel *toplevel,
   /* loop on name=value pairs held in new_pin_attrib_list */
   local_list = new_pin_attrib_list;
   while (local_list != NULL) {
-    new_name_value_pair = g_strdup(local_list->data);
+    new_name_value_pair = g_strdup (attrib_string_list_get_data (local_list));
     g_debug ("s_toplevel_update_pin_attribs_in_toplevel: "
              "Handling entry in master list %s.\n",
              new_name_value_pair);
