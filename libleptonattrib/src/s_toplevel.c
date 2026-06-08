@@ -152,7 +152,8 @@ s_toplevel_update_component_attribs_in_toplevel (LeptonToplevel *toplevel,
   } else { /* we need a better place to get this info since the TABLE can be out of date */
     visibility =
       attrib_table_get_visibility (attrib_sheet_data_get_component_table (sheet_head), row, col);
-    show_name_value = attrib_sheet_data_get_component_table (sheet_head)[row][col].show_name_value;
+    show_name_value =
+      attrib_table_get_show_name_value (attrib_sheet_data_get_component_table (sheet_head), row, col);
   }
   g_free(refdes);
 
