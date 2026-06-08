@@ -93,7 +93,7 @@ STRING_LIST *s_toplevel_get_pin_attribs_in_sheet(char *refdes, LeptonObject *pin
     fprintf (stderr, _("Either refdes or pinnumber of object missing.\n"));
     return NULL;
   }
-  row = s_table_get_index(sheet_head->master_pin_list_head, row_label);
+  row = s_table_get_index (attrib_sheet_data_get_pin_list (sheet_head), row_label);
 
   /* Sanity check */
   if (row == -1) {
