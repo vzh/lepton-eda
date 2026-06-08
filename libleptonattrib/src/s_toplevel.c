@@ -113,9 +113,10 @@ STRING_LIST *s_toplevel_get_pin_attribs_in_sheet(char *refdes, LeptonObject *pin
     /* take attrib name from column headings */
     new_attrib_name = g_strdup (attrib_string_list_get_data (local_attrib_list));
 
-    if (((attrib_sheet_data_get_pin_table (sheet_head))[row][i]).attrib_value)
+    if (attrib_table_get_attrib_value (attrib_sheet_data_get_pin_table (sheet_head), row,i))
     {
-      new_attrib_value = g_strdup(((attrib_sheet_data_get_pin_table (sheet_head))[row][i]).attrib_value);
+      new_attrib_value =
+        g_strdup (attrib_table_get_attrib_value (attrib_sheet_data_get_pin_table (sheet_head), row, i));
       name_value_pair = g_strconcat(new_attrib_name, "=", new_attrib_value, NULL);
       g_free(new_attrib_value);
     } else {
