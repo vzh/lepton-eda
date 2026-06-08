@@ -112,8 +112,9 @@ STRING_LIST *s_toplevel_get_pin_attribs_in_sheet(char *refdes, LeptonObject *pin
   while (local_attrib_list != NULL) {  /* iterate over all possible attribs */
     new_attrib_name = g_strdup(local_attrib_list->data);  /* take attrib name from column headings */
 
-    if ( ((sheet_head->pin_table)[row][i]).attrib_value ) {
-      new_attrib_value = g_strdup( ((sheet_head->pin_table)[row][i]).attrib_value );
+    if (((attrib_sheet_data_get_pin_table (sheet_head))[row][i]).attrib_value)
+    {
+      new_attrib_value = g_strdup(((attrib_sheet_data_get_pin_table (sheet_head))[row][i]).attrib_value);
       name_value_pair = g_strconcat(new_attrib_name, "=", new_attrib_value, NULL);
       g_free(new_attrib_value);
     } else {
