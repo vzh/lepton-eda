@@ -219,11 +219,22 @@ failure."
          (g_free *old-attrib-name))))
    (glist->list (lepton_object_get_attribs *object) identity))
 
-  (s_toplevel_update_component_attribs_in_toplevel
-   *toplevel
-   *object
-   *new-component-attrib-pair-list
-   *complete-component-attrib-list))
+  ;; Now the main business of this function: updating the attribs
+  ;; attached to this object.  Loop on name=value pairs held in
+  ;; *complete-component-attrib-list, and then use this to get the
+  ;; name=value pairs out of *new-component-attrib-pair-list and
+  ;; from object.
+
+  ;; First handle a special case: the component has no attribs
+  ;; (beside refdes).
+  (unless (null-pointer?
+           (attrib_string_list_get_data *complete-component-attrib-list))
+    ;; Now the normal case.
+    (s_toplevel_update_component_attribs_in_toplevel
+     *toplevel
+     *object
+     *new-component-attrib-pair-list
+     *complete-component-attrib-list)))
 
 
 (define (update-design-components *toplevel *page)

@@ -100,6 +100,7 @@
             s_sheet_data_add_master_pin_attrib_list_items
             s_sheet_data_set_changed
 
+            attrib_string_list_get_data
             s_string_list_new
             s_string_list_add_item
             s_string_list_delete_item
@@ -244,6 +245,7 @@
 (define-lff s_sheet_data_set_changed void (list '* int))
 
 ;;; s_string_list.c
+(define-lff attrib_string_list_get_data '* '(*))
 (define-lff s_string_list_new '* '())
 (define-lff s_string_list_add_item void '(* * *))
 (define-lff s_string_list_delete_item void '(* * *))

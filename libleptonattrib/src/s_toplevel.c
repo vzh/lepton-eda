@@ -91,17 +91,6 @@ s_toplevel_update_component_attribs_in_toplevel (LeptonToplevel *toplevel,
 
   g_debug ("==== Enter s_toplevel_update_component_attribs_in_toplevel()\n");
 
-  /*
-   *Now the main business of this function:  updating the attribs attached to this o_current.
-   * Loop on name=value pairs held in complete_comp_attrib_list , and then use this to get the
-   * name=value pairs out of new_comp_attrib_list and from o_current.
-   */
-
-  /* First handle a special case: the component has no attribs (beside refdes). */
-  if (attrib_string_list_get_data (complete_comp_attrib_list) == NULL)
-    return;
-
-  /* Now the normal case. . . . */
   local_list = complete_comp_attrib_list;
   while (local_list != NULL) {
 
