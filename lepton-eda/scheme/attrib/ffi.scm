@@ -41,6 +41,7 @@
             s_attrib_get_refdes
             s_attrib_name_in_list
 
+            s_misc_remaining_string
             set_verbose_mode
             u_basic_breakup_string
 
@@ -58,6 +59,10 @@
             x_gtksheet_get_max_col
             x_gtksheet_get_min_col
             x_gtksheet_init
+
+            s_object_add_comp_attrib_to_object
+            s_object_remove_attrib_in_object
+            s_object_replace_attrib_in_object
 
             attrib_sheet_data_new
             attrib_sheet_data_get_changed
@@ -101,12 +106,14 @@
             s_sheet_data_set_changed
 
             attrib_string_list_get_data
+            attrib_string_list_get_next
             s_string_list_new
             s_string_list_add_item
             s_string_list_delete_item
             s_string_list_duplicate_string_list
             s_string_list_find_in_list
             s_string_list_get_data_at_index
+            s_string_list_in_list
             s_string_list_sort_master_comp_list
             s_string_list_sort_master_comp_attrib_list
             s_string_list_sort_master_net_list
@@ -120,6 +127,7 @@
             s_table_copy
             s_table_create_attrib_pair
             s_table_destroy
+            s_table_get_index
             s_table_new
             s_table_add_toplevel_comp_items_to_comp_table
             s_table_add_toplevel_net_items_to_net_table
@@ -128,7 +136,6 @@
             s_table_resize
 
             s_toplevel_get_pin_attribs_in_sheet
-            s_toplevel_update_component_attribs_in_toplevel
             s_toplevel_update_pin_attribs_in_toplevel
 
             s_visibility_set_invisible
@@ -181,6 +188,7 @@
 (define-lff s_attrib_name_in_list int '(* *))
 
 ;;; s_misc.c
+(define-lff s_misc_remaining_string '* (list '* int int))
 (define-lff set_verbose_mode void '())
 (define-lff u_basic_breakup_string '* (list '* int int))
 
@@ -201,6 +209,11 @@
 (define-lff x_gtksheet_get_max_col int '(*))
 (define-lff x_gtksheet_get_min_col int '(*))
 (define-lff x_gtksheet_init void '())
+
+;;; s_object.c
+(define-lff s_object_add_comp_attrib_to_object void (list '* '* '* '* int int))
+(define-lff s_object_remove_attrib_in_object void '(* * *))
+(define-lff s_object_replace_attrib_in_object void (list '* '* '* int int))
 
 ;;; s_sheet_data.c
 (define-lff attrib_sheet_data_new '* '())
@@ -246,12 +259,14 @@
 
 ;;; s_string_list.c
 (define-lff attrib_string_list_get_data '* '(*))
+(define-lff attrib_string_list_get_next '* '(*))
 (define-lff s_string_list_new '* '())
 (define-lff s_string_list_add_item void '(* * *))
 (define-lff s_string_list_delete_item void '(* * *))
 (define-lff s_string_list_duplicate_string_list '* '(*))
 (define-lff s_string_list_find_in_list int '(* *))
 (define-lff s_string_list_get_data_at_index '* (list '* int))
+(define-lff s_string_list_in_list int '(* *))
 (define-lff s_string_list_sort_master_comp_list void '())
 (define-lff s_string_list_sort_master_comp_attrib_list void '())
 (define-lff s_string_list_sort_master_net_list void '())
@@ -266,6 +281,7 @@
 (define-lff s_table_copy '* (list '* int int int))
 (define-lff s_table_create_attrib_pair '* (list '* '* '* int))
 (define-lff s_table_destroy void (list '* int int))
+(define-lff s_table_get_index int '(* *))
 (define-lff s_table_new '* (list int int))
 (define-lff s_table_add_toplevel_comp_items_to_comp_table void '(*))
 (define-lff s_table_add_toplevel_net_items_to_net_table void '(*))
@@ -275,7 +291,6 @@
 
 ;;; s_toplevel.c
 (define-lff s_toplevel_get_pin_attribs_in_sheet '* '(* *))
-(define-lff s_toplevel_update_component_attribs_in_toplevel void '(* * * *))
 (define-lff s_toplevel_update_pin_attribs_in_toplevel void '(* * * *))
 
 ;;; s_visibility.c

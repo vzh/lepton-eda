@@ -229,11 +229,6 @@ void s_table_gtksheet_to_table(GtkSheet *local_gtk_sheet,
                                TABLE **local_table, int num_rows, int num_cols);
 
 /* ------------- s_toplevel.c ------------- */
-void
-s_toplevel_update_component_attribs_in_toplevel (LeptonToplevel *toplevel,
-                                                 LeptonObject *o_current,
-                                                 STRING_LIST *new_comp_attrib_list,
-                                                 STRING_LIST *complete_comp_attrib_list);
 STRING_LIST *s_toplevel_get_pin_attribs_in_sheet(char *refdes, LeptonObject *pin);
 void
 s_toplevel_update_pin_attribs_in_toplevel (LeptonToplevel *toplevel,

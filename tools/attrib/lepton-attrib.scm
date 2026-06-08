@@ -169,9 +169,34 @@ failure."
   (for-each save (active-pages)))
 
 
+
+;;; Updates *OBJECT component attributes in *TOPLEVEL using the
+;;; value held in the list of name=value attribute pairs
+;;; *NEW-COMPONENT-ATTRIB-LIST.
+;;;
+;;; For each attrib string attached to the component, update it
+;;; using the value held in *NEW-COMPONENT-ATTRIB-LIST.
+;;; Algorithm:
+;;; - Form list of all component attribs held on both the component
+;;;    (*OBJECT), as well as in the attrib list of sheet data.
+;;; - Loop over name=value pairs held in
+;;;   *complete-component-attrib-list.
+;;; - For each name=value pair, look for corresponding attrib on
+;;;   *OBJECT.
+;;; - For each name=value pair, look for the corresponding attrib
+;;;   in *new-component-attrib-list.
+;;; - If the attrib exists on *OBJECT and in
+;;;   *NEW-COMPONENT-ATTRIB-PAIR-LIST, write the new value (from
+;;;   *NEW-COMPONENT-ATTRIB-PAIR-LIST) into *OBJECT.
+;;; - If the attrib exists on *OBJECT, but is NULL in name=value
+;;;   pair, delete the attrib from *OBJECT .
+;;; - If the attribs doesn't exist on *OBJECT, but is non-NULL in
+;;;   the name=value pair, create an attrib object and add it to
+;;;   the part on *OBJECT.
 (define (update-component-attribs *toplevel
                                   *object
                                   *new-component-attrib-pair-list)
+  (define *sheet-data (attrib_get_sheet_data))
   ;; To remove dead attribs from an object, we need to form a
   ;; complete list of unique attribs by taking the union of the
   ;; new attribs from the sheet data, and the old attribs living
@@ -184,6 +209,9 @@ failure."
     (s_string_list_duplicate_string_list *new-component-attrib-pair-list))
   ;; This is to fake out a function called later.
   (define *count (bytevector->pointer (make-bytevector (sizeof int) 0)))
+
+  (when (null-pointer? *object)
+    (error "NULL object."))
 
   ;; Now create a complete list of unique attribute names.  This
   ;; will be used in the loop below when updating attributes.
@@ -230,11 +258,116 @@ failure."
   (unless (null-pointer?
            (attrib_string_list_get_data *complete-component-attrib-list))
     ;; Now the normal case.
-    (s_toplevel_update_component_attribs_in_toplevel
-     *toplevel
-     *object
-     *new-component-attrib-pair-list
-     *complete-component-attrib-list)))
+    (let loop ((*local-list *complete-component-attrib-list))
+      (unless (null-pointer? *local-list)
+        ;; Now get the old attrib name & value from
+        ;; *complete-component-attrib-list and value from object.
+        (let* ((*old-attrib-name
+                (u_basic_breakup_string
+                 (attrib_string_list_get_data *local-list)
+                 (char->integer #\=)
+                 0))
+               (*old-attrib-value
+                (lepton_attrib_search_attached_attribs_by_name
+                 *object
+                 *old-attrib-name
+                 0))
+               ;; Next try to get this attrib from
+               ;; *new-component-attrib-list.
+               (*new-attrib-name
+                (u_basic_breakup_string
+                 (attrib_string_list_get_data *local-list)
+                 (char->integer #\=)
+                 0))
+               ;; Now get row and column where this new attrib
+               ;; lives.  Then get visibility of the new attrib
+               ;; stored in the component table We'll need this
+               ;; later.
+               (*refdes (g_strdup (s_attrib_get_refdes *object)))
+               (row (s_table_get_index
+                     (attrib_sheet_data_get_component_list
+                      *sheet-data)
+                     *refdes))
+               (column (s_table_get_index
+                        (attrib_sheet_data_get_component_attrib_list
+                         *sheet-data)
+                        *new-attrib-name))
+               (*new-attrib-value
+                ;; If attribute has been deleted from the sheet,
+                ;; here is where we detect that.  The attrib will
+                ;; be deleted below.
+                (if (or (= row -1)
+                        (= column -1))
+                    %null-pointer
+                    (if (true? (s_string_list_in_list
+                                *new-component-attrib-pair-list
+                                (attrib_string_list_get_data
+                                 *local-list)))
+                        (s_misc_remaining_string
+                         (attrib_string_list_get_data *local-list)
+                         (char->integer #\=)
+                         1)
+                        %null-pointer)))
+               ;; We need a better place to get this info since the
+               ;; TABLE can be out of date.
+               (visibility
+                (if (null-pointer? *new-attrib-value)
+                    0
+                    (attrib_table_get_visibility
+                     (attrib_sheet_data_get_component_table *sheet-data)
+                     row
+                     column)))
+               (show-name-value
+                (if (null-pointer? *new-attrib-value)
+                    0
+                    (attrib_table_get_show_name_value
+                     (attrib_sheet_data_get_component_table *sheet-data)
+                     row
+                     column))))
+          (g_free *refdes)
+
+          ;; Four cases to consider: Case 1.
+          (if (and (not (null-pointer? *old-attrib-value))
+                   (not (null-pointer? *new-attrib-value))
+                   (not (string-null? (pointer->string *new-attrib-value))))
+              ;; simply write new attrib into place of old one.
+              (s_object_replace_attrib_in_object *object
+                                                 *new-attrib-name
+                                                 *new-attrib-value
+                                                 visibility
+                                                 show-name-value)
+
+
+              ;; Four cases to consider: Case 2.
+              (if (and (not (null-pointer? *old-attrib-value))
+                       (null-pointer? *new-attrib-value))
+                  ;; Remove attrib from component.
+                  (s_object_remove_attrib_in_object *toplevel
+                                                    *object
+                                                    *old-attrib-name)
+                  ;; Four cases to consider: Case 3.
+                  (if (and (null-pointer? *old-attrib-value)
+                           (not (null-pointer? *new-attrib-value)))
+                      ;; Add new attrib to component.
+                      (s_object_add_comp_attrib_to_object *toplevel
+                                                          *object
+                                                          *new-attrib-name
+                                                          *new-attrib-value
+                                                          visibility
+                                                          show-name-value)
+                      ;; Four cases to consider: Case 4.
+                      (begin
+                        ;; Do nothing.
+                        #f))))
+
+          ;; Toggle attribute visibility and name/value setting.
+
+          ;; free everything and iterate
+          (g_free *new-attrib-name)
+          (g_free *new-attrib-value)
+          (g_free *old-attrib-name)
+          (g_free *old-attrib-value)
+          (loop (attrib_string_list_get_next *local-list)))))))
 
 
 (define (update-design-components *toplevel *page)
