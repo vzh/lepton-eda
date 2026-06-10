@@ -63,7 +63,6 @@
             s_object_add_comp_attrib_to_object
             s_object_add_pin_attrib_to_object
             s_object_remove_attrib_in_object
-            s_object_replace_attrib_in_object
 
             attrib_sheet_data_new
             attrib_sheet_data_get_changed
@@ -212,7 +211,6 @@
 (define-lff s_object_add_comp_attrib_to_object void (list '* '* '* '* int int))
 (define-lff s_object_add_pin_attrib_to_object void '(* * * *))
 (define-lff s_object_remove_attrib_in_object void '(* * *))
-(define-lff s_object_replace_attrib_in_object void (list '* '* '* int int))
 
 ;;; s_sheet_data.c
 (define-lff attrib_sheet_data_new '* '())

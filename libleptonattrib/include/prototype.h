@@ -246,13 +246,6 @@ s_object_add_pin_attrib_to_object (LeptonToplevel *toplevel,
                                    LeptonObject *o_current,
                                    char *new_attrib_name,
                                    char *new_attrib_value);
-
-void s_object_replace_attrib_in_object (LeptonObject *o_current,
-                                        char *new_attrib_name,
-                                        char *new_attrib_value,
-                                        gint visibility,
-                                        gint show_name_value);
-
 void
 s_object_remove_attrib_in_object (LeptonToplevel *toplevel,
                                   LeptonObject *o_current,
