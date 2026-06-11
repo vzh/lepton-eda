@@ -883,7 +883,9 @@ void s_sheet_data_add_master_pin_list_items (const GList *obj_list) {
               g_debug ("s_sheet_data_add_master_pin_list_items: "
                        "About to add to master pin list row_label = %s\n",
                        row_label);
-              s_string_list_add_item (sheet_head->master_pin_list_head, &(sheet_head->pin_count), row_label);
+              s_string_list_add_item (attrib_sheet_data_get_pin_list (sheet_head),
+                                      &(sheet_head->pin_count),
+                                      row_label);
 
             } else {      /* didn't find pinnumber.  Report error to log. */
               fprintf (stderr, "s_sheet_data_add_master_pin_list_items: ");
