@@ -800,6 +800,10 @@ Please check your design.")))
   (s_sheet_data_add_master_net_attrib_list_items *objects))
 
 
+(define (add-pins *objects)
+  (s_sheet_data_add_master_pin_list_items *objects))
+
+
 (define (activate *app *toplevel)
   (define *window-widget (attrib_window_new *app))
   (define *sheet-data (make-sheet-data))
@@ -829,8 +833,7 @@ Please check your design.")))
      (add-nets (lepton_page_objects *page))
      (add-net-attribs (lepton_page_objects *page))
 
-     (s_sheet_data_add_master_pin_list_items
-      (lepton_page_objects *page))
+     (add-pins (lepton_page_objects *page))
      (s_sheet_data_add_master_pin_attrib_list_items
       (lepton_page_objects *page)))
 
