@@ -178,26 +178,29 @@ failure."
   (when (null-pointer? *object)
     (error "NULL object."))
 
+  ;; Choose position for a new object attrib.
+  (define (attrib-position object)
+    (cond
+     ((component? object)
+      (component-position object))
+     ((or (net? object)
+          (pin? object))
+      (line-start object))
+     (else (error "Object type is not supported: ~A"
+                  (object-type object)))))
+
   (let ((object (pointer->object *object)))
     (if (or (component? object)
             (net? object))
         ;; Creating a toplevel or unattached attribute.
-        ;; Get coordinates of where to place the text object.
-
-        ;; FIXME: Change the function getting coords for nets.
-        ;; It's a long standing bug since nets are not supported
-        ;; here.
-        (let* ((x (lepton_component_object_get_x *object))
-               (y (lepton_component_object_get_y *object))
-               ;; First create text item.
-               (attrib
-                (make-text (cons x y)
-                           'lower-left
-                           0
-                           (pointer->string *name-value-pair)
-                           DEFAULT_TEXT_SIZE
-                           (visibility->symbol visibility)
-                           (show-name-value->symbol show-name-value))))
+        (let ((attrib
+               (make-text (attrib-position object)
+                          'lower-left
+                          0
+                          (pointer->string *name-value-pair)
+                          DEFAULT_TEXT_SIZE
+                          (visibility->symbol visibility)
+                          (show-name-value->symbol show-name-value))))
           (page-append! (object-page object) attrib)
           ;; Attach the attribute to the object.
           (attach-attribs! object attrib)
