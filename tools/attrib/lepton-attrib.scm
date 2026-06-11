@@ -64,6 +64,8 @@
 (define VISIBLE 1)
 
 
+;;; Consider using the configuration key schematic.gui::text-size
+;;; instead.
 ;;; liblepton/include/liblepton/text_object.h:
 (define DEFAULT_TEXT_SIZE 10)
 
