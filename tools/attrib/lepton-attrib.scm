@@ -169,15 +169,12 @@ failure."
 
 
 ;;; Attaches an attribute produced from NAME-VALUE-PAIR to
-;;; *OBJECT applying the properties VISIBILITY and SHOW-NAME-VALUE
+;;; OBJECT applying the properties VISIBILITY and SHOW-NAME-VALUE
 ;;; to the attribute.
-(define (add-object-attrib name-value-pair
+(define (add-object-attrib object
+                           name-value-pair
                            visibility
-                           show-name-value
-                           *object)
-  (when (null-pointer? *object)
-    (error "NULL object."))
-
+                           show-name-value)
   ;; Choose position for a new object attrib.
   (define (attrib-position object)
     (cond
@@ -189,24 +186,23 @@ failure."
      (else (error "Object type is not supported: ~A"
                   (object-type object)))))
 
-  (let ((object (pointer->object *object)))
-    (if (or (component? object)
-            (net? object))
-        ;; Creating a toplevel or unattached attribute.
-        (let ((attrib
-               (make-text (attrib-position object)
-                          'lower-left
-                          0
-                          name-value-pair
-                          DEFAULT_TEXT_SIZE
-                          (visibility->symbol visibility)
-                          (show-name-value->symbol show-name-value))))
-          (page-append! (object-page object) attrib)
-          ;; Attach the attribute to the object.
-          (attach-attribs! object attrib)
+  (if (or (component? object)
+          (net? object))
+      ;; Creating a toplevel or unattached attribute.
+      (let ((attrib
+             (make-text (attrib-position object)
+                        'lower-left
+                        0
+                        name-value-pair
+                        DEFAULT_TEXT_SIZE
+                        (visibility->symbol visibility)
+                        (show-name-value->symbol show-name-value))))
+        (page-append! (object-page object) attrib)
+        ;; Attach the attribute to the object.
+        (attach-attribs! object attrib)
 
-          attrib)
-        (error "Trying to add attrib to non-component or non-net."))))
+        attrib)
+      (error "Trying to add attrib to non-component or non-net.")))
 
 
 ;;; Searches for the instance of *NEW_ATTRIB_NAME on *OBJECT, and
@@ -490,10 +486,10 @@ failure."
                              (string-append (pointer->string *new-attrib-name)
                                             "="
                                             (pointer->string *new-attrib-value))))
-                        (add-object-attrib name-value-pair
+                        (add-object-attrib (pointer->object *object)
+                                           name-value-pair
                                            visibility
-                                           show-name-value
-                                           *object))
+                                           show-name-value))
                       ;; Four cases to consider: Case 4.
                       (begin
                         ;; Do nothing.
@@ -739,10 +735,10 @@ failure."
                            (string-append (pointer->string *new-attrib-name)
                                           "="
                                           (pointer->string *new-attrib-value))))
-                      (add-object-attrib name-value-pair
+                      (add-object-attrib (pointer->object *pin)
+                                         name-value-pair
                                          INVISIBLE
-                                         SHOW_NAME_VALUE
-                                         *pin))
+                                         SHOW_NAME_VALUE))
                     ;; Four cases to consider: Case 4
                     ;; Do nothing.
                     #f)))
