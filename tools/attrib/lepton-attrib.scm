@@ -140,10 +140,9 @@ failure."
 
 
 ;;; Attaches an attribute produced from *NAME-VALUE-PAIR to
-;;; *OBJECT on *ACTIVE-PAGE applying the properties VISIBILITY and
-;;; SHOW-NAME-VALUE to the attribute.
-(define (add-object-attrib *active-page
-                           *name-value-pair
+;;; *OBJECT applying the properties VISIBILITY and SHOW-NAME-VALUE
+;;; to the attribute.
+(define (add-object-attrib *name-value-pair
                            visibility
                            show-name-value
                            *object)
@@ -153,9 +152,6 @@ failure."
   (define LOWER_LEFT 0)
   ;; Defined in liblepton/include/liblepton/text_object.h:
   (define DEFAULT_TEXT_SIZE 10)
-
-  (when (null-pointer? *active-page)
-    (error "NULL page."))
 
   (when (null-pointer? *object)
     (error "NULL object."))
@@ -475,15 +471,12 @@ failure."
                            ;; One last sanity check, then add attrib.
                            (not (string-null? (pointer->string *new-attrib-value))))
                       ;; Add new attrib to component.
-                      (let ((*active-page
-                             (lepton_toplevel_get_page_current *toplevel))
-                            (*name-value-pair
+                      (let ((*name-value-pair
                              (string->pointer
                               (string-append (pointer->string *new-attrib-name)
                                              "="
                                              (pointer->string *new-attrib-value)))))
-                        (add-object-attrib *active-page
-                                           *name-value-pair
+                        (add-object-attrib *name-value-pair
                                            visibility
                                            show-name-value
                                            *object))
@@ -735,15 +728,12 @@ failure."
                          ;; One last sanity check.
                          (not (string-null? (pointer->string *new-attrib-value))))
                     ;; Add new attrib to pin.
-                    (let ((*active-page
-                           (lepton_toplevel_get_page_current *toplevel))
-                          (*name-value-pair
+                    (let ((*name-value-pair
                            (string->pointer
                             (string-append (pointer->string *new-attrib-name)
                                            "="
                                            (pointer->string *new-attrib-value)))))
-                      (add-object-attrib *active-page
-                                         *name-value-pair
+                      (add-object-attrib *name-value-pair
                                          INVISIBLE
                                          SHOW_NAME_VALUE
                                          *pin))
