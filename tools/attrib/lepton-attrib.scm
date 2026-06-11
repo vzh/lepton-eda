@@ -51,6 +51,7 @@
 
 (define %program-basename (basename (car (program-arguments))))
 (define %theme-icon-name "lepton-attrib")
+(define %verbose-mode #f)
 
 
 ;;; liblepton/include/liblepton/defines.h
@@ -1886,7 +1887,9 @@ Please check your design.")))
   (when version
     (display-lepton-version #:print-name #t #:copyright #t)
     (exit 0))
-  (when verbose? (set_verbose_mode))
+  (when verbose?
+    (set_verbose_mode)
+    (set! %verbose-mode #t))
 
   (receive (readable-files unreadable-files)
       (partition file-readable? files)
