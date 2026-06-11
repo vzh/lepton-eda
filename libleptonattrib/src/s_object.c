@@ -55,63 +55,7 @@
  *------------------------------------------------------------------*/
 #define DEFAULT_TEXT_SIZE 10
 
-static LeptonObject*
-s_object_attrib_add_attrib_in_object (LeptonPage *active_page,
-                                      char *text_string,
-                                      gint visibility,
-                                      gint show_name_value,
-                                      LeptonObject * object);
-
 /* ===================  Public Functions  ====================== */
-
-/*------------------------------------------------------------------*/
-/*! \brief Add an attribute to an LeptonObject
- *
- * This fcn adds a new attrib to o_current, when o_current is a
- * component.  It does it in the following
- * way:
- * -# It creates an object -- "attrib_graphic" -- and fills it in.
- * -# It gets the position info from o_current's refdes attrib and
- *    calls o_text_new() to add position info and name=value string
- *    to attrib_graphic.
- * -# It calls lepton_attrib_add() to wrap attrib_graphic with
- *    (attribute LeptonObject)
- * \param toplevel LeptonToplevel structure
- * \param o_current pointer to object to add attribute to
- * \param new_attrib_name name of the attribute to add
- * \param new_attrib_value value of the attribute to add
- * \param visibility Is the attribute visible?
- * \param show_name_value Control visibility of name and value.
- */
-void
-s_object_add_comp_attrib_to_object (LeptonToplevel *toplevel,
-                                    LeptonObject *o_current,
-                                    char *new_attrib_name,
-                                    char *new_attrib_value,
-                                    gint visibility,
-                                    gint show_name_value)
-{
-  LeptonPage *active_page = NULL;
-  char *name_value_pair;
-  g_return_if_fail (o_current != NULL);
-
-  active_page = lepton_toplevel_get_page_current (toplevel);
-
-  /* One last sanity check, then add attrib */
-  if (strlen(new_attrib_value) != 0) {
-    name_value_pair = g_strconcat(new_attrib_name, "=", new_attrib_value, NULL);
-    s_object_attrib_add_attrib_in_object (active_page,
-                                          name_value_pair,
-                                          visibility,
-                                          show_name_value,
-                                          o_current);
-  }
-
-  return;
-
-}
-
-
 /*------------------------------------------------------------------*/
 /*!
  * \todo This needs to be filled in.
@@ -245,7 +189,7 @@ s_object_remove_attrib_in_object (LeptonToplevel *toplevel,
  * \returns pointer to the object
  * \todo Does it need to return LeptonObject?
  */
-static LeptonObject *
+LeptonObject *
 s_object_attrib_add_attrib_in_object (LeptonPage *active_page,
                                       char *text_string,
                                       int visibility,

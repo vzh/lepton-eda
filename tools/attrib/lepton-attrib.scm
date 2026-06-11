@@ -369,14 +369,22 @@ failure."
                                                     *old-attrib-name)
                   ;; Four cases to consider: Case 3.
                   (if (and (null-pointer? *old-attrib-value)
-                           (not (null-pointer? *new-attrib-value)))
+                           (not (null-pointer? *new-attrib-value))
+                           ;; One last sanity check, then add attrib.
+                           (not (string-null? (pointer->string *new-attrib-value))))
                       ;; Add new attrib to component.
-                      (s_object_add_comp_attrib_to_object *toplevel
-                                                          *object
-                                                          *new-attrib-name
-                                                          *new-attrib-value
-                                                          visibility
-                                                          show-name-value)
+                      (let ((*active-page
+                             (lepton_toplevel_get_page_current *toplevel))
+                            (*name-value-pair
+                             (string->pointer
+                              (string-append (pointer->string *new-attrib-name)
+                                             "="
+                                             (pointer->string *new-attrib-value)))))
+                        (s_object_attrib_add_attrib_in_object *active-page
+                                                              *name-value-pair
+                                                              visibility
+                                                              show-name-value
+                                                              *object))
                       ;; Four cases to consider: Case 4.
                       (begin
                         ;; Do nothing.

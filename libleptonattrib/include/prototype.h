@@ -230,13 +230,6 @@ void s_table_gtksheet_to_table(GtkSheet *local_gtk_sheet,
 
 /* ------------- s_object.c ------------- */
 void
-s_object_add_comp_attrib_to_object (LeptonToplevel *toplevel,
-                                    LeptonObject *o_current,
-                                    char *new_attrib_name,
-                                    char *new_attrib_value,
-                                    gint visibility,
-                                    gint show_name_value);
-void
 s_object_add_net_attrib_to_object (LeptonToplevel *toplevel,
                                    LeptonObject *o_current,
                                    char *new_attrib_name,
@@ -246,6 +239,12 @@ s_object_add_pin_attrib_to_object (LeptonToplevel *toplevel,
                                    LeptonObject *o_current,
                                    char *new_attrib_name,
                                    char *new_attrib_value);
+LeptonObject*
+s_object_attrib_add_attrib_in_object (LeptonPage *active_page,
+                                      char *text_string,
+                                      gint visibility,
+                                      gint show_name_value,
+                                      LeptonObject *object);
 void
 s_object_remove_attrib_in_object (LeptonToplevel *toplevel,
                                   LeptonObject *o_current,
