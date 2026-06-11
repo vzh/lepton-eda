@@ -138,6 +138,18 @@ failure."
   (for-each save (active-pages)))
 
 
+(define (add-object-attrib *active-page
+                           *name-value-pair
+                           visibility
+                           show-name-value
+                           *object)
+  (s_object_attrib_add_attrib_in_object *active-page
+                                        *name-value-pair
+                                        visibility
+                                        show-name-value
+                                        *object))
+
+
 ;;; Searches for the instance of *NEW_ATTRIB_NAME on *OBJECT, and
 ;;; replaces its value with the *NEW_ATTRIB_VALUE.  The arguments
 ;;; VISIBILITY and SHOW-NAME-VALUE set the corresponding
@@ -422,11 +434,11 @@ failure."
                               (string-append (pointer->string *new-attrib-name)
                                              "="
                                              (pointer->string *new-attrib-value)))))
-                        (s_object_attrib_add_attrib_in_object *active-page
-                                                              *name-value-pair
-                                                              visibility
-                                                              show-name-value
-                                                              *object))
+                        (add-object-attrib *active-page
+                                           *name-value-pair
+                                           visibility
+                                           show-name-value
+                                           *object))
                       ;; Four cases to consider: Case 4.
                       (begin
                         ;; Do nothing.
@@ -682,11 +694,11 @@ failure."
                             (string-append (pointer->string *new-attrib-name)
                                            "="
                                            (pointer->string *new-attrib-value)))))
-                      (s_object_attrib_add_attrib_in_object *active-page
-                                                            *name-value-pair
-                                                            INVISIBLE
-                                                            SHOW_NAME_VALUE
-                                                            *pin))
+                      (add-object-attrib *active-page
+                                         *name-value-pair
+                                         INVISIBLE
+                                         SHOW_NAME_VALUE
+                                         *pin))
                     ;; Four cases to consider: Case 4
                     ;; Do nothing.
                     #f)))
