@@ -754,18 +754,6 @@ void s_sheet_data_add_master_comp_attrib_list_items (const GList *obj_list) {
 
 
 /*------------------------------------------------------------------*/
-/*! \brief Add net attributes to master list.
- *
- * Build the master list of net attribs.
- * It's currently empty, waiting for implementation of net
- * attributes.
- */
-void s_sheet_data_add_master_net_attrib_list_items (const GList *obj_start) {
-  return;
-}
-
-
-/*------------------------------------------------------------------*/
 /*! \brief Add pin names to master list.
  *
  * Build the master

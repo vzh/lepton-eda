@@ -798,8 +798,9 @@ Please check your design.")))
   #f)
 
 
+;;; Adds net attribs.  Not implemented yet.
 (define (add-net-attribs *objects)
-  (s_sheet_data_add_master_net_attrib_list_items *objects))
+  #f)
 
 
 (define (add-pins *objects)
