@@ -24,6 +24,7 @@
              (srfi srfi-1)
              (system foreign)
 
+             (lepton attrib)
              (lepton config)
              (lepton ffi boolean)
              (lepton ffi glib)
@@ -183,16 +184,11 @@ failure."
                                                 *name-value-pair
                                                 DEFAULT_TEXT_SIZE
                                                 visibility
-                                                show-name-value)))
-          (lepton_page_append *active-page *attrib)
-
-          ;; Now the current active page contains the new text
-          ;; item.
-
-          ;; Now attach the attribute to the object.
-          (lepton_attrib_attach *attrib *object FALSE)
-
-          (set-page-dirty! page)
+                                                show-name-value))
+               (attrib (pointer->object *attrib)))
+          (page-append! page attrib)
+          ;; Attach the attribute to the object.
+          (attach-attribs! object attrib)
 
           *attrib)
 
