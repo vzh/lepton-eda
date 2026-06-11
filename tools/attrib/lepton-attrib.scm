@@ -1728,8 +1728,33 @@ Please check your design.")))
   *sheet-data)
 
 
+;;; Adds the list of component refdeses by running through
+;;; the list of *OBJECTS.
 (define (add-components *objects)
-  (s_sheet_data_add_master_comp_list_items *objects))
+  (define *sheet-data (attrib_get_sheet_data))
+
+  (when %verbose-mode
+    (format #t (G_ "Start master component list creation.\n")))
+
+  ;; Iterate through all objects found on page looking for
+  ;; components.
+  (for-each
+   (lambda (*object)
+     ;; Only process if this is a component with attributes.
+     (when (and (true? (lepton_object_is_component *object))
+                (not (null-pointer? (lepton_object_get_attribs *object))))
+       (verbose_print (string->pointer " C"))
+
+       (let ((*temp-refdes (s_attrib_get_refdes *object)))
+         ;; Now that we have refdes, store refdes and attach
+         ;; attrib list to component.
+         (unless (null-pointer? *temp-refdes)
+           (s_string_list_add_item
+            (attrib_sheet_data_get_component_list *sheet-data)
+            (attrib_sheet_data_get_component_counter_address *sheet-data)
+            *temp-refdes)
+           (g_free *temp-refdes)))))
+   (glist->list *objects identity)))
 
 
 (define (add-component-attribs *objects)

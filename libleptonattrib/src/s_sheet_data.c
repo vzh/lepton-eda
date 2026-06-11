@@ -704,64 +704,6 @@ SHEET_DATA *attrib_sheet_data_new()
 }
 
 
-
-/*------------------------------------------------------------------*/
-/*! \brief Add components to master list
- *
- * Add to the master list of components refdeses by running through
- * the components and recording the comp refdeses it discovers. Then
- * it sorts them into alphabetical order.
- * \param[in] obj_list pointer to the component list to be added.
- */
-void s_sheet_data_add_master_comp_list_items (const GList *obj_list) {
-  char *temp_uref;
-  const GList *iter;
-
-  g_debug ("==== Enter s_sheet_data_add_master_comp_list_items()\n");
-
-  if (verbose_mode) {
-    printf (_("Start master component list creation.\n"));
-  }
-
-  /* -----  Iterate through all objects found on page looking for components  ----- */
-  for (iter = obj_list;
-       iter != NULL;
-       iter = g_list_next (iter)) {
-    LeptonObject *o_current = (LeptonObject*) iter->data;
-
-    g_debug ("s_sheet_data_add_master_comp_list_items: "
-             "Examining o_current->name = %s\n", o_current->name);
-
-      /*-----  only process if this is a component with attributes ----*/
-    if (lepton_object_is_component (o_current) &&
-        lepton_object_get_attribs (o_current) != NULL)
-    {
-
-        g_debug ("s_sheet_data_add_master_comp_list_items: "
-                 "Found component on page: component basename = %s\n",
-                 lepton_component_object_get_basename (o_current));
-        verbose_print(" C");
-
-        temp_uref = s_attrib_get_refdes(o_current);
-
-        /* Now that we have refdes, store refdes and attach attrib list to component */
-        if (temp_uref) {
-          g_debug ("s_sheet_data_add_master_comp_list_items: "
-                   "About to add to master list refdes = %s\n", temp_uref);
-          s_string_list_add_item (attrib_sheet_data_get_component_list (sheet_head),
-                                  attrib_sheet_data_get_component_counter_address (sheet_head),
-                                  temp_uref);
-          g_free(temp_uref);
-        }
-
-      } /*  if (lepton_object_is_component (o_current) . . . . .) */
-
-  }
-
-  return;
-}
-
-
 /*------------------------------------------------------------------*/
 /*! \brief Add attributes to master list
  *

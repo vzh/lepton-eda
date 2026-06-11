@@ -47,6 +47,7 @@
             s_misc_remaining_string
             set_verbose_mode
             u_basic_breakup_string
+            verbose_print
 
             x_fileselect_open
 
@@ -75,6 +76,7 @@
             attrib_sheet_data_get_component_attrib_list_address
             attrib_sheet_data_get_component_count
             attrib_sheet_data_set_component_count
+            attrib_sheet_data_get_component_counter_address
             attrib_sheet_data_get_component_list
             attrib_sheet_data_set_component_list
             attrib_sheet_data_get_component_table
@@ -99,7 +101,6 @@
             attrib_sheet_data_set_pin_list
             attrib_sheet_data_get_pin_table
             attrib_sheet_data_set_pin_table
-            s_sheet_data_add_master_comp_list_items
             s_sheet_data_add_master_comp_attrib_list_items
             s_sheet_data_add_master_pin_list_items
             s_sheet_data_add_master_pin_attrib_list_items
@@ -188,6 +189,7 @@
 (define-lff s_misc_remaining_string '* (list '* int int))
 (define-lff set_verbose_mode void '())
 (define-lff u_basic_breakup_string '* (list '* int int))
+(define-lff verbose_print void '(*))
 
 ;;; x_fileselect.c
 (define-lff x_fileselect_open '* '())
@@ -220,6 +222,7 @@
 (define-lff attrib_sheet_data_get_component_attrib_list_address '* '(*))
 (define-lff attrib_sheet_data_get_component_count int '(*))
 (define-lff attrib_sheet_data_set_component_count void (list '* int))
+(define-lff attrib_sheet_data_get_component_counter_address '* '(*))
 (define-lff attrib_sheet_data_get_component_list '* '(*))
 (define-lff attrib_sheet_data_set_component_list void '(* *))
 (define-lff attrib_sheet_data_get_component_table '* '(*))
@@ -244,7 +247,6 @@
 (define-lff attrib_sheet_data_set_pin_list void '(* *))
 (define-lff attrib_sheet_data_get_pin_table '* '(*))
 (define-lff attrib_sheet_data_set_pin_table void '(* *))
-(define-lff s_sheet_data_add_master_comp_list_items void '(*))
 (define-lff s_sheet_data_add_master_comp_attrib_list_items void '(*))
 (define-lff s_sheet_data_add_master_pin_list_items void '(*))
 (define-lff s_sheet_data_add_master_pin_attrib_list_items void '(*))
