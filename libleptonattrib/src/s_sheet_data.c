@@ -608,6 +608,22 @@ attrib_sheet_data_set_pin_attrib_count (SHEET_DATA *data,
 }
 
 
+/*! \brief Get the address of pin attrib counter of sheet data.
+ *
+ *  \par Function Description
+ *
+ *  Returns the address of pin attrib counter of given sheet data
+ *  structure.
+ *
+ *  \return The address.
+ */
+int*
+attrib_sheet_data_get_pin_attrib_counter_address (SHEET_DATA *data)
+{
+  return &(data->pin_attrib_count);
+}
+
+
 /*! \brief Get the \a changed flag of sheet data.
  *
  *  \par Function Description
