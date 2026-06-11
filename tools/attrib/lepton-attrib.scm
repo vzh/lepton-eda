@@ -153,10 +153,14 @@ failure."
   ;; Defined in liblepton/include/liblepton/text_object.h:
   (define DEFAULT_TEXT_SIZE 10)
 
+  (when (null-pointer? *active-page)
+    (error "NULL page."))
+
   (when (null-pointer? *object)
     (error "NULL object."))
 
-  (let ((object (pointer->object *object)))
+  (let ((object (pointer->object *object))
+        (page (pointer->page *active-page)))
     (if (or (component? object)
             (net? object))
         ;; Creating a toplevel or unattached attribute.
@@ -188,7 +192,7 @@ failure."
           ;; Now attach the attribute to the object.
           (lepton_attrib_attach *attrib *object FALSE)
 
-          (lepton_page_set_changed *active-page 1)
+          (set-page-dirty! page)
 
           *attrib)
 
