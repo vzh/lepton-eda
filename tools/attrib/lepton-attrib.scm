@@ -160,8 +160,7 @@ failure."
   (when (null-pointer? *object)
     (error "NULL object."))
 
-  (let ((object (pointer->object *object))
-        (page (pointer->page *active-page)))
+  (let ((object (pointer->object *object)))
     (if (or (component? object)
             (net? object))
         ;; Creating a toplevel or unattached attribute.
@@ -186,7 +185,7 @@ failure."
                                                 visibility
                                                 show-name-value))
                (attrib (pointer->object *attrib)))
-          (page-append! page attrib)
+          (page-append! (object-page object) attrib)
           ;; Attach the attribute to the object.
           (attach-attribs! object attrib)
 
