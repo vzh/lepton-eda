@@ -138,6 +138,9 @@ attrib_sheet_data_get_pin_count (SHEET_DATA *data);
 void
 attrib_sheet_data_set_pin_count (SHEET_DATA *data,
                                  int count);
+int*
+attrib_sheet_data_get_pin_counter_address (SHEET_DATA *data);
+
 int
 attrib_sheet_data_get_pin_attrib_count (SHEET_DATA *data);
 
