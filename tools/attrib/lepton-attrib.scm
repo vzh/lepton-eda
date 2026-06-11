@@ -788,6 +788,10 @@ Please check your design.")))
   (s_sheet_data_add_master_comp_list_items *objects))
 
 
+(define (add-component-attribs *objects)
+  (s_sheet_data_add_master_comp_attrib_list_items *objects))
+
+
 (define (activate *app *toplevel)
   (define *window-widget (attrib_window_new *app))
   (define *sheet-data (make-sheet-data))
@@ -810,8 +814,7 @@ Please check your design.")))
 
      ;; Now add all items found to the master lists
      (add-components (lepton_page_objects *page))
-     (s_sheet_data_add_master_comp_attrib_list_items
-      (lepton_page_objects *page))
+     (add-component-attribs (lepton_page_objects *page))
      ;; Note that this must be changed.  We need to input the
      ;; entire project before doing anything with the nets because
      ;; we need to first determine where they are all connected!
