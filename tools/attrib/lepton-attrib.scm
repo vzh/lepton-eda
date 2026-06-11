@@ -186,12 +186,7 @@ failure."
           (attach-attribs! object attrib)
 
           *attrib)
-
-        (begin
-          (format (current-error-port) "add-object-attrib(): ")
-          (format (current-error-port)
-                  (G_ "Trying to add attrib to non-component or non-net!\n"))
-          (exit -1)))))
+        (error "Trying to add attrib to non-component or non-net."))))
 
 
 ;;; Searches for the instance of *NEW_ATTRIB_NAME on *OBJECT, and
