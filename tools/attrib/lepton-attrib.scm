@@ -168,10 +168,10 @@ failure."
   (if (= visible? VISIBLE) #t #f))
 
 
-;;; Attaches an attribute produced from *NAME-VALUE-PAIR to
+;;; Attaches an attribute produced from NAME-VALUE-PAIR to
 ;;; *OBJECT applying the properties VISIBILITY and SHOW-NAME-VALUE
 ;;; to the attribute.
-(define (add-object-attrib *name-value-pair
+(define (add-object-attrib name-value-pair
                            visibility
                            show-name-value
                            *object)
@@ -197,7 +197,7 @@ failure."
                (make-text (attrib-position object)
                           'lower-left
                           0
-                          (pointer->string *name-value-pair)
+                          name-value-pair
                           DEFAULT_TEXT_SIZE
                           (visibility->symbol visibility)
                           (show-name-value->symbol show-name-value))))
@@ -486,12 +486,11 @@ failure."
                            ;; One last sanity check, then add attrib.
                            (not (string-null? (pointer->string *new-attrib-value))))
                       ;; Add new attrib to component.
-                      (let ((*name-value-pair
-                             (string->pointer
-                              (string-append (pointer->string *new-attrib-name)
-                                             "="
-                                             (pointer->string *new-attrib-value)))))
-                        (add-object-attrib *name-value-pair
+                      (let ((name-value-pair
+                             (string-append (pointer->string *new-attrib-name)
+                                            "="
+                                            (pointer->string *new-attrib-value))))
+                        (add-object-attrib name-value-pair
                                            visibility
                                            show-name-value
                                            *object))
@@ -736,12 +735,11 @@ failure."
                          ;; One last sanity check.
                          (not (string-null? (pointer->string *new-attrib-value))))
                     ;; Add new attrib to pin.
-                    (let ((*name-value-pair
-                           (string->pointer
-                            (string-append (pointer->string *new-attrib-name)
-                                           "="
-                                           (pointer->string *new-attrib-value)))))
-                      (add-object-attrib *name-value-pair
+                    (let ((name-value-pair
+                           (string-append (pointer->string *new-attrib-name)
+                                          "="
+                                          (pointer->string *new-attrib-value))))
+                      (add-object-attrib name-value-pair
                                          INVISIBLE
                                          SHOW_NAME_VALUE
                                          *pin))
