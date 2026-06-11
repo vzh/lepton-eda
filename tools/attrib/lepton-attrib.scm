@@ -138,16 +138,65 @@ failure."
   (for-each save (active-pages)))
 
 
+;;; Attaches an attribute produced from *NAME-VALUE-PAIR to
+;;; *OBJECT on *ACTIVE-PAGE applying the properties VISIBILITY and
+;;; SHOW-NAME-VALUE to the attribute.
 (define (add-object-attrib *active-page
                            *name-value-pair
                            visibility
                            show-name-value
                            *object)
-  (s_object_attrib_add_attrib_in_object *active-page
-                                        *name-value-pair
-                                        visibility
-                                        show-name-value
-                                        *object))
+  ;; Defined in liblepton/include/liblepton/color.h:
+  (define ATTRIBUTE_COLOR 5)
+  ;; Defined in liblepton/include/liblepton/defines.h:
+  (define LOWER_LEFT 0)
+  ;; Defined in liblepton/include/liblepton/text_object.h:
+  (define DEFAULT_TEXT_SIZE 10)
+
+  (when (null-pointer? *object)
+    (error "NULL object."))
+
+  (let ((object (pointer->object *object)))
+    (if (or (component? object)
+            (net? object))
+        ;; Creating a toplevel or unattached attribute.
+        ;; Get coordinates of where to place the text object.
+
+        ;; FIXME: Change the function getting coords for nets.
+        ;; It's a long standing bug since nets are not supported
+        ;; here.
+        (let* ((x (lepton_component_object_get_x *object))
+               (y (lepton_component_object_get_y *object))
+               (color ATTRIBUTE_COLOR)
+
+               ;; First create text item.
+               (*attrib (lepton_text_object_new color
+                                                x
+                                                y
+                                                LOWER_LEFT
+                                                ;; Zero is angle.
+                                                0
+                                                *name-value-pair
+                                                DEFAULT_TEXT_SIZE
+                                                visibility
+                                                show-name-value)))
+          (lepton_page_append *active-page *attrib)
+
+          ;; Now the current active page contains the new text
+          ;; item.
+
+          ;; Now attach the attribute to the object.
+          (lepton_attrib_attach *attrib *object FALSE)
+
+          (lepton_page_set_changed *active-page 1)
+
+          *attrib)
+
+        (begin
+          (format (current-error-port) "add-object-attrib(): ")
+          (format (current-error-port)
+                  (G_ "Trying to add attrib to non-component or non-net!\n"))
+          (exit -1)))))
 
 
 ;;; Searches for the instance of *NEW_ATTRIB_NAME on *OBJECT, and

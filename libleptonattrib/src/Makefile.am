@@ -6,7 +6,6 @@ libleptonattrib_la_SOURCES = \
 	listsort.c \
 	s_attrib.c \
 	s_misc.c \
-	s_object.c \
 	s_sheet_data.c \
 	s_string_list.c \
 	s_table.c \

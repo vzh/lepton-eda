@@ -60,8 +60,6 @@
             x_gtksheet_get_min_col
             x_gtksheet_init
 
-            s_object_attrib_add_attrib_in_object
-
             attrib_sheet_data_new
             attrib_sheet_data_get_changed
             attrib_sheet_data_set_changed
@@ -204,9 +202,6 @@
 (define-lff x_gtksheet_get_max_col int '(*))
 (define-lff x_gtksheet_get_min_col int '(*))
 (define-lff x_gtksheet_init void '())
-
-;;; s_object.c
-(define-lff s_object_attrib_add_attrib_in_object '* (list '* '* int int '*))
 
 ;;; s_sheet_data.c
 (define-lff attrib_sheet_data_new '* '())

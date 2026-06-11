@@ -228,14 +228,6 @@ void s_table_gtksheet_to_table(GtkSheet *local_gtk_sheet,
                                STRING_LIST *master_row_list, STRING_LIST *master_col_list,
                                TABLE **local_table, int num_rows, int num_cols);
 
-/* ------------- s_object.c ------------- */
-LeptonObject*
-s_object_attrib_add_attrib_in_object (LeptonPage *active_page,
-                                      char *text_string,
-                                      gint visibility,
-                                      gint show_name_value,
-                                      LeptonObject *object);
-
 /* ------------- s_misc.c ------------- */
 void set_verbose_mode ();
 void verbose_print (const char *string);
