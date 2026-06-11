@@ -732,7 +732,8 @@ void s_sheet_data_add_master_comp_list_items (const GList *obj_list) {
           g_debug ("s_sheet_data_add_master_comp_list_items: "
                    "About to add to master list refdes = %s\n", temp_uref);
           s_string_list_add_item (attrib_sheet_data_get_component_list (sheet_head),
-                                  &(sheet_head->comp_count), temp_uref);
+                                  attrib_sheet_data_get_component_counter_address (sheet_head),
+                                  temp_uref);
           g_free(temp_uref);
         }
 
