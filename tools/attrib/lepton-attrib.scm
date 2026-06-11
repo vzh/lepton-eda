@@ -792,8 +792,10 @@ Please check your design.")))
   (s_sheet_data_add_master_comp_attrib_list_items *objects))
 
 
+;;; Adds the list of nets by running through the individual cells
+;;; and recording the names it discovers.  Not implemented yet.
 (define (add-nets *objects)
-  (s_sheet_data_add_master_net_list_items *objects))
+  #f)
 
 
 (define (add-net-attribs *objects)

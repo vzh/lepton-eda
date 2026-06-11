@@ -753,21 +753,6 @@ void s_sheet_data_add_master_comp_attrib_list_items (const GList *obj_list) {
 }
 
 
-
-/*------------------------------------------------------------------*/
-/*! \brief Add net names to master list.
- *
- * Build the master list of net names by running
- * through the individual cells and recording the net refdeses
- * it discovers.
- * It's currently empty, waiting for implementation of net
- * attributes.
- */
-void s_sheet_data_add_master_net_list_items (const GList *obj_start) {
-  return;
-}
-
-
 /*------------------------------------------------------------------*/
 /*! \brief Add net attributes to master list.
  *

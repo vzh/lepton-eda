@@ -149,7 +149,6 @@ void s_sheet_data_set_changed (SHEET_DATA* data, int changed);
 
 void s_sheet_data_add_master_comp_list_items(const GList *obj_list);
 void s_sheet_data_add_master_comp_attrib_list_items(const GList *obj_list);
-void s_sheet_data_add_master_net_list_items(const GList *obj_list);
 void s_sheet_data_add_master_net_attrib_list_items(const GList *obj_list);
 void s_sheet_data_add_master_pin_list_items(const GList *obj_list);
 void s_sheet_data_add_master_pin_attrib_list_items(const GList *obj_list);

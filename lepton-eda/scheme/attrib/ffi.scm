@@ -89,7 +89,6 @@
             attrib_sheet_data_set_pin_table
             s_sheet_data_add_master_comp_list_items
             s_sheet_data_add_master_comp_attrib_list_items
-            s_sheet_data_add_master_net_list_items
             s_sheet_data_add_master_net_attrib_list_items
             s_sheet_data_add_master_pin_list_items
             s_sheet_data_add_master_pin_attrib_list_items
@@ -219,7 +218,6 @@
 (define-lff attrib_sheet_data_set_pin_table void '(* *))
 (define-lff s_sheet_data_add_master_comp_list_items void '(*))
 (define-lff s_sheet_data_add_master_comp_attrib_list_items void '(*))
-(define-lff s_sheet_data_add_master_net_list_items void '(*))
 (define-lff s_sheet_data_add_master_net_attrib_list_items void '(*))
 (define-lff s_sheet_data_add_master_pin_list_items void '(*))
 (define-lff s_sheet_data_add_master_pin_attrib_list_items void '(*))
