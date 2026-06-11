@@ -988,7 +988,8 @@ void s_sheet_data_add_master_pin_attrib_list_items (const GList *obj_list) {
                              attrib_name);
 
                     s_string_list_add_item (attrib_sheet_data_get_pin_attrib_list (sheet_head),
-                                           &(sheet_head->pin_attrib_count), attrib_name);
+                                            attrib_sheet_data_get_pin_attrib_counter_address (sheet_head),
+                                            attrib_name);
                   }   /* if (strcmp(attrib_name, "pinnumber") != 0) */
                   g_free(attrib_value);
                   g_free(attrib_name);
