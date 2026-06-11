@@ -193,6 +193,12 @@ failure."
               (loop (cdr *attrib-ls)))))))
 
 
+(define (remove-attrib *toplevel *object *attrib-name)
+  (s_object_remove_attrib_in_object *toplevel
+                                    *object
+                                    *attrib-name))
+
+
 ;;; Updates *OBJECT component attributes in *TOPLEVEL using the
 ;;; value held in the list of name=value attribute pairs
 ;;; *NEW-COMPONENT-ATTRIB-LIST.
@@ -364,9 +370,7 @@ failure."
               (if (and (not (null-pointer? *old-attrib-value))
                        (null-pointer? *new-attrib-value))
                   ;; Remove attrib from component.
-                  (s_object_remove_attrib_in_object *toplevel
-                                                    *object
-                                                    *old-attrib-name)
+                  (remove-attrib *toplevel *object *old-attrib-name)
                   ;; Four cases to consider: Case 3.
                   (if (and (null-pointer? *old-attrib-value)
                            (not (null-pointer? *new-attrib-value))
@@ -625,7 +629,7 @@ failure."
             (if (and (not (null-pointer? *old-attrib-value))
                      (null-pointer? *new-attrib-value))
                 ;; Remove attrib from pin.
-                (s_object_remove_attrib_in_object *toplevel *pin *new-attrib-name)
+                (remove-attrib *toplevel *pin *new-attrib-name)
                 ;; Four cases to consider: Case 3: No old attrib, new one
                 ;; exists.
                 (if (and (null-pointer? *old-attrib-value)
