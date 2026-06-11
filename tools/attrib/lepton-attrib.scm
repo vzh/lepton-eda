@@ -1757,8 +1757,55 @@ Please check your design.")))
    (glist->list *objects identity)))
 
 
+;;; Processes *OBJECTS and adds the list of component attributes
+;;; by running through each component and recording all attribs it
+;;; discovers.
 (define (add-component-attribs *objects)
-  (s_sheet_data_add_master_comp_attrib_list_items *objects))
+  (define *sheet-data (attrib_get_sheet_data))
+
+  (when %verbose-mode
+    (format #t (G_ "Start master component attrib list creation.\n")))
+
+  ;; Iterate through all objects found on page looking for
+  ;; components.
+  (for-each
+   (lambda (*object)
+     ;; Only process if this is a component with attributes.
+     (when (and (true? (lepton_object_is_component *object))
+                (not (null-pointer?
+                      (lepton_object_get_attribs *object))))
+       (verbose_print (string->pointer " C"))
+
+       ;; Iterate through all attribs found on component.
+       (for-each
+        (lambda (*attrib)
+          (when (and (true? (lepton_object_is_text *attrib))
+                     (not (null-pointer? (lepton_object_get_text *attrib))))
+            ;; Found an attribute.
+            (let* ((*attrib-text
+                    (g_strdup (lepton_text_object_get_string *attrib)))
+                   (*attrib-name
+                    (u_basic_breakup_string *attrib-text
+                                            (char->integer #\=)
+                                            0)))
+              ;; Don't include "refdes" or "slot" because they
+              ;; form the row name.  Also don't include "net" per
+              ;; bug found by Steve W. -- 4.3.2007, SDB.
+              (when (and (not (string= (pointer->string *attrib-name)
+                                       "refdes"))
+                         (not (string= (pointer->string *attrib-name)
+                                       "net"))
+                         (not (string= (pointer->string *attrib-name)
+                                       "slot")) )
+                (s_string_list_add_item
+                 (attrib_sheet_data_get_component_attrib_list *sheet-data)
+                 (attrib_sheet_data_get_component_attrib_counter_address *sheet-data)
+                 *attrib-name))
+              (g_free *attrib-name)
+              (g_free *attrib-text))))
+        ;; This has a side effect.  Why?
+        (glist->list (lepton_object_get_attribs *object) identity))))
+   (glist->list *objects identity)))
 
 
 ;;; Adds the list of nets by running through the individual cells
