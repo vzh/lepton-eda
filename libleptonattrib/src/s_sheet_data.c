@@ -325,6 +325,22 @@ attrib_sheet_data_set_component_count (SHEET_DATA *data,
 }
 
 
+/*! \brief Get the address of component counter of sheet data.
+ *
+ *  \par Function Description
+ *
+ *  Returns the address of component counter of given sheet data
+ *  structure.
+ *
+ *  \return The address.
+ */
+int*
+attrib_sheet_data_get_component_counter_address (SHEET_DATA *data)
+{
+  return &(data->comp_count);
+}
+
+
 /*! \brief Get the count of component attribs of sheet data.
  *
  *  \par Function Description
