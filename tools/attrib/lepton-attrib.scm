@@ -826,19 +826,20 @@ Please check your design.")))
 
   (for-each
    (lambda (*page)
-     (lepton_toplevel_set_page_current *toplevel *page)
+     (let ((*objects (lepton_page_objects *page)))
+       (lepton_toplevel_set_page_current *toplevel *page)
 
-     ;; Now add all items found to the master lists
-     (add-components (lepton_page_objects *page))
-     (add-component-attribs (lepton_page_objects *page))
-     ;; Note that this must be changed.  We need to input the
-     ;; entire project before doing anything with the nets because
-     ;; we need to first determine where they are all connected!
-     (add-nets (lepton_page_objects *page))
-     (add-net-attribs (lepton_page_objects *page))
+       ;; Now add all items found to the master lists
+       (add-components *objects)
+       (add-component-attribs *objects)
+       ;; Note that this must be changed.  We need to input the
+       ;; entire project before doing anything with the nets because
+       ;; we need to first determine where they are all connected!
+       (add-nets *objects)
+       (add-net-attribs *objects)
 
-     (add-pins (lepton_page_objects *page))
-     (add-pin-attribs (lepton_page_objects *page)))
+       (add-pins *objects)
+       (add-pin-attribs *objects)))
 
    (glist->list *pages identity))
 
