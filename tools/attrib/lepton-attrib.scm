@@ -154,6 +154,18 @@ failure."
   (for-each save (active-pages)))
 
 
+(define (show-name-value->symbol snv)
+  (cond
+   ((= snv SHOW_NAME_VALUE) 'both)
+   ((= snv SHOW_NAME) 'name)
+   ((= snv SHOW_VALUE) 'value)
+   (else (error "Invalid text name/value visibility."))))
+
+
+(define (visibility->symbol visible?)
+  (if (= visible? VISIBLE) #t #f))
+
+
 ;;; Attaches an attribute produced from *NAME-VALUE-PAIR to
 ;;; *OBJECT applying the properties VISIBILITY and SHOW-NAME-VALUE
 ;;; to the attribute.
@@ -182,12 +194,8 @@ failure."
                            0
                            (pointer->string *name-value-pair)
                            DEFAULT_TEXT_SIZE
-                           (if (= visibility VISIBLE) #t #f)
-                           (cond
-                            ((= show-name-value SHOW_NAME_VALUE) 'both)
-                            ((= show-name-value SHOW_NAME) 'name)
-                            ((= show-name-value SHOW_VALUE) 'value)
-                            (else (error "Invalid text name/value visibility."))))))
+                           (visibility->symbol visibility)
+                           (show-name-value->symbol show-name-value))))
           (page-append! (object-page object) attrib)
           ;; Attach the attribute to the object.
           (attach-attribs! object attrib)
