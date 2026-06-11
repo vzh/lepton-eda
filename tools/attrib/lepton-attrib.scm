@@ -193,11 +193,47 @@ failure."
               (loop (cdr *attrib-ls)))))))
 
 
+;; Remove an attribute with *ATTRIB-NAME from *OBJECT in
+;; *TOPLEVEL.
 (define (remove-attrib *toplevel *object *attrib-name)
-  (s_object_remove_attrib_in_object *toplevel
-                                    *object
-                                    *attrib-name))
+  (let loop ((*attrib-ls
+              (glist->list (lepton_object_get_attribs *object)
+                           identity)))
+    (if (null? *attrib-ls)
+        (begin
+          ;; If we get here, it's because we have failed to find
+          ;; the attrib on the component.  This is an error
+          ;; condition.
+          (format (current-error-port) "remove-attrib(): ")
+          (format (current-error-port)
+                  (G_ "Failed to find the attrib ~S on the component.\n")
+                  (pointer->string *attrib-name))
+          (exit -1))
+        (let ((*attrib (car *attrib-ls)))
+          (if (and (true? (lepton_object_is_text *attrib))
+                   (not (null-pointer? (lepton_object_get_text *attrib))))
+              ;; Found an attribute.
+              (let* ((*old-attrib-text
+                      (g_strdup (lepton_text_object_get_string *attrib)))
+                     (*old-attrib-name
+                      (u_basic_breakup_string *old-attrib-text
+                                              (char->integer #\=)
+                                              0)))
+                (if (string= (pointer->string *old-attrib-name)
+                             (pointer->string *attrib-name))
+                    (begin
+                      ;; We've found the attrib.  Delete it and
+                      ;; then return.
+                      (s_object_delete_text_object_in_object *toplevel *attrib)
+                      ;; We are done -- leave.
+                      (g_free *old-attrib-text)
+                      (g_free *old-attrib-name))
+                    (begin
+                      (g_free *old-attrib-text)
+                      (g_free *old-attrib-name)
+                      (loop (cdr *attrib-ls)))))
 
+              (loop (cdr *attrib-ls)))))))
 
 ;;; Updates *OBJECT component attributes in *TOPLEVEL using the
 ;;; value held in the list of name=value attribute pairs

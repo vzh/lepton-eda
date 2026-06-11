@@ -61,7 +61,7 @@
             x_gtksheet_init
 
             s_object_attrib_add_attrib_in_object
-            s_object_remove_attrib_in_object
+            s_object_delete_text_object_in_object
 
             attrib_sheet_data_new
             attrib_sheet_data_get_changed
@@ -208,7 +208,7 @@
 
 ;;; s_object.c
 (define-lff s_object_attrib_add_attrib_in_object '* (list '* '* int int '*))
-(define-lff s_object_remove_attrib_in_object void '(* * *))
+(define-lff s_object_delete_text_object_in_object void '(* *))
 
 ;;; s_sheet_data.c
 (define-lff attrib_sheet_data_new '* '())

@@ -56,67 +56,6 @@
 #define DEFAULT_TEXT_SIZE 10
 
 /* ===================  Public Functions  ====================== */
-
-/*------------------------------------------------------------------*/
-/*!
- * \brief Remove attribute from object
- *
- * Remove an attribute from an object.
- * \param toplevel LeptonToplevel structure
- * \param o_current Object to remove attribute from
- * \param new_attrib_name Name of attribute to remove
- */
-void
-s_object_remove_attrib_in_object (LeptonToplevel *toplevel,
-                                  LeptonObject *o_current,
-                                  char *new_attrib_name)
-{
-  GList *a_iter;
-  LeptonObject *a_current;
-  LeptonObject *attribute_object;
-  char *old_attrib_text;
-  char *old_attrib_name;
-
-  a_iter = lepton_object_get_attribs (o_current);
-  while (a_iter != NULL) {
-    a_current = (LeptonObject*) a_iter->data;
-    if (lepton_object_is_text (a_current)
-        && a_current->text != NULL) {  /* found an attribute */
-
-      /* may need to check more thoroughly here. . . . */
-      old_attrib_text = g_strdup (lepton_text_object_get_string (a_current));
-      old_attrib_name = u_basic_breakup_string(old_attrib_text, '=', 0);
-
-      if (strcmp(old_attrib_name, new_attrib_name) == 0) {
-        /* We've found the attrib.  Delete it and then return. */
-
-        g_debug ("s_object_remove_attrib_in_object: "
-                 "Removing attrib with name = %1$s\n", old_attrib_name);
-
-        attribute_object = a_current;
-        s_object_delete_text_object_in_object (toplevel, attribute_object);
-
-        g_free(old_attrib_text);
-        g_free(old_attrib_name);
-        return;     /* we are done -- leave. */
-      }
-    g_free(old_attrib_text);
-    g_free(old_attrib_name);
-    }
-    a_iter = g_list_next (a_iter);
-  }
-
-  /* if we get here, it's because we have failed to find the attrib on the component.
-   * This is an error condition. */
-  fprintf (stderr, "s_object_remove_attrib_in_object: ");
-  fprintf (stderr,
-           _("Failed to find the attrib %1$s on the component.\n"),
-           new_attrib_name);
-  exit(-1);
-}
-
-
-
 /*------------------------------------------------------------------*/
 /*! \brief Attach attribute to object.
  *
