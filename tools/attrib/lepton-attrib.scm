@@ -53,6 +53,15 @@
 (define %theme-icon-name "lepton-attrib")
 
 
+
+(define LEAVE_NAME_VALUE_ALONE -1)
+(define LEAVE_VISIBILITY_ALONE -1)
+
+;; liblepton/include/liblepton/defines.h
+(define SHOW_NAME_VALUE 0)
+(define INVISIBLE 0)
+
+
 ;;; Initialize liblepton library.
 (init-liblepton)
 
@@ -646,13 +655,6 @@ failure."
                 (G_ "Either refdes or pinnumber of object missing.\n"))
         %null-pointer)))
 
-
-(define LEAVE_NAME_VALUE_ALONE -1)
-(define LEAVE_VISIBILITY_ALONE -1)
-
-;; liblepton/include/liblepton/defines.h
-(define SHOW_NAME_VALUE 0)
-(define INVISIBLE 0)
 
 ;;; Updates attributes of *PIN in *TOPLEVEL using new
 ;;; *PIN-ATTRIB-LIST.  The *REFDES argument is unused.
