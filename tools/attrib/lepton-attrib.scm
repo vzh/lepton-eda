@@ -1819,8 +1819,73 @@ Please check your design.")))
   #f)
 
 
+;;; Processes *OBJECTS and adds the list of pins.  It writes the
+;;; label refdes:pinnumber into the global pin list.
+;;;
+;;; Algorithm:
+;;; - Loop on objects looking for components.
+;;; - When we find a component, save the refdes.
+;;; - Dive down to primitives of the component.
+;;; - Loop on the primitives looking for pins.
+;;; - When we find a pin, find the pinnumber.
+;;; - Add the pin list label as "refdes:pinnumber", and stick it
+;;;   into the global pin list.
+;;;
+;;; Since this function operates on the global pin list, it
+;;; doesn't return a value.
 (define (add-pins *objects)
-  (s_sheet_data_add_master_pin_list_items *objects))
+  (define *sheet-data (attrib_get_sheet_data))
+
+  (when %verbose-mode
+    (format #t (G_ "Start master pin list creation.\n")))
+
+  ;; Iterate through all objects found on page looking for
+  ;; components.
+  (for-each
+   (lambda (*object)
+     (when (true? (lepton_object_is_component *object))
+       (let ((*temp-refdes (s_attrib_get_refdes *object)))
+         ;; Make sure object component has a refdes.
+         (if (not (null-pointer? *temp-refdes))
+             ;; Now iterate through lower level objects looking
+             ;; for pins.
+             (for-each
+              (lambda (*child-object)
+                (when (true? (lepton_object_is_pin *child-object))
+                  (let ((*temp-pinnumber
+                         (lepton_attrib_search_object_attribs_by_name
+                          *child-object
+                          (string->pointer "pinnumber")
+                          0)))
+                    (if (not (null-pointer? *temp-pinnumber))
+                        (let ((*row-label
+                               (string->pointer
+                                (string-append (pointer->string *temp-refdes)
+                                               ":"
+                                               (pointer->string *temp-pinnumber)))))
+                          (s_string_list_add_item
+                           (attrib_sheet_data_get_pin_list *sheet-data)
+                           (attrib_sheet_data_get_pin_counter_address *sheet-data)
+                           *row-label))
+                        (begin
+                          ;; Didn't find pinnumber.  Report error
+                          ;; to log.
+                          (format (current-error-port) "add-pins():")
+                          (format (current-error-port)
+                                  (G_ "Found component pin with no pinnumber: refdes = ~S\n")
+                                  *temp-refdes)))
+                    (g_free *temp-pinnumber))))
+              (glist->list (lepton_component_object_get_contents *object)
+                           identity))
+
+             ;; Didn't find refdes.  Report error to log.
+             (log! 'debug
+                   "add-pins(): Found component with no refdes: component basename = ~S"
+                   (pointer->string
+                    (lepton_component_object_get_basename *object))))
+         (g_free *temp-refdes))))
+
+   (glist->list *objects identity)))
 
 
 (define (add-pin-attribs *objects)
