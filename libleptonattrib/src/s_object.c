@@ -134,24 +134,3 @@ s_object_attrib_add_attrib_in_object (LeptonPage *active_page,
 
   return new_obj;
 }
-
-
-
-
-/*------------------------------------------------------------------*/
-/*! \brief Delete text object
- *
- * Delete the text object pointed to by text_object.  This function
- * was shamelessly stolen from gschem/src/o_delete.c and hacked
- * for gattrib by SDB.
- * \param toplevel LeptonToplevel to be operated on.
- * \param text_object Text object to be deleted.
- */
-void
-s_object_delete_text_object_in_object (LeptonToplevel *toplevel,
-                                       LeptonObject * text_object)
-{
-  LeptonPage *active_page = lepton_toplevel_get_page_current (toplevel);
-  lepton_object_delete (text_object);
-  lepton_page_set_changed (active_page, 1);
-}

@@ -221,10 +221,12 @@ failure."
                                               0)))
                 (if (string= (pointer->string *old-attrib-name)
                              (pointer->string *attrib-name))
-                    (begin
-                      ;; We've found the attrib.  Delete it and
-                      ;; then return.
-                      (s_object_delete_text_object_in_object *toplevel *attrib)
+                    ;; We've found the attrib.  Delete it and then
+                    ;; return.
+                    (let ((*active-page
+                           (lepton_toplevel_get_page_current *toplevel)))
+                      (lepton_object_delete *attrib)
+                      (lepton_page_set_changed *active-page 1)
                       ;; We are done -- leave.
                       (g_free *old-attrib-text)
                       (g_free *old-attrib-name))
