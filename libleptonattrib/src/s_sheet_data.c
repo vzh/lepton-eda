@@ -803,7 +803,8 @@ void s_sheet_data_add_master_comp_attrib_list_items (const GList *obj_list) {
                        "about to add to master comp attrib list attrib=%s\n",
                        attrib_name);
               s_string_list_add_item (attrib_sheet_data_get_component_attrib_list (sheet_head),
-                                     &(sheet_head->comp_attrib_count), attrib_name);
+                                      attrib_sheet_data_get_component_attrib_counter_address (sheet_head),
+                                      attrib_name);
             }   /* if (strcmp(attrib_name, "refdes") != 0) */
             g_free(attrib_name);
             g_free(attrib_text);
