@@ -60,7 +60,6 @@
             x_gtksheet_get_min_col
             x_gtksheet_init
 
-            s_object_add_pin_attrib_to_object
             s_object_attrib_add_attrib_in_object
             s_object_remove_attrib_in_object
 
@@ -208,7 +207,6 @@
 (define-lff x_gtksheet_init void '())
 
 ;;; s_object.c
-(define-lff s_object_add_pin_attrib_to_object void '(* * * *))
 (define-lff s_object_attrib_add_attrib_in_object '* (list '* '* int int '*))
 (define-lff s_object_remove_attrib_in_object void '(* * *))
 

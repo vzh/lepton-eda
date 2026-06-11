@@ -229,11 +229,6 @@ void s_table_gtksheet_to_table(GtkSheet *local_gtk_sheet,
                                TABLE **local_table, int num_rows, int num_cols);
 
 /* ------------- s_object.c ------------- */
-void
-s_object_add_pin_attrib_to_object (LeptonToplevel *toplevel,
-                                   LeptonObject *o_current,
-                                   char *new_attrib_name,
-                                   char *new_attrib_value);
 LeptonObject*
 s_object_attrib_add_attrib_in_object (LeptonPage *active_page,
                                       char *text_string,

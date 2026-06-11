@@ -56,50 +56,6 @@
 #define DEFAULT_TEXT_SIZE 10
 
 /* ===================  Public Functions  ====================== */
-/*------------------------------------------------------------------*/
-/*! \brief Add a new attribute to an pin LeptonObject
- *
- * Add a new attribute to o_current, when o_current is a
- * pin.  It does it in the following
- * way:
- * -# It creates an object -- "attrib_graphic" -- and fills it in.
- * -# It gets the position info from o_current's refdes attrib and
- *    calls o_text_new() to add position info and name=value string
- *    to attrib_graphic.
- * -# It calls lepton_attrib_add() to wrap attrib_graphic with
- *    (attribute LeptonObject)
- * \param toplevel LeptonToplevel structure
- * \param o_current Pointer to pin object
- * \param new_attrib_name Name of attribute to add
- * \param new_attrib_value Value of attribute to add
- * \todo Do I really need separate fcns for comps, nets, and
- * pins???
- */
-void
-s_object_add_pin_attrib_to_object (LeptonToplevel *toplevel,
-                                   LeptonObject *o_current,
-                                   char *new_attrib_name,
-                                   char *new_attrib_value)
-{
-  LeptonPage *active_page = NULL;
-  char *name_value_pair;
-  g_return_if_fail (o_current != NULL);
-
-  active_page = lepton_toplevel_get_page_current (toplevel);
-
-  /* One last sanity check */
-  if (strlen(new_attrib_value) != 0) {
-    name_value_pair = g_strconcat(new_attrib_name, "=", new_attrib_value, NULL);
-    s_object_attrib_add_attrib_in_object (active_page,
-                                          name_value_pair,
-                                          INVISIBLE,
-                                          SHOW_NAME_VALUE,
-                                          o_current);
-  }
-
-  return;
-}
-
 
 /*------------------------------------------------------------------*/
 /*!

@@ -560,6 +560,9 @@ failure."
 (define LEAVE_NAME_VALUE_ALONE -1)
 (define LEAVE_VISIBILITY_ALONE -1)
 
+;; liblepton/include/liblepton/defines.h
+(define SHOW_NAME_VALUE 0)
+(define INVISIBLE 0)
 
 ;;; Updates attributes of *PIN in *TOPLEVEL using new
 ;;; *PIN-ATTRIB-LIST.  The *REFDES argument is unused.
@@ -626,12 +629,22 @@ failure."
                 ;; Four cases to consider: Case 3: No old attrib, new one
                 ;; exists.
                 (if (and (null-pointer? *old-attrib-value)
-                         (not (null-pointer? *new-attrib-value)))
+                         (not (null-pointer? *new-attrib-value))
+                         ;; One last sanity check.
+                         (not (string-null? (pointer->string *new-attrib-value))))
                     ;; Add new attrib to pin.
-                    (s_object_add_pin_attrib_to_object *toplevel
-                                                       *pin
-                                                       *new-attrib-name
-                                                       *new-attrib-value)
+                    (let ((*active-page
+                           (lepton_toplevel_get_page_current *toplevel))
+                          (*name-value-pair
+                           (string->pointer
+                            (string-append (pointer->string *new-attrib-name)
+                                           "="
+                                           (pointer->string *new-attrib-value)))))
+                      (s_object_attrib_add_attrib_in_object *active-page
+                                                            *name-value-pair
+                                                            INVISIBLE
+                                                            SHOW_NAME_VALUE
+                                                            *pin))
                     ;; Four cases to consider: Case 4
                     ;; Do nothing.
                     #f)))
