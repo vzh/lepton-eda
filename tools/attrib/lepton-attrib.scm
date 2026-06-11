@@ -64,6 +64,10 @@
 (define VISIBLE 1)
 
 
+;;; liblepton/include/liblepton/text_object.h:
+(define DEFAULT_TEXT_SIZE 10)
+
+
 ;;; Initialize liblepton library.
 (init-liblepton)
 
@@ -157,13 +161,6 @@ failure."
                            visibility
                            show-name-value
                            *object)
-  ;; Defined in liblepton/include/liblepton/color.h:
-  (define ATTRIBUTE_COLOR 5)
-  ;; Defined in liblepton/include/liblepton/defines.h:
-  (define LOWER_LEFT 0)
-  ;; Defined in liblepton/include/liblepton/text_object.h:
-  (define DEFAULT_TEXT_SIZE 10)
-
   (when (null-pointer? *object)
     (error "NULL object."))
 
@@ -178,25 +175,24 @@ failure."
         ;; here.
         (let* ((x (lepton_component_object_get_x *object))
                (y (lepton_component_object_get_y *object))
-               (color ATTRIBUTE_COLOR)
-
                ;; First create text item.
-               (*attrib (lepton_text_object_new color
-                                                x
-                                                y
-                                                LOWER_LEFT
-                                                ;; Zero is angle.
-                                                0
-                                                *name-value-pair
-                                                DEFAULT_TEXT_SIZE
-                                                visibility
-                                                show-name-value))
-               (attrib (pointer->object *attrib)))
+               (attrib
+                (make-text (cons x y)
+                           'lower-left
+                           0
+                           (pointer->string *name-value-pair)
+                           DEFAULT_TEXT_SIZE
+                           (if (= visibility VISIBLE) #t #f)
+                           (cond
+                            ((= show-name-value SHOW_NAME_VALUE) 'both)
+                            ((= show-name-value SHOW_NAME) 'name)
+                            ((= show-name-value SHOW_VALUE) 'value)
+                            (else (error "Invalid text name/value visibility."))))))
           (page-append! (object-page object) attrib)
           ;; Attach the attribute to the object.
           (attach-attribs! object attrib)
 
-          *attrib)
+          attrib)
         (error "Trying to add attrib to non-component or non-net."))))
 
 
