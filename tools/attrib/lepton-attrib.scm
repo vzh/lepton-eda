@@ -1888,8 +1888,80 @@ Please check your design.")))
    (glist->list *objects identity)))
 
 
+;;; Processes *OBJECTS and adds the list of pin attributes.  It
+;;; writes each attrib name into the global pin attrib list.
+;;;
+;;; Algorithm:
+;;; - Loop on objects, looking for components.
+;;; - When we find a component, save the refdes.
+;;; - Dive down to primitives of the component.
+;;; - Loop on the primitives looking for pins.
+;;; - When we find a pin, get its attribs.
+;;; - Loop on the attribs looking for non-NULL text.
+;;; - When we find a non-NULL text attrib, extract the attrib
+;;;   name, and stick it into the global pin attrib list.
 (define (add-pin-attribs *objects)
-  (s_sheet_data_add_master_pin_attrib_list_items *objects))
+  (define *sheet-data (attrib_get_sheet_data))
+
+  (when %verbose-mode
+    (format #t (G_ "Start master pin attrib list creation.\n")))
+
+  ;; Iterate through all objects found on page looking for
+  ;; components.
+  (for-each
+   (lambda (*object)
+     (when (true? (lepton_object_is_component *object))
+       (let ((*temp-refdes (s_attrib_get_refdes *object)))
+         ;; Make sure object component has a refdes.
+         (unless (null-pointer? *temp-refdes)
+           ;; Now iterate through lower level objects looking for
+           ;; pins.
+           (for-each
+            (lambda (*child-object)
+              (when (true? (lepton_object_is_pin *child-object))
+                ;; Found a pin.  Now get attrib head and loop on
+                ;; attribs.
+                (for-each
+                 (lambda (*pin-attrib)
+                   (when (and (true? (lepton_object_is_text *pin-attrib))
+                              (not (null-pointer?
+                                    (lepton_object_get_text *pin-attrib))))
+                     ;; Found an attribute.
+                     (let* ((*attrib-text
+                             (g_strdup
+                              (lepton_text_object_get_string *pin-attrib)))
+                            (*attrib-name
+                             (u_basic_breakup_string *attrib-text
+                                                     (char->integer #\=)
+                                                     0))
+                            (*attrib-value (s_misc_remaining_string *attrib-text
+                                                                    (char->integer #\=)
+                                                                    1)))
+                       ;; Don't include "pinnumber" because it is
+                       ;; already in other master list.  Also
+                       ;; guard against pathalogical symbols which
+                       ;; have non-attrib text inside pins.
+                       (when (and (not (string= (pointer->string *attrib-name)
+                                                "pinnumber"))
+                                  (not (null-pointer? *attrib-value)))
+                         (s_string_list_add_item
+                          (attrib_sheet_data_get_pin_attrib_list *sheet-data)
+                          (attrib_sheet_data_get_pin_attrib_counter_address *sheet-data)
+                          *attrib-name))
+
+                       (g_free *attrib-value)
+                       (g_free *attrib-name)
+                       (g_free *attrib-text))))
+
+                 (glist->list (lepton_object_get_attribs *child-object)
+                              identity))))
+
+            (glist->list (lepton_component_object_get_contents *object)
+                         identity))
+
+           (g_free *temp-refdes)))))
+
+   (glist->list *objects identity)))
 
 
 (define (activate *app *toplevel)

@@ -93,6 +93,7 @@
             attrib_sheet_data_set_net_table
             attrib_sheet_data_get_pin_attrib_count
             attrib_sheet_data_set_pin_attrib_count
+            attrib_sheet_data_get_pin_attrib_counter_address
             attrib_sheet_data_get_pin_attrib_list
             attrib_sheet_data_set_pin_attrib_list
             attrib_sheet_data_get_pin_count
@@ -102,7 +103,6 @@
             attrib_sheet_data_set_pin_list
             attrib_sheet_data_get_pin_table
             attrib_sheet_data_set_pin_table
-            s_sheet_data_add_master_pin_attrib_list_items
             s_sheet_data_set_changed
 
             attrib_string_list_get_data
@@ -238,6 +238,7 @@
 (define-lff attrib_sheet_data_set_net_table void '(* *))
 (define-lff attrib_sheet_data_get_pin_attrib_count int '(*))
 (define-lff attrib_sheet_data_set_pin_attrib_count void (list '* int))
+(define-lff attrib_sheet_data_get_pin_attrib_counter_address '* '(*))
 (define-lff attrib_sheet_data_get_pin_attrib_list '* '(*))
 (define-lff attrib_sheet_data_set_pin_attrib_list void '(* *))
 (define-lff attrib_sheet_data_get_pin_count int '(*))
@@ -247,7 +248,6 @@
 (define-lff attrib_sheet_data_set_pin_list void '(* *))
 (define-lff attrib_sheet_data_get_pin_table '* '(*))
 (define-lff attrib_sheet_data_set_pin_table void '(* *))
-(define-lff s_sheet_data_add_master_pin_attrib_list_items void '(*))
 (define-lff s_sheet_data_set_changed void (list '* int))
 
 ;;; s_string_list.c
