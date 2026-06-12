@@ -196,6 +196,29 @@ attrib_table_get_column_name (TABLE **table,
 }
 
 
+/*! \brief Set column name associated with a cell.
+ *
+ *  \par Function Description
+ *
+ *  Sets column name associated with a table cell.
+ *
+ *  \param [in] table The table.
+ *  \param [in] i The row number of the cell.
+ *  \param [in] j The column number of the cell.
+ *  \param [in] val The new column name.
+ */
+void
+attrib_table_set_column_name (TABLE **table,
+                              int i,
+                              int j,
+                              char *val)
+{
+  g_free (table[i][j].col_name);
+
+  table[i][j].col_name = (val == NULL) ? NULL : g_strdup (val);
+}
+
+
 /*! \brief Get row name associated with a cell.
  *
  *  \par Function Description

@@ -202,6 +202,11 @@ char*
 attrib_table_get_column_name (TABLE **table,
                               int i,
                               int j);
+void
+attrib_table_set_column_name (TABLE **table,
+                              int i,
+                              int j,
+                              char *val);
 char*
 attrib_table_get_row_name (TABLE **table,
                            int i,
