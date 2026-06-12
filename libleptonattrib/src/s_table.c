@@ -676,7 +676,7 @@ void s_table_add_toplevel_comp_items_to_comp_table (const GList *obj_list) {
 
               /* Get row and col where to put this attrib */
               row = s_table_get_index (attrib_sheet_data_get_component_list (sheet_head), temp_uref);
-              col = s_table_get_index(sheet_head->master_comp_attrib_list_head, attrib_name);
+              col = s_table_get_index (attrib_sheet_data_get_component_attrib_list (sheet_head), attrib_name);
               /* Sanity check */
               if (row == -1 || col == -1) {
                 /* we didn't find the item in the table */
