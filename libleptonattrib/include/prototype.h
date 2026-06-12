@@ -202,6 +202,10 @@ char*
 attrib_table_get_column_name (TABLE **table,
                               int i,
                               int j);
+char*
+attrib_table_get_row_name (TABLE **table,
+                           int i,
+                           int j);
 int
 attrib_table_get_visibility (TABLE **table,
                              int i,
