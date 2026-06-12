@@ -2006,6 +2006,10 @@ Please check your design.")))
    (glist->list *objects identity)))
 
 
+(define (objects->component-table *objects)
+  (s_table_add_toplevel_comp_items_to_comp_table *objects))
+
+
 (define (activate *app *toplevel)
   (define *window-widget (attrib_window_new *app))
   (define *sheet-data (make-sheet-data))
@@ -2074,7 +2078,7 @@ Please check your design.")))
      ;; Only traverse pages which are toplevel.
      (when  (zero? (lepton_page_get_page_control *page))
        ;; Adds all components from page to the component table.
-       (s_table_add_toplevel_comp_items_to_comp_table (lepton_page_objects *page))
+       (objects->component-table (lepton_page_objects *page))
 
        ;; Note that this must be changed.  We need to input the
        ;; entire project before doing anything with the nets
