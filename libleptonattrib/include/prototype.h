@@ -260,10 +260,6 @@ TABLE **s_table_resize(TABLE **table,
                        int rows, int old_cols, int new_cols);
 void s_table_destroy(TABLE **table, int row_count, int col_count);
 int s_table_get_index(STRING_LIST *list, char *string);
-STRING_LIST *s_table_create_attrib_pair(gchar *row_name,
-                                        TABLE **table,
-                                        STRING_LIST *row_list,
-                                        int num_attribs);
 
 void s_table_add_toplevel_comp_items_to_comp_table(const GList *obj_list);
 void s_table_add_toplevel_net_items_to_net_table(const GList *obj_list);

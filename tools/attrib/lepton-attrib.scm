@@ -516,8 +516,46 @@ failure."
           (loop (attrib_string_list_get_next *local-list)))))))
 
 
+;;; Takes *TABLE, *ROW-LIST, *ROW-NAME, and ATTRIBS-NUMBER, and
+;;; returns a STRING_LIST list holding name=value pairs for all
+;;; attribs pertainent to that particular row.
+;;;
+;;; If the row holds no attribs, it just returns NULL.
 (define (make-attrib-pair *row-name *table *row-list attribs-number)
-  (s_table_create_attrib_pair *row-name *table *row-list attribs-number))
+  (define *attrib-pair-list (s_string_list_new))
+  (define row (s_table_get_index *row-list *row-name))
+  (define *count (bytevector->pointer (make-bytevector (sizeof int) 0)))
+
+  ;; Sanity check.
+  (if (= row -1)
+      ;; We didn't find the item in the list.
+      (begin
+        (format (current-error-port) "make-attrib pair(): ")
+        (format (current-error-port)
+                (G_ "We didn't find the row name in the row list!\n"))
+        *attrib-pair-list)
+
+      (let loop ((column 0))
+        (if (>= column attribs-number)
+            *attrib-pair-list
+            (begin
+              ;; Pull attrib from table.  If non-null add it to
+              ;; the pair list.
+              (unless (null-pointer?
+                       (attrib_table_get_attrib_value *table row column))
+                (let* ((*attrib-name
+                        (attrib_table_get_column_name *table row column))
+                       (*attrib-value
+                        (attrib_table_get_attrib_value *table row column))
+                       (*name-value-pair
+                        (string->pointer
+                         (string-append (pointer->string *attrib-name)
+                                        "="
+                                        (pointer->string *attrib-value)))))
+                  (s_string_list_add_item *attrib-pair-list
+                                          *count
+                                          *name-value-pair)))
+              (loop (1+ column)))))))
 
 
 (define (update-design-components *toplevel *page)

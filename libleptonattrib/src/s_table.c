@@ -603,61 +603,6 @@ int s_table_get_index(STRING_LIST *local_list, char *local_string) {
 }
 
 
-
-/*------------------------------------------------------------------*/
-/*! \brief Create attribute pair
- *
- * This function takes a table, a row list, and a row name,
- * and returns a list holding
- * name=value pairs for all attribs pertainent to that particular
- * row.
- * If the row holds no attribs, it just returns NULL.
- *
- * \param row_name Name of the row to search for
- * \param table Table to be searched
- * \param row_list list of rows
- * \param num_attribs
- * \returns STRING_LIST of name=value pairs
- */
-STRING_LIST *s_table_create_attrib_pair(gchar *row_name,
-                                        TABLE **table,
-                                        STRING_LIST *row_list,
-                                        int num_attribs)
-{
-  STRING_LIST *attrib_pair_list;
-  char *attrib_name, *attrib_value, *name_value_pair;
-  int row, col;
-  int count = 0;
-
-  attrib_pair_list = s_string_list_new();
-
-  row = s_table_get_index(row_list, row_name);
-  /* Sanity check */
-  if (row == -1) {
-    /* we didn't find the item in the list */
-    fprintf (stderr, "s_table_create_attrib_pair: ");
-    fprintf (stderr, _("We didn't find the row name in the row list!\n"));
-    return attrib_pair_list;
-  }
-
-  for (col = 0; col < num_attribs; col++) {
-    /* pull attrib from table.  If non-null, add it to attrib_pair_list  */
-    if (attrib_table_get_attrib_value (table, row, col) != NULL)
-    {
-      attrib_name = attrib_table_get_column_name (table, row, col);
-      attrib_value = attrib_table_get_attrib_value (table, row, col);
-      name_value_pair = g_strconcat(attrib_name, "=", attrib_value, NULL);
-      s_string_list_add_item(attrib_pair_list, &count, name_value_pair);
-      g_free(name_value_pair);
-    }
-  }
-
-  return attrib_pair_list;
-}
-
-
-
-
 /*------------------------------------------------------------------*/
 /*! \brief Add components to the component table
  *
