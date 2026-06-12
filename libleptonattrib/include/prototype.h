@@ -189,6 +189,24 @@ void s_string_list_sort_master_pin_attrib_list();
 
 
 /* ------------- s_table.c ------------- */
+int
+attrib_table_get_column (TABLE **table,
+                         int i,
+                         int j);
+void
+attrib_table_set_column (TABLE **table,
+                         int i,
+                         int j,
+                         int val);
+int
+attrib_table_get_row (TABLE **table,
+                      int i,
+                      int j);
+void
+attrib_table_set_row (TABLE **table,
+                      int i,
+                      int j,
+                      int val);
 char*
 attrib_table_get_attrib_value (TABLE **table,
                                int i,
