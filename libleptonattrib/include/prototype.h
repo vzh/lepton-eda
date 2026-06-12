@@ -211,6 +211,11 @@ int
 attrib_table_get_show_name_value (TABLE **table,
                                   int i,
                                   int j);
+void
+attrib_table_set_show_name_value (TABLE **table,
+                                  int i,
+                                  int j,
+                                  int val);
 
 void s_table_print (TABLE** src, int rows, int cols);
 TABLE **s_table_new(int rows, int cols);

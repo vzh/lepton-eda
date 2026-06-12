@@ -217,6 +217,29 @@ attrib_table_get_show_name_value (TABLE **table,
 }
 
 
+/*! \brief Set \a show_name_value attrib property associated with
+ *  a cell.
+ *
+ *  \par Function Description
+ *
+ *  Sets \a show_name_value attrib property associated with a
+ *  table cell.
+ *
+ *  \param [in] table The table.
+ *  \param [in] i The row number of the cell.
+ *  \param [in] j The column number of the cell.
+ *  \param [in] val The new \a show_name_value value.
+ */
+void
+attrib_table_set_show_name_value (TABLE **table,
+                                  int i,
+                                  int j,
+                                  int val)
+{
+  table[i][j].show_name_value = val;
+}
+
+
 /*! \brief Make a copy of the \a src array
  *
  * \par Function Description
