@@ -173,6 +173,27 @@ attrib_table_get_visibility (TABLE **table,
 }
 
 
+/*! \brief Set attrib visibility associated with a cell.
+ *
+ *  \par Function Description
+ *
+ *  Set visiblity of an attrib associated with a table cell.
+ *
+ *  \param [in] table The table.
+ *  \param [in] i The row number of the cell.
+ *  \param [in] j The column number of the cell.
+ *  \param [in] val The new visibility value.
+ */
+void
+attrib_table_set_visibility (TABLE **table,
+                             int i,
+                             int j,
+                             int val)
+{
+  table[i][j].visibility = val;
+}
+
+
 /*! \brief Get \a show_name_value attrib property associated with
  *  a cell.
  *
