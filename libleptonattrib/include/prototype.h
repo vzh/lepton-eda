@@ -211,6 +211,11 @@ char*
 attrib_table_get_row_name (TABLE **table,
                            int i,
                            int j);
+void
+attrib_table_set_row_name (TABLE **table,
+                           int i,
+                           int j,
+                           char *val);
 int
 attrib_table_get_visibility (TABLE **table,
                              int i,

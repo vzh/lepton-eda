@@ -240,6 +240,29 @@ attrib_table_get_row_name (TABLE **table,
 }
 
 
+/*! \brief Set row name associated with a cell.
+ *
+ *  \par Function Description
+ *
+ *  Sets row name associated with a table cell.
+ *
+ *  \param [in] table The table.
+ *  \param [in] i The row number of the cell.
+ *  \param [in] j The column number of the cell.
+ *  \param [in] val The new row name.
+ */
+void
+attrib_table_set_row_name (TABLE **table,
+                           int i,
+                           int j,
+                           char *val)
+{
+  g_free (table[i][j].row_name);
+
+  table[i][j].row_name = (val == NULL) ? NULL : g_strdup (val);
+}
+
+
 /*! \brief Get attrib visibility associated with a cell.
  *
  *  \par Function Description
