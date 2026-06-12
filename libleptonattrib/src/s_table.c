@@ -645,7 +645,7 @@ STRING_LIST *s_table_create_attrib_pair(gchar *row_name,
     if (attrib_table_get_attrib_value (table, row, col) != NULL)
     {
       attrib_name = attrib_table_get_column_name (table, row, col);
-      attrib_value = (table[row][col]).attrib_value;
+      attrib_value = attrib_table_get_attrib_value (table, row, col);
       name_value_pair = g_strconcat(attrib_name, "=", attrib_value, NULL);
       s_string_list_add_item(attrib_pair_list, &count, name_value_pair);
       g_free(name_value_pair);
