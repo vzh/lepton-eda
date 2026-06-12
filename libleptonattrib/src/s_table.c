@@ -659,7 +659,7 @@ void s_table_add_toplevel_comp_items_to_comp_table (const GList *obj_list) {
         while (a_iter != NULL) {
           a_current = (LeptonObject*) a_iter->data;
           if (lepton_object_is_text (a_current)
-              && a_current->text != NULL) {  /* found an attribute */
+              && lepton_object_get_text (a_current) != NULL) {  /* found an attribute */
             /* may need to check more thoroughly here. . . . */
             attrib_text = g_strdup (lepton_text_object_get_string (a_current));
             attrib_name = u_basic_breakup_string(attrib_text, '=', 0);
