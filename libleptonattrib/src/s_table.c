@@ -152,6 +152,29 @@ attrib_table_get_attrib_value (TABLE **table,
 }
 
 
+/*! \brief Set attrib value associated with a cell.
+ *
+ *  \par Function Description
+ *
+ *  Sets attrib value associated with a table cell.
+ *
+ *  \param [in] table The table.
+ *  \param [in] i The row number of the cell.
+ *  \param [in] j The column number of the cell.
+ *  \param [in] val The new attrib value.
+ */
+void
+attrib_table_set_attrib_value (TABLE **table,
+                               int i,
+                               int j,
+                               char *val)
+{
+  g_free (table[i][j].attrib_value);
+
+  table[i][j].attrib_value = (val == NULL) ? NULL : g_strdup (val);
+}
+
+
 /*! \brief Get column name associated with a cell.
  *
  *  \par Function Description

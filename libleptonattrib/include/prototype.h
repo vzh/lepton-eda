@@ -193,6 +193,11 @@ char*
 attrib_table_get_attrib_value (TABLE **table,
                                int i,
                                int j);
+void
+attrib_table_set_attrib_value (TABLE **table,
+                               int i,
+                               int j,
+                               char *val);
 char*
 attrib_table_get_column_name (TABLE **table,
                               int i,
