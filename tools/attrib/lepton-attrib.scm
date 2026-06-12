@@ -516,6 +516,10 @@ failure."
           (loop (attrib_string_list_get_next *local-list)))))))
 
 
+(define (make-attrib-pair *row-name *table *row-list attribs-number)
+  (s_table_create_attrib_pair *row-name *table *row-list attribs-number))
+
+
 (define (update-design-components *toplevel *page)
   (define *sheet-data (attrib_get_sheet_data))
   ;; Work from a copy list, as objects can be deleted from the
@@ -538,7 +542,7 @@ failure."
              (let ((*temp-uref (s_attrib_get_refdes *object)))
                (if (not (null-pointer? *temp-uref))
                    (let ((*new-component-attrib-pair-list
-                          (s_table_create_attrib_pair
+                          (make-attrib-pair
                            *temp-uref
                            (attrib_sheet_data_get_component_table *sheet-data)
                            (attrib_sheet_data_get_component_list *sheet-data)
