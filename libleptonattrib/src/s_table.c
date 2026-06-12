@@ -152,6 +152,27 @@ attrib_table_get_attrib_value (TABLE **table,
 }
 
 
+/*! \brief Get column name associated with a cell.
+ *
+ *  \par Function Description
+ *
+ *  Returns column name associated with a table cell.
+ *
+ *  \param [in] table The table.
+ *  \param [in] i The row number of the cell.
+ *  \param [in] j The column number of the cell.
+ *
+ *  \return The column name.
+ */
+char*
+attrib_table_get_column_name (TABLE **table,
+                              int i,
+                              int j)
+{
+  return table[i][j].col_name;
+}
+
+
 /*! \brief Get attrib visibility associated with a cell.
  *
  *  \par Function Description
