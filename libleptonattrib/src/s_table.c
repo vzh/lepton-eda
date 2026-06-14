@@ -593,11 +593,12 @@ int s_table_get_index(STRING_LIST *local_list, char *local_string) {
 
   list_element = local_list;
   while (list_element != NULL) {
-    if (strcmp(list_element->data, local_string) == 0) {
+    if (strcmp (attrib_string_list_get_data (list_element), local_string) == 0)
+    {
       return count;
     }
     count++;
-    list_element = list_element->next;
+    list_element = attrib_string_list_get_next (list_element);
   }
   return(-1);  /* return code when string is not in master_list  */
 }
