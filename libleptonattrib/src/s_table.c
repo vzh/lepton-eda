@@ -621,13 +621,13 @@ void s_table_gtksheet_to_all_tables() {
   GtkSheet *local_gtk_sheet;
 
   /* First handle component sheet */
-  num_rows = sheet_head->comp_count;
-  num_cols = sheet_head->comp_attrib_count;
-  local_gtk_sheet = sheets[0];
-  master_row_list = sheet_head->master_comp_list_head;
-  master_col_list = sheet_head->master_comp_attrib_list_head;
+  num_rows = attrib_sheet_data_get_component_count (sheet_head);
+  num_cols = attrib_sheet_data_get_component_attrib_count (sheet_head);
+  local_gtk_sheet = attrib_get_sheet (0);
+  master_row_list = attrib_sheet_data_get_component_list (sheet_head);
+  master_col_list = attrib_sheet_data_get_component_attrib_list (sheet_head);
 
-  local_table = sheet_head->component_table;
+  local_table = attrib_sheet_data_get_component_table (sheet_head);
 
   /* now fill out new table */
   g_debug ("s_table_gtksheet_to_all_tables: "
@@ -637,25 +637,25 @@ void s_table_gtksheet_to_all_tables() {
                        num_rows, num_cols);
 
   /* Next handle net sheet */
-  num_rows = sheet_head->net_count;
-  num_cols = sheet_head->net_attrib_count;
-  local_gtk_sheet = sheets[1];
-  master_row_list = sheet_head->master_net_list_head;
-  master_col_list = sheet_head->master_net_attrib_list_head;
-  local_table = sheet_head->net_table;
+  num_rows = attrib_sheet_data_get_net_count (sheet_head);
+  num_cols = attrib_sheet_data_get_net_attrib_count (sheet_head);
+  local_gtk_sheet = attrib_get_sheet (1);
+  master_row_list = attrib_sheet_data_get_net_list (sheet_head);
+  master_col_list = attrib_sheet_data_get_net_attrib_list (sheet_head);
+  local_table = attrib_sheet_data_get_net_table (sheet_head);
 
   s_table_gtksheet_to_table(local_gtk_sheet, master_row_list,
                        master_col_list, local_table,
                        num_rows, num_cols);
 
   /* Finally, handle component pin sheet */
-  num_rows = sheet_head->pin_count;
-  num_cols = sheet_head->pin_attrib_count;
-  local_gtk_sheet = sheets[2];
-  master_row_list = sheet_head->master_pin_list_head;
-  master_col_list = sheet_head->master_pin_attrib_list_head;
+  num_rows = attrib_sheet_data_get_pin_count (sheet_head);
+  num_cols = attrib_sheet_data_get_pin_attrib_count (sheet_head);
+  local_gtk_sheet = attrib_get_sheet (2);
+  master_row_list = attrib_sheet_data_get_pin_list (sheet_head);
+  master_col_list = attrib_sheet_data_get_pin_attrib_list (sheet_head);
   /*  local_table = s_table_new(num_rows, num_cols);  */
-  local_table = sheet_head->pin_table;
+  local_table = attrib_sheet_data_get_pin_table (sheet_head);
 
   s_table_gtksheet_to_table(local_gtk_sheet, master_row_list,
                        master_col_list, local_table,
