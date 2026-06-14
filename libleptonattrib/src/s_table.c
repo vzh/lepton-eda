@@ -637,11 +637,11 @@ void s_table_gtksheet_to_table(GtkSheet *local_gtk_sheet, STRING_LIST *master_ro
 
   row_list_item = master_row_list;
   for (row = 0; row < num_rows; row++) {
-    row_title = (gchar *) g_strdup(row_list_item->data);
+    row_title = (gchar *) g_strdup (attrib_string_list_get_data (row_list_item));
 
     col_list_item = master_col_list;
     for (col = 0; col < num_cols; col++) {
-      col_title = (gchar *) g_strdup(col_list_item->data);
+      col_title = (gchar *) g_strdup (attrib_string_list_get_data (col_list_item));
 
       /* get value of attrib in cell  */
       attrib_value = (gchar *) gtk_sheet_cell_get_text(GTK_SHEET(local_gtk_sheet), row, col);
@@ -678,10 +678,10 @@ void s_table_gtksheet_to_table(GtkSheet *local_gtk_sheet, STRING_LIST *master_ro
       }
 
       /* get next col list item and then iterate. */
-      col_list_item = col_list_item->next;
+      col_list_item = attrib_string_list_get_next (col_list_item);
     }
 
-    row_list_item = row_list_item->next;
+    row_list_item = attrib_string_list_get_next (row_list_item);
   }
 
   return;
