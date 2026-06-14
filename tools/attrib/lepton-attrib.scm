@@ -2125,8 +2125,82 @@ Please check your design.")))
   (verbose_done))
 
 
+;;; Process *OBJECTS and add attribs of net ones to the net table.
 (define (objects->net-table *objects)
-  (s_table_add_toplevel_net_items_to_net_table *objects))
+  (define *sheet-data (attrib_get_sheet_data))
+  (define *net-table
+    (attrib_sheet_data_get_net_table *sheet-data))
+
+  ;; Iterate through all objects found on page.
+  (for-each
+   (lambda (*object)
+     ;; Now process objects found on page.
+     (when (and (true? (lepton_object_is_net *object))
+                (not (null-pointer?
+                      (lepton_object_get_attribs *object))))
+       (let ((*temp-netname
+              (lepton_attrib_search_object_attribs_by_name
+               *object
+               (string->pointer "netname")
+               0)))
+         (verbose_print (string->pointer " N"))
+
+         ;; Having found a net, we stick it into the table.
+         (for-each
+          (lambda (*attrib)
+            (when (and (true? (lepton_object_is_text *attrib))
+                       (not (null-pointer?
+                             (lepton_object_get_text *attrib))))
+              ;; Found an attribute.
+              (let* ((*attrib-text
+                      (g_strdup (lepton_text_object_get_string *attrib)))
+                     (*attrib-name
+                      (u_basic_breakup_string *attrib-text
+                                              (char->integer #\=)
+                                              0))
+                     (*attrib-value
+                      (s_misc_remaining_string *attrib-text
+                                               (char->integer #\=)
+                                               1)))
+                ;; Don't include "netname".
+                (unless (string= (pointer->string *attrib-name) "netname")
+                  (let ((row
+                         (s_table_get_index
+                          (attrib_sheet_data_get_net_list *sheet-data)
+                          *temp-netname))
+                        (column
+                         (s_table_get_index
+                          (attrib_sheet_data_get_net_attrib_list *sheet-data)
+                          *attrib-name)))
+                    ;; Get row and column where to put this attrib.
+                    (attrib_table_set_row *net-table
+                                          row
+                                          column
+                                          row)
+                    (attrib_table_set_column *net-table
+                                             row
+                                             column
+                                             column)
+                    (attrib_table_set_row_name *net-table
+                                               row
+                                               column
+                                               *temp-netname)
+                    (attrib_table_set_column_name *net-table
+                                                  row
+                                                  column
+                                                  *attrib-name)
+                    (attrib_table_set_attrib_value *net-table
+                                                   row
+                                                   column
+                                                   *attrib-value)))
+                (g_free *attrib-name)
+                (g_free *attrib-text)
+                (g_free *attrib-value))))
+          (glist->list (lepton_object_get_attribs *object) identity))
+         (g_free *temp-netname))))
+   (glist->list *objects identity))
+
+  (verbose_done))
 
 
 (define (activate *app *toplevel)
