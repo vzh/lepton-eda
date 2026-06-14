@@ -603,68 +603,6 @@ int s_table_get_index(STRING_LIST *local_list, char *local_string) {
 }
 
 
-/*------------------------------------------------------------------*/
-/*! \brief Push spreadsheet data to TABLEs.
- *
- * This function traverses the spreadsheet,
- * extracts the attribs from
- * the cells, and places them back into TABLE.  This is the
- * first step in saving out a project.
- */
-void s_table_gtksheet_to_all_tables() {
-
-  int num_rows;
-  int num_cols;
-  STRING_LIST *master_row_list;
-  STRING_LIST *master_col_list;
-  TABLE **local_table;
-  GtkSheet *local_gtk_sheet;
-
-  /* First handle component sheet */
-  num_rows = attrib_sheet_data_get_component_count (sheet_head);
-  num_cols = attrib_sheet_data_get_component_attrib_count (sheet_head);
-  local_gtk_sheet = attrib_get_sheet (0);
-  master_row_list = attrib_sheet_data_get_component_list (sheet_head);
-  master_col_list = attrib_sheet_data_get_component_attrib_list (sheet_head);
-
-  local_table = attrib_sheet_data_get_component_table (sheet_head);
-
-  /* now fill out new table */
-  g_debug ("s_table_gtksheet_to_all_tables: "
-           "Now about to fill out new component table.\n");
-  s_table_gtksheet_to_table(local_gtk_sheet, master_row_list,
-                       master_col_list, local_table,
-                       num_rows, num_cols);
-
-  /* Next handle net sheet */
-  num_rows = attrib_sheet_data_get_net_count (sheet_head);
-  num_cols = attrib_sheet_data_get_net_attrib_count (sheet_head);
-  local_gtk_sheet = attrib_get_sheet (1);
-  master_row_list = attrib_sheet_data_get_net_list (sheet_head);
-  master_col_list = attrib_sheet_data_get_net_attrib_list (sheet_head);
-  local_table = attrib_sheet_data_get_net_table (sheet_head);
-
-  s_table_gtksheet_to_table(local_gtk_sheet, master_row_list,
-                       master_col_list, local_table,
-                       num_rows, num_cols);
-
-  /* Finally, handle component pin sheet */
-  num_rows = attrib_sheet_data_get_pin_count (sheet_head);
-  num_cols = attrib_sheet_data_get_pin_attrib_count (sheet_head);
-  local_gtk_sheet = attrib_get_sheet (2);
-  master_row_list = attrib_sheet_data_get_pin_list (sheet_head);
-  master_col_list = attrib_sheet_data_get_pin_attrib_list (sheet_head);
-  /*  local_table = s_table_new(num_rows, num_cols);  */
-  local_table = attrib_sheet_data_get_pin_table (sheet_head);
-
-  s_table_gtksheet_to_table(local_gtk_sheet, master_row_list,
-                       master_col_list, local_table,
-                       num_rows, num_cols);
-
-  return;
-}
-
-
 /* ===================  Private Functions  ====================== */
 /*------------------------------------------------------------------*/
 /*! \brief Extract attributes from gtksheet into TABLE

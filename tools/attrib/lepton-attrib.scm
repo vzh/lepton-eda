@@ -867,8 +867,63 @@ failure."
   (update-design-pins *toplevel *page))
 
 
+;;; Pushes spreadsheet data to tables.
+;;;
+;;; This function traverses the spreadsheet, extracts the attribs
+;;; from the cells, and places them back into tables.  This is the
+;;; first step in saving out a project.
 (define (spreadsheet-data->tables)
-  (s_table_gtksheet_to_all_tables))
+  (define *sheet-data (attrib_get_sheet_data))
+  ;; First handle component sheet.
+  (let ((rows-number (attrib_sheet_data_get_component_count *sheet-data))
+        (columns-number
+         (attrib_sheet_data_get_component_attrib_count *sheet-data))
+        (*gtk-sheet (attrib_get_sheet 0))
+        (*row-list (attrib_sheet_data_get_component_list *sheet-data))
+        (*column-list
+         (attrib_sheet_data_get_component_attrib_list *sheet-data))
+        (*table (attrib_sheet_data_get_component_table *sheet-data)))
+
+    (s_table_gtksheet_to_table *gtk-sheet
+                               *row-list
+                               *column-list
+                               *table
+                               rows-number
+                               columns-number))
+
+  ;; Next handle net sheet.
+  (let ((rows-number (attrib_sheet_data_get_net_count *sheet-data))
+        (columns-number
+         (attrib_sheet_data_get_net_attrib_count *sheet-data))
+        (*gtk-sheet (attrib_get_sheet 1))
+        (*row-list (attrib_sheet_data_get_net_list *sheet-data))
+        (*column-list
+         (attrib_sheet_data_get_net_attrib_list *sheet-data))
+        (*table (attrib_sheet_data_get_net_table *sheet-data)))
+
+    (s_table_gtksheet_to_table *gtk-sheet
+                               *row-list
+                               *column-list
+                               *table
+                               rows-number
+                               columns-number))
+
+  ;; Finally handle component pin sheet.
+  (let ((rows-number (attrib_sheet_data_get_pin_count *sheet-data))
+        (columns-number
+         (attrib_sheet_data_get_pin_attrib_count *sheet-data))
+        (*gtk-sheet (attrib_get_sheet 2))
+        (*row-list (attrib_sheet_data_get_pin_list *sheet-data))
+        (*column-list
+         (attrib_sheet_data_get_pin_attrib_list *sheet-data))
+        (*table (attrib_sheet_data_get_pin_table *sheet-data)))
+
+    (s_table_gtksheet_to_table *gtk-sheet
+                               *row-list
+                               *column-list
+                               *table
+                               rows-number
+                               columns-number)))
 
 
 ;;; Copies data from gtksheet into LeptonToplevel struct.  The

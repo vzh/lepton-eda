@@ -136,8 +136,8 @@
             s_table_copy
             s_table_destroy
             s_table_get_index
+            s_table_gtksheet_to_table
             s_table_new
-            s_table_gtksheet_to_all_tables
             s_table_resize
 
             attrib_run
@@ -286,8 +286,8 @@
 (define-lff s_table_copy '* (list '* int int int))
 (define-lff s_table_destroy void (list '* int int))
 (define-lff s_table_get_index int '(* *))
+(define-lff s_table_gtksheet_to_table void (list '* '* '* '* int int))
 (define-lff s_table_new '* (list int int))
-(define-lff s_table_gtksheet_to_all_tables void '())
 (define-lff s_table_resize '* (list '* int int int))
 
 ;;; x_window.c
