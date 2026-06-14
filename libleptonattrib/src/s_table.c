@@ -670,11 +670,11 @@ s_table_add_toplevel_net_items_to_net_table (const GList *obj_list)
                      row, col, attrib_value,
                      &((net_table)[row][col]).attrib_value);
             /* Is there a compelling reason for me to put this into a separate fcn? */
-            ((net_table)[row][col]).row = row;
-            ((net_table)[row][col]).col = col;
-            ((net_table)[row][col]).row_name = g_strdup(temp_netname);
-            ((net_table)[row][col]).col_name = g_strdup(attrib_name);
-            ((net_table)[row][col]).attrib_value = g_strdup(attrib_value);
+            attrib_table_set_row (net_table, row, col, row);
+            attrib_table_set_column (net_table, row, col, col);
+            attrib_table_set_row_name (net_table, row, col, g_strdup (temp_netname));
+            attrib_table_set_column_name (net_table, row, col, g_strdup (attrib_name));
+            attrib_table_set_attrib_value (net_table, row, col, g_strdup (attrib_value));
           }
           g_free(attrib_name);
           g_free(attrib_text);
