@@ -867,6 +867,21 @@ failure."
   (update-design-pins *toplevel *page))
 
 
+
+(define (gtk-sheet->table *gtk-sheet
+                          *row-list
+                          *column-list
+                          *table
+                          rows-number
+                          columns-number)
+  (s_table_gtksheet_to_table *gtk-sheet
+                             *row-list
+                             *column-list
+                             *table
+                             rows-number
+                             columns-number))
+
+
 ;;; Pushes spreadsheet data to tables.
 ;;;
 ;;; This function traverses the spreadsheet, extracts the attribs
@@ -884,12 +899,12 @@ failure."
          (attrib_sheet_data_get_component_attrib_list *sheet-data))
         (*table (attrib_sheet_data_get_component_table *sheet-data)))
 
-    (s_table_gtksheet_to_table *gtk-sheet
-                               *row-list
-                               *column-list
-                               *table
-                               rows-number
-                               columns-number))
+    (gtk-sheet->table *gtk-sheet
+                      *row-list
+                      *column-list
+                      *table
+                      rows-number
+                      columns-number))
 
   ;; Next handle net sheet.
   (let ((rows-number (attrib_sheet_data_get_net_count *sheet-data))
@@ -901,12 +916,12 @@ failure."
          (attrib_sheet_data_get_net_attrib_list *sheet-data))
         (*table (attrib_sheet_data_get_net_table *sheet-data)))
 
-    (s_table_gtksheet_to_table *gtk-sheet
-                               *row-list
-                               *column-list
-                               *table
-                               rows-number
-                               columns-number))
+    (gtk-sheet->table *gtk-sheet
+                      *row-list
+                      *column-list
+                      *table
+                      rows-number
+                      columns-number))
 
   ;; Finally handle component pin sheet.
   (let ((rows-number (attrib_sheet_data_get_pin_count *sheet-data))
@@ -918,12 +933,12 @@ failure."
          (attrib_sheet_data_get_pin_attrib_list *sheet-data))
         (*table (attrib_sheet_data_get_pin_table *sheet-data)))
 
-    (s_table_gtksheet_to_table *gtk-sheet
-                               *row-list
-                               *column-list
-                               *table
-                               rows-number
-                               columns-number)))
+    (gtk-sheet->table *gtk-sheet
+                      *row-list
+                      *column-list
+                      *table
+                      rows-number
+                      columns-number)))
 
 
 ;;; Copies data from gtksheet into LeptonToplevel struct.  The
