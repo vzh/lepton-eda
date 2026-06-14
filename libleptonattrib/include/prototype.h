@@ -261,8 +261,6 @@ TABLE **s_table_resize(TABLE **table,
 void s_table_destroy(TABLE **table, int row_count, int col_count);
 int s_table_get_index(STRING_LIST *list, char *string);
 
-void s_table_add_toplevel_pin_items_to_pin_table(const GList *obj_list);
-
 void s_table_gtksheet_to_all_tables();
 void s_table_gtksheet_to_table(GtkSheet *local_gtk_sheet,
                                STRING_LIST *master_row_list, STRING_LIST *master_col_list,

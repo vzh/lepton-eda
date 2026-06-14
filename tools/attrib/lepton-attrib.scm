@@ -2203,8 +2203,127 @@ Please check your design.")))
   (verbose_done))
 
 
+;;; Process *OBJECTS and add attribs of pin ones to the pin table.
 (define (objects->pin-table *objects)
-  (s_table_add_toplevel_pin_items_to_pin_table *objects))
+  (define *sheet-data (attrib_get_sheet_data))
+  (define *pin-table
+    (attrib_sheet_data_get_pin_table *sheet-data))
+
+  (when %verbose-mode
+    (format #t (G_ "Start internal pin TABLE creation\n")))
+
+  ;; Iterate through all objects found on page.
+  (for-each
+   (lambda (*object)
+     ;; Now process objects found on page.
+     (when (and (true? (lepton_object_is_component *object))
+                (not (null-pointer?
+                      (lepton_object_get_attribs *object))))
+       (let ((*temp-refdes (s_attrib_get_refdes *object)))
+         ;; Don't process part if it lacks a refdes.
+         (when (not (null-pointer? *temp-refdes))
+           ;; Now iterate through lower level objects looking for
+           ;; pins.
+           (for-each
+            (lambda (*child-object)
+              (when (true? (lepton_object_is_pin *child-object))
+                ;; Found a pin.  First get its pinnumber.  Then
+                ;; get attribs and loop on them.
+                (let* ((*pinnumber
+                        (lepton_attrib_search_object_attribs_by_name
+                         *child-object
+                         (string->pointer "pinnumber")
+                         0))
+                       (*row-label
+                        (string->pointer
+                         (string-append (pointer->string *temp-refdes)
+                                        ":"
+                                        (pointer->string *pinnumber)))))
+                  (for-each
+                   (lambda (*pin-attrib)
+                     (when (and (true? (lepton_object_is_text *pin-attrib))
+                                (not (null-pointer?
+                                      (lepton_object_get_text *pin-attrib))))
+                       ;; Found an attribute.
+                       (let* ((*attrib-text
+                               (g_strdup
+                                (lepton_text_object_get_string *pin-attrib)))
+                              (*attrib-name
+                               (u_basic_breakup_string *attrib-text
+                                                       (char->integer #\=)
+                                                       0))
+                              (*attrib-value
+                               (s_misc_remaining_string *attrib-text
+                                                        (char->integer #\=)
+                                                        1)))
+
+                         (when (and (not (string= (pointer->string *attrib-name)
+                                                  "pinnumber"))
+                                    (not (null-pointer? *attrib-value)))
+                           ;; Don't include "pinnumber" because it
+                           ;; is already in other master list.
+                           ;; Also must ensure that value is
+                           ;; non-null; certain symbols are not
+                           ;; well formed.
+
+                           ;; Get row and column where to put this attrib.
+                           (let ((row
+                                  (s_table_get_index
+                                   (attrib_sheet_data_get_pin_list *sheet-data)
+                                   *row-label))
+                                 (column
+                                  (s_table_get_index
+                                   (attrib_sheet_data_get_pin_attrib_list
+                                    *sheet-data)
+                                   *attrib-name)))
+                             ;; Sanity check.
+                             (if (or (= row -1)
+                                     (= column -1))
+                                 (begin
+                                   ;; we didn't find the item in the table.
+                                   (format (current-error-port)
+                                           "objects->pin-table(): ")
+                                   (format (current-error-port)
+                                           (G_ "We didn't find either row or column in the lists!\n")))
+                                 (begin
+                                   (attrib_table_set_row *pin-table
+                                                         row
+                                                         column
+                                                         row)
+                                   (attrib_table_set_column *pin-table
+                                                            row
+                                                            column
+                                                            column)
+                                   (attrib_table_set_row_name *pin-table
+                                                              row
+                                                              column
+                                                              *row-label)
+                                   (attrib_table_set_column_name *pin-table
+                                                                 row
+                                                                 column
+                                                                 *attrib-name)
+                                   (attrib_table_set_attrib_value *pin-table
+                                                                  row
+                                                                  column
+                                                                  *attrib-value)))))
+                         (g_free *attrib-name)
+                         (g_free *attrib-text)
+                         (g_free *attrib-value))))
+
+                   (glist->list (lepton_object_get_attribs
+                                 *child-object)
+                                identity))
+
+                  (g_free *pinnumber))))
+
+            (glist->list (lepton_component_object_get_contents *object)
+                         identity)))
+
+         (g_free *temp-refdes))))
+
+   (glist->list *objects identity))
+
+  (verbose_done))
 
 
 (define (activate *app *toplevel)
