@@ -660,7 +660,7 @@ s_table_add_toplevel_net_items_to_net_table (const GList *obj_list)
             /* Don't include "netname" */
 
             /* Get row and col where to put this attrib */
-            row = s_table_get_index(sheet_head->master_net_list_head, temp_netname);
+            row = s_table_get_index (attrib_sheet_data_get_net_list (sheet_head), temp_netname);
             col = s_table_get_index(sheet_head->master_net_attrib_list_head, attrib_name);
             g_debug ("s_table_add_toplevel_net_items_to_net_table: "
                      "About to add row %d, col %d, attrib_value = %s\n"
