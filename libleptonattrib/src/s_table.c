@@ -625,6 +625,8 @@ s_table_add_toplevel_net_items_to_net_table (const GList *obj_list)
   const GList *o_iter;
   GList *a_iter;
 
+  TABLE** net_table = attrib_sheet_data_get_net_table (sheet_head);
+
   /* -----  Iterate through all objects found on page  ----- */
 
   for (o_iter = obj_list;
@@ -666,13 +668,13 @@ s_table_add_toplevel_net_items_to_net_table (const GList *obj_list)
                      "About to add row %d, col %d, attrib_value = %s\n"
                      "    Current address of attrib_value cell is [%p]\n",
                      row, col, attrib_value,
-                     &((sheet_head->net_table)[row][col]).attrib_value);
+                     &((net_table)[row][col]).attrib_value);
             /* Is there a compelling reason for me to put this into a separate fcn? */
-            ((sheet_head->net_table)[row][col]).row = row;
-            ((sheet_head->net_table)[row][col]).col = col;
-            ((sheet_head->net_table)[row][col]).row_name = g_strdup(temp_netname);
-            ((sheet_head->net_table)[row][col]).col_name = g_strdup(attrib_name);
-            ((sheet_head->net_table)[row][col]).attrib_value = g_strdup(attrib_value);
+            ((net_table)[row][col]).row = row;
+            ((net_table)[row][col]).col = col;
+            ((net_table)[row][col]).row_name = g_strdup(temp_netname);
+            ((net_table)[row][col]).col_name = g_strdup(attrib_name);
+            ((net_table)[row][col]).attrib_value = g_strdup(attrib_value);
           }
           g_free(attrib_name);
           g_free(attrib_text);
