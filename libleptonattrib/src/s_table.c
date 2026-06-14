@@ -666,7 +666,7 @@ void s_table_add_toplevel_pin_items_to_pin_table (const GList *obj_list) {
             while (a_iter != NULL) {
               pin_attrib = (LeptonObject*) a_iter->data;
               if (lepton_object_is_text (pin_attrib)
-                  && pin_attrib->text != NULL) {  /* found an attribute */
+                  && lepton_object_get_text (pin_attrib) != NULL) {  /* found an attribute */
           attrib_text = g_strdup (lepton_text_object_get_string (pin_attrib));
                 attrib_name = u_basic_breakup_string(attrib_text, '=', 0);
                 attrib_value = s_misc_remaining_string(attrib_text, '=', 1);
