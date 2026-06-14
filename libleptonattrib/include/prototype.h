@@ -259,7 +259,6 @@ TABLE **s_table_copy (TABLE** src, int col_skip, int rows, int cols);
 TABLE **s_table_resize(TABLE **table,
                        int rows, int old_cols, int new_cols);
 void s_table_destroy(TABLE **table, int row_count, int col_count);
-int s_table_get_index(STRING_LIST *list, char *string);
 
 /* ------------- s_misc.c ------------- */
 void set_verbose_mode ();

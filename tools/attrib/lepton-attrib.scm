@@ -316,8 +316,20 @@ failure."
               (loop (cdr *attrib-ls)))))))
 
 
+;;; Returns the index of the string *STR in the list *LS.
 (define (string-list-id *ls *str)
-  (s_table_get_index *ls *str))
+  (let loop ((count 0)
+             (*list-element *ls))
+    (if (null-pointer? *list-element)
+        ;; Return code when string is not in master list.
+        -1
+        (if (string= (pointer->string
+                      (attrib_string_list_get_data *list-element))
+                     (pointer->string *str))
+            count
+
+            (loop (1+ count)
+                  (attrib_string_list_get_next *list-element))))))
 
 
 ;;; Updates *OBJECT component attributes in *TOPLEVEL using the

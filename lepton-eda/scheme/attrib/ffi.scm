@@ -136,7 +136,6 @@
             attrib_table_set_visibility
             s_table_copy
             s_table_destroy
-            s_table_get_index
             s_table_new
             s_table_resize
 
@@ -286,7 +285,6 @@
 (define-lff attrib_table_set_visibility void (list '* int int int))
 (define-lff s_table_copy '* (list '* int int int))
 (define-lff s_table_destroy void (list '* int int))
-(define-lff s_table_get_index int '(* *))
 (define-lff s_table_new '* (list int int))
 (define-lff s_table_resize '* (list '* int int int))
 

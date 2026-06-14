@@ -569,36 +569,3 @@ void s_table_destroy(TABLE **table, int row_count, int col_count)
 
   return;
 }
-
-
-
-/*------------------------------------------------------------------*/
-/*! \brief Get a string index number
- *
- * This function returns the index number
- * when given a STRING_LIST and a
- * string to match.  It finds the index
- * number by iterating through the master  list.
- * \param local_list
- * \param local_string
- * \returns the index of the string
- */
-int s_table_get_index(STRING_LIST *local_list, char *local_string) {
-  int count = 0;
-  STRING_LIST *list_element;
-
-  g_debug ("s_table_get_index: "
-           "Examining %s to see if it is in the list.\n",
-           local_string);
-
-  list_element = local_list;
-  while (list_element != NULL) {
-    if (strcmp (attrib_string_list_get_data (list_element), local_string) == 0)
-    {
-      return count;
-    }
-    count++;
-    list_element = attrib_string_list_get_next (list_element);
-  }
-  return(-1);  /* return code when string is not in master_list  */
-}
