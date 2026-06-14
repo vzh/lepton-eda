@@ -623,6 +623,8 @@ void s_table_add_toplevel_comp_items_to_comp_table (const GList *obj_list) {
   LeptonObject *a_current;
   gint old_visibility, old_show_name_value;
 
+  TABLE** component_table =
+    attrib_sheet_data_get_component_table (sheet_head);
 
   if (verbose_mode) {
     printf (_("Start internal component TABLE creation\n"));
@@ -688,15 +690,15 @@ void s_table_add_toplevel_comp_items_to_comp_table (const GList *obj_list) {
                          "About to add row %d, col %d, attrib_value = %s\n"
                          "    Current address of attrib_value cell is [%p]\n",
                          row, col, attrib_value,
-                         &((sheet_head->component_table)[row][col]).attrib_value);
+                         &((component_table)[row][col]).attrib_value);
                 /* Is there a compelling reason for me to put this into a separate fcn? */
-                ((sheet_head->component_table)[row][col]).row = row;
-                ((sheet_head->component_table)[row][col]).col = col;
-                ((sheet_head->component_table)[row][col]).row_name = g_strdup(temp_uref);
-                ((sheet_head->component_table)[row][col]).col_name = g_strdup(attrib_name);
-                ((sheet_head->component_table)[row][col]).attrib_value = g_strdup(attrib_value);
-                ((sheet_head->component_table)[row][col]).visibility = old_visibility;
-                ((sheet_head->component_table)[row][col]).show_name_value = old_show_name_value;
+                ((component_table)[row][col]).row = row;
+                ((component_table)[row][col]).col = col;
+                ((component_table)[row][col]).row_name = g_strdup(temp_uref);
+                ((component_table)[row][col]).col_name = g_strdup(attrib_name);
+                ((component_table)[row][col]).attrib_value = g_strdup(attrib_value);
+                ((component_table)[row][col]).visibility = old_visibility;
+                ((component_table)[row][col]).show_name_value = old_show_name_value;
               }
             }
             g_free(attrib_name);
