@@ -315,6 +315,11 @@ failure."
 
               (loop (cdr *attrib-ls)))))))
 
+
+(define (string-list-id *ls *str)
+  (s_table_get_index *ls *str))
+
+
 ;;; Updates *OBJECT component attributes in *TOPLEVEL using the
 ;;; value held in the list of name=value attribute pairs
 ;;; *NEW-COMPONENT-ATTRIB-LIST.
@@ -429,11 +434,11 @@ failure."
                ;; stored in the component table We'll need this
                ;; later.
                (*refdes (g_strdup (s_attrib_get_refdes *object)))
-               (row (s_table_get_index
+               (row (string-list-id
                      (attrib_sheet_data_get_component_list
                       *sheet-data)
                      *refdes))
-               (column (s_table_get_index
+               (column (string-list-id
                         (attrib_sheet_data_get_component_attrib_list
                          *sheet-data)
                         *new-attrib-name))
@@ -523,7 +528,7 @@ failure."
 ;;; If the row holds no attribs, it just returns NULL.
 (define (make-attrib-pair *row-name *table *row-list attribs-number)
   (define *attrib-pair-list (s_string_list_new))
-  (define row (s_table_get_index *row-list *row-name))
+  (define row (string-list-id *row-list *row-name))
   (define *count (bytevector->pointer (make-bytevector (sizeof int) 0)))
 
   ;; Sanity check.
@@ -640,7 +645,7 @@ failure."
   ;; First find position of this pin in the master pin list.
 
   ;; First convert refdes-pin pair to 'refdes:pinnumber' text
-  ;; string. Then call s_table_get_index().
+  ;; string. Then call string-list-id().
   (if (and (not (null-pointer? *refdes))
            (not (null-pointer? *pinnumber)) )
       (let* ((*row-label
@@ -648,7 +653,7 @@ failure."
                (string-append (pointer->string *refdes)
                               ":"
                               (pointer->string *pinnumber))))
-             (row (s_table_get_index
+             (row (string-list-id
                    (attrib_sheet_data_get_pin_list *sheet-data)
                    *row-label)))
 
@@ -2171,11 +2176,11 @@ Please check your design.")))
 
                     ;; Sanity check.
                     (let ((row
-                           (s_table_get_index
+                           (string-list-id
                             (attrib_sheet_data_get_component_list *sheet-data)
                             *temp-refdes))
                           (column
-                           (s_table_get_index
+                           (string-list-id
                             (attrib_sheet_data_get_component_attrib_list *sheet-data)
                             *attrib-name)))
                       (if (or (= row -1)
@@ -2268,11 +2273,11 @@ Please check your design.")))
                 ;; Don't include "netname".
                 (unless (string= (pointer->string *attrib-name) "netname")
                   (let ((row
-                         (s_table_get_index
+                         (string-list-id
                           (attrib_sheet_data_get_net_list *sheet-data)
                           *temp-netname))
                         (column
-                         (s_table_get_index
+                         (string-list-id
                           (attrib_sheet_data_get_net_attrib_list *sheet-data)
                           *attrib-name)))
                     ;; Get row and column where to put this attrib.
@@ -2371,11 +2376,11 @@ Please check your design.")))
 
                            ;; Get row and column where to put this attrib.
                            (let ((row
-                                  (s_table_get_index
+                                  (string-list-id
                                    (attrib_sheet_data_get_pin_list *sheet-data)
                                    *row-label))
                                  (column
-                                  (s_table_get_index
+                                  (string-list-id
                                    (attrib_sheet_data_get_pin_attrib_list
                                     *sheet-data)
                                    *attrib-name)))
