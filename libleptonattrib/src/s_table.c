@@ -624,6 +624,9 @@ void s_table_add_toplevel_pin_items_to_pin_table (const GList *obj_list) {
   GList *o_lower_iter;
   LeptonObject *pin_attrib;
 
+  TABLE** pin_table =
+    attrib_sheet_data_get_pin_table (sheet_head);
+
   if (verbose_mode) {
     printf (_("Start internal pin TABLE creation\n"));
   }
@@ -693,11 +696,11 @@ void s_table_add_toplevel_pin_items_to_pin_table (const GList *obj_list) {
                              row, col, attrib_value,
                              &((sheet_head->component_table)[row][col]).attrib_value);
                     /* Is there a compelling reason for me to put this into a separate fcn? */
-                    ((sheet_head->pin_table)[row][col]).row = row;
-                    ((sheet_head->pin_table)[row][col]).col = col;
-                    ((sheet_head->pin_table)[row][col]).row_name = g_strdup(row_label);
-                    ((sheet_head->pin_table)[row][col]).col_name = g_strdup(attrib_name);
-                    ((sheet_head->pin_table)[row][col]).attrib_value = g_strdup(attrib_value);
+                    ((pin_table)[row][col]).row = row;
+                    ((pin_table)[row][col]).col = col;
+                    ((pin_table)[row][col]).row_name = g_strdup(row_label);
+                    ((pin_table)[row][col]).col_name = g_strdup(attrib_name);
+                    ((pin_table)[row][col]).attrib_value = g_strdup(attrib_value);
                   }
                 }
                 g_free(attrib_name);
