@@ -47,6 +47,7 @@
             s_misc_remaining_string
             set_verbose_mode
             u_basic_breakup_string
+            verbose_done
             verbose_print
 
             x_fileselect_open
@@ -122,7 +123,12 @@
             s_string_list_sort_master_pin_attrib_list
 
             attrib_table_get_attrib_value
+            attrib_table_set_attrib_value
+            attrib_table_set_column
             attrib_table_get_column_name
+            attrib_table_set_column_name
+            attrib_table_set_row
+            attrib_table_set_row_name
             attrib_table_get_show_name_value
             attrib_table_set_show_name_value
             attrib_table_get_visibility
@@ -131,7 +137,6 @@
             s_table_destroy
             s_table_get_index
             s_table_new
-            s_table_add_toplevel_comp_items_to_comp_table
             s_table_add_toplevel_net_items_to_net_table
             s_table_add_toplevel_pin_items_to_pin_table
             s_table_gtksheet_to_all_tables
@@ -188,6 +193,7 @@
 (define-lff s_misc_remaining_string '* (list '* int int))
 (define-lff set_verbose_mode void '())
 (define-lff u_basic_breakup_string '* (list '* int int))
+(define-lff verbose_done void '())
 (define-lff verbose_print void '(*))
 
 ;;; x_fileselect.c
@@ -269,7 +275,12 @@
 
 ;;; s_table.c
 (define-lff attrib_table_get_attrib_value '* (list '* int int))
+(define-lff attrib_table_set_attrib_value void (list '* int int '*))
+(define-lff attrib_table_set_column void (list '* int int int))
 (define-lff attrib_table_get_column_name '* (list '* int int))
+(define-lff attrib_table_set_column_name void (list '* int int '*))
+(define-lff attrib_table_set_row void (list '* int int int))
+(define-lff attrib_table_set_row_name void (list '* int int '*))
 (define-lff attrib_table_get_show_name_value int (list '* int int))
 (define-lff attrib_table_set_show_name_value void (list '* int int int))
 (define-lff attrib_table_get_visibility int (list '* int int))
@@ -278,7 +289,6 @@
 (define-lff s_table_destroy void (list '* int int))
 (define-lff s_table_get_index int '(* *))
 (define-lff s_table_new '* (list int int))
-(define-lff s_table_add_toplevel_comp_items_to_comp_table void '(*))
 (define-lff s_table_add_toplevel_net_items_to_net_table void '(*))
 (define-lff s_table_add_toplevel_pin_items_to_pin_table void '(*))
 (define-lff s_table_gtksheet_to_all_tables void '())

@@ -2006,8 +2006,123 @@ Please check your design.")))
    (glist->list *objects identity)))
 
 
+
+;;; Process *OBJECTS and add attribs of component ones to the
+;;; component table.
 (define (objects->component-table *objects)
-  (s_table_add_toplevel_comp_items_to_comp_table *objects))
+  (define *sheet-data (attrib_get_sheet_data))
+  (define *component-table
+    (attrib_sheet_data_get_component_table *sheet-data))
+
+  (when %verbose-mode
+    (format #t (G_ "Start internal component TABLE creation\n")))
+
+  ;; Iterate through all objects found on page.
+  (for-each
+   (lambda (*object)
+     ;; Now process objects found on page.
+     (when (and (true? (lepton_object_is_component *object))
+                (not (null-pointer?
+                      (lepton_object_get_attribs *object))))
+       ;; Don't process part if it lacks a refdes.
+       (let ((*temp-refdes (g_strdup (s_attrib_get_refdes *object))))
+         (when (not (null-pointer? *temp-refdes))
+           (verbose_print (string->pointer " C"))
+           ;; Having found a component, we loop over all attribs
+           ;; in this component, and stick them into cells in the
+           ;; table.
+           (for-each
+            (lambda (*attrib)
+              (when (and (true? (lepton_object_is_text *attrib))
+                         (not (null-pointer?
+                               (lepton_object_get_text *attrib))))
+                ;; Found an attribute.
+                (let* ((*attrib-text
+                        (g_strdup (lepton_text_object_get_string *attrib)))
+                       (*attrib-name
+                        (u_basic_breakup_string *attrib-text
+                                                (char->integer #\=)
+                                                0))
+                       (*attrib-value
+                        (s_misc_remaining_string *attrib-text
+                                                 (char->integer #\=)
+                                                 1))
+                       (old-visibility
+                        (if (true? (lepton_text_object_is_visible *attrib))
+                            VISIBLE
+                            INVISIBLE))
+                       (old-show-name-value
+                        (lepton_text_object_get_show *attrib)))
+
+                  ;; Don't include "refdes" or "slot" because they
+                  ;; form the row name.  Also don't include "net"
+                  ;; per bug found by Steve W.  4.3.2007 -- SDB.
+                  (when (and (not (string= (pointer->string *attrib-name)
+                                           "refdes"))
+                             (not (string= (pointer->string *attrib-name)
+                                           "net"))
+                             (not (string= (pointer->string *attrib-name)
+                                           "slot")))
+                    ;; Get row and column where to put this
+                    ;; attrib.
+
+                    ;; Sanity check.
+                    (let ((row
+                           (s_table_get_index
+                            (attrib_sheet_data_get_component_list *sheet-data)
+                            *temp-refdes))
+                          (column
+                           (s_table_get_index
+                            (attrib_sheet_data_get_component_attrib_list *sheet-data)
+                            *attrib-name)))
+                      (if (or (= row -1)
+                              (= column -1))
+                          (begin
+                            ;; we didn't find the item in the
+                            ;; table.
+                            (format (current-error-port)
+                                    "objects->component-table(): ")
+                            (format (current-error-port)
+                                    (G_ "We didn't find either row or column in the lists!\n")))
+                          (begin
+                            ;; Is there a compelling reason for me
+                            ;; to put this into a separate function?
+                            (attrib_table_set_row *component-table
+                                                  row
+                                                  column
+                                                  row)
+                            (attrib_table_set_column *component-table
+                                                     row
+                                                     column
+                                                     column)
+                            (attrib_table_set_row_name *component-table
+                                                       row
+                                                       column
+                                                       *temp-refdes)
+                            (attrib_table_set_column_name *component-table
+                                                          row
+                                                          column
+                                                          *attrib-name)
+                            (attrib_table_set_attrib_value *component-table
+                                                           row
+                                                           column
+                                                           *attrib-value)
+                            (attrib_table_set_visibility *component-table
+                                                         row
+                                                         column
+                                                         old-visibility)
+                            (attrib_table_set_show_name_value *component-table
+                                                              row
+                                                              column
+                                                              old-show-name-value)))))
+                  (g_free *attrib-name)
+                  (g_free *attrib-text)
+                  (g_free *attrib-value))))
+            (glist->list (lepton_object_get_attribs *object) identity))
+           (g_free *temp-refdes)))))
+   (glist->list *objects identity))
+
+  (verbose_done))
 
 
 (define (activate *app *toplevel)
