@@ -652,29 +652,26 @@ void s_table_gtksheet_to_table(GtkSheet *local_gtk_sheet, STRING_LIST *master_ro
 
       /* first handle attrib value in cell */
       g_debug ("    Updating attrib_value %s\n", attrib_value);
-      g_free( local_table[row][col].attrib_value );
       if (attrib_value != NULL) {
-        local_table[row][col].attrib_value = (gchar *) g_strdup(attrib_value);
+        attrib_table_set_attrib_value (local_table, row, col, attrib_value);
       } else {
-        local_table[row][col].attrib_value = NULL;
+        attrib_table_set_attrib_value (local_table, row, col, NULL);
       }
 
       /* next handle name of row (also held in TABLE cell) */
       g_debug ("    Updating row_name %s\n", row_title);
-      g_free( local_table[row][col].row_name );
       if (row_title != NULL) {
-        local_table[row][col].row_name = (gchar *) g_strdup(row_title);
+        attrib_table_set_row_name (local_table, row, col, row_title);
       } else {
-        local_table[row][col].row_name = NULL;
+        attrib_table_set_row_name (local_table, row, col, NULL);
       }
 
       /* finally handle name of col */
       g_debug ("    Updating col_name %s\n", col_title);
-      g_free( local_table[row][col].col_name );
       if (col_title != NULL) {
-        local_table[row][col].col_name = (gchar *) g_strdup(col_title);
+        attrib_table_set_column_name (local_table, row, col, col_title);
       } else {
-        local_table[row][col].col_name = NULL;
+        attrib_table_set_column_name (local_table, row, col, NULL);
       }
 
       /* get next col list item and then iterate. */
