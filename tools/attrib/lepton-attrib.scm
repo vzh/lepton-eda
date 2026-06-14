@@ -897,19 +897,11 @@ failure."
                   (*attrib-value
                    (gtk_sheet_cell_get_text *gtk-sheet row column)))
               ;; First handle attrib value in cell.
-              (if (not (null-pointer? *attrib-value))
-                  (attrib_table_set_attrib_value *table row column *attrib-value)
-                  (attrib_table_set_attrib_value *table row column %null-pointer))
-
+              (attrib_table_set_attrib_value *table row column *attrib-value)
               ;; Next handle name of row (also held in table cell).
-              (if (not (null-pointer? *row-title))
-                  (attrib_table_set_row_name *table row column *row-title)
-                  (attrib_table_set_row_name *table row column %null-pointer))
-
+              (attrib_table_set_row_name *table row column *row-title)
               ;; Finally handle name of column.
-              (if (not (null-pointer? *column-title))
-                  (attrib_table_set_column_name *table row column *column-title)
-                  (attrib_table_set_column_name *table row column %null-pointer))
+              (attrib_table_set_column_name *table row column *column-title)
 
               ;; Get next column list item and then iterate.
               (loopc (1+ column)
