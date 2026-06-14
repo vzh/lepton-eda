@@ -692,13 +692,13 @@ void s_table_add_toplevel_comp_items_to_comp_table (const GList *obj_list) {
                          row, col, attrib_value,
                          &((component_table)[row][col]).attrib_value);
                 /* Is there a compelling reason for me to put this into a separate fcn? */
-                ((component_table)[row][col]).row = row;
-                ((component_table)[row][col]).col = col;
-                ((component_table)[row][col]).row_name = g_strdup(temp_uref);
-                ((component_table)[row][col]).col_name = g_strdup(attrib_name);
-                ((component_table)[row][col]).attrib_value = g_strdup(attrib_value);
-                ((component_table)[row][col]).visibility = old_visibility;
-                ((component_table)[row][col]).show_name_value = old_show_name_value;
+                attrib_table_set_row (component_table, row, col, row);
+                attrib_table_set_column (component_table, row, col, col);
+                attrib_table_set_row_name (component_table, row, col, temp_uref);
+                attrib_table_set_column_name (component_table, row, col, attrib_name);
+                attrib_table_set_attrib_value (component_table, row, col, attrib_value);
+                attrib_table_set_visibility (component_table, row, col, old_visibility);
+                attrib_table_set_show_name_value (component_table, row, col, old_show_name_value);
               }
             }
             g_free(attrib_name);
