@@ -867,19 +867,56 @@ failure."
   (update-design-pins *toplevel *page))
 
 
-
+;;; Extracts attributes from *GTK-SHEET into *TABLE obtaining row
+;;; and column titles from *ROW-LIST and *COLUMN-LIST.
+;;; ROWS-NUMBER and COLUMNS-NUMBER are the number of rows and
+;;; columns in the table.
+;;;
+;;; This function does the actual heavy lifting of looping through
+;;; the spreadsheet, extracting the attribs from the cells, and
+;;; placing them back into *TABLE.  This is the first step in
+;;; saving out a project.
 (define (gtk-sheet->table *gtk-sheet
                           *row-list
                           *column-list
                           *table
                           rows-number
                           columns-number)
-  (s_table_gtksheet_to_table *gtk-sheet
-                             *row-list
-                             *column-list
-                             *table
-                             rows-number
-                             columns-number))
+  (let loopr ((row 0)
+              (*row-list-item *row-list))
+    (when (< row rows-number)
+      (let ((*row-title
+             (g_strdup (attrib_string_list_get_data *row-list-item))))
+        (let loopc ((column 0)
+                    (*column-list-item *column-list))
+          (when (< column columns-number)
+            (let ((*column-title
+                   (g_strdup
+                    (attrib_string_list_get_data *column-list-item)))
+                  ;; Get value of attrib in cell.
+                  (*attrib-value
+                   (gtk_sheet_cell_get_text *gtk-sheet row column)))
+              ;; First handle attrib value in cell.
+              (if (not (null-pointer? *attrib-value))
+                  (attrib_table_set_attrib_value *table row column *attrib-value)
+                  (attrib_table_set_attrib_value *table row column %null-pointer))
+
+              ;; Next handle name of row (also held in table cell).
+              (if (not (null-pointer? *row-title))
+                  (attrib_table_set_row_name *table row column *row-title)
+                  (attrib_table_set_row_name *table row column %null-pointer))
+
+              ;; Finally handle name of column.
+              (if (not (null-pointer? *column-title))
+                  (attrib_table_set_column_name *table row column *column-title)
+                  (attrib_table_set_column_name *table row column %null-pointer))
+
+              ;; Get next column list item and then iterate.
+              (loopc (1+ column)
+                     (attrib_string_list_get_next *column-list-item)))))
+
+        (loopr (1+ row)
+               (attrib_string_list_get_next *row-list-item))))))
 
 
 ;;; Pushes spreadsheet data to tables.

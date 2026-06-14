@@ -261,10 +261,6 @@ TABLE **s_table_resize(TABLE **table,
 void s_table_destroy(TABLE **table, int row_count, int col_count);
 int s_table_get_index(STRING_LIST *list, char *string);
 
-void s_table_gtksheet_to_table(GtkSheet *local_gtk_sheet,
-                               STRING_LIST *master_row_list, STRING_LIST *master_col_list,
-                               TABLE **local_table, int num_rows, int num_cols);
-
 /* ------------- s_misc.c ------------- */
 void set_verbose_mode ();
 void verbose_print (const char *string);

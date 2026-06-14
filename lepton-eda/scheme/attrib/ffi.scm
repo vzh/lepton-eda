@@ -24,6 +24,7 @@
   #:use-module (lepton m4)
 
   #:export (gtk_sheet_set_active_cell
+            gtk_sheet_cell_get_text
             gtk_sheet_column_button_get_label
             gtk_sheet_delete_columns
             gtk_sheet_get_active_cell
@@ -136,7 +137,6 @@
             s_table_copy
             s_table_destroy
             s_table_get_index
-            s_table_gtksheet_to_table
             s_table_new
             s_table_resize
 
@@ -165,6 +165,7 @@
 (define libgtksheet (dynamic-link %libgtksheet))
 
 (define-lff-lib gtk_sheet_set_active_cell int (list '* int int) libgtksheet)
+(define-lff-lib gtk_sheet_cell_get_text '* (list '* int int) libgtksheet)
 (define-lff-lib gtk_sheet_column_button_get_label '* (list '* int) libgtksheet)
 (define-lff-lib gtk_sheet_delete_columns void (list '* unsigned-int unsigned-int) libgtksheet)
 (define-lff-lib gtk_sheet_get_active_cell void '(* * *) libgtksheet)
@@ -286,7 +287,6 @@
 (define-lff s_table_copy '* (list '* int int int))
 (define-lff s_table_destroy void (list '* int int))
 (define-lff s_table_get_index int '(* *))
-(define-lff s_table_gtksheet_to_table void (list '* '* '* '* int int))
 (define-lff s_table_new '* (list int int))
 (define-lff s_table_resize '* (list '* int int int))
 
