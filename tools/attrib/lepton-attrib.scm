@@ -867,6 +867,10 @@ failure."
   (update-design-pins *toplevel *page))
 
 
+(define (spreadsheet-data->tables)
+  (s_table_gtksheet_to_all_tables))
+
+
 ;;; Copies data from gtksheet into LeptonToplevel struct.  The
 ;;; function is called when the user invokes File -> Save.  It
 ;;; first places all data from gtksheet into SHEET_DATA.  Then it
@@ -879,7 +883,7 @@ failure."
 
   ;; Extract the attribs from the gtksheet widget cells, and place
   ;; them back into SHEET_DATA.
-  (s_table_gtksheet_to_all_tables)
+  (spreadsheet-data->tables)
 
   ;; Iterate over all pages in design.
   (for-each
