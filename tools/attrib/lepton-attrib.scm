@@ -2125,6 +2125,10 @@ Please check your design.")))
   (verbose_done))
 
 
+(define (objects->net-table *objects)
+  (s_table_add_toplevel_net_items_to_net_table *objects))
+
+
 (define (activate *app *toplevel)
   (define *window-widget (attrib_window_new *app))
   (define *sheet-data (make-sheet-data))
@@ -2201,7 +2205,7 @@ Please check your design.")))
        ;; connected!
 
        ;; Adds all nets from page to the net table.
-       (s_table_add_toplevel_net_items_to_net_table (lepton_page_objects *page))
+       (objects->net-table (lepton_page_objects *page))
 
        ;; Adds all pins from page to the pin table.
        (s_table_add_toplevel_pin_items_to_pin_table (lepton_page_objects *page))))
