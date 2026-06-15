@@ -475,10 +475,6 @@ void s_table_add_toplevel_comp_items_to_comp_table (const GList *obj_list) {
  * objects occurs here.
  *
  * \param obj_list The \c GList of objects.
- *
- * \todo Why do the calling semantics of this function disagree with
- *       s_table_add_toplevel_pin_items_to_pin_table()?  That function
- *       takes a GList, this one takes a pointer to LeptonObject.
  */
 void
 s_table_add_toplevel_net_items_to_net_table (const GList *obj_list)
