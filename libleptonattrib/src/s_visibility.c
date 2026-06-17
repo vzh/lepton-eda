@@ -96,8 +96,8 @@ s_visibility_set_invisible ()
   g_return_if_fail (sheet != NULL);
   g_return_if_fail (GTK_IS_SHEET (sheet));
 
-  switch (sheet->state) {
-
+  switch (gtk_sheet_get_state (sheet))
+  {
   case GTK_SHEET_RANGE_SELECTED:
   case GTK_SHEET_COLUMN_SELECTED:
   case GTK_SHEET_ROW_SELECTED:
@@ -176,8 +176,8 @@ s_visibility_set_name_only (gpointer action,
   g_return_if_fail (sheet != NULL);
   g_return_if_fail (GTK_IS_SHEET (sheet));
 
-  switch (sheet->state) {
-
+  switch (gtk_sheet_get_state (sheet))
+  {
   case GTK_SHEET_RANGE_SELECTED:
   case GTK_SHEET_COLUMN_SELECTED:
   case GTK_SHEET_ROW_SELECTED:
@@ -246,8 +246,8 @@ s_visibility_set_value_only (gpointer action,
   g_return_if_fail (sheet != NULL);
   g_return_if_fail (GTK_IS_SHEET (sheet));
 
-  switch (sheet->state) {
-
+  switch (gtk_sheet_get_state (sheet))
+  {
   case GTK_SHEET_RANGE_SELECTED:
   case GTK_SHEET_COLUMN_SELECTED:
   case GTK_SHEET_ROW_SELECTED:
@@ -318,8 +318,8 @@ s_visibility_set_name_and_value (gpointer action,
   g_return_if_fail (sheet != NULL);
   g_return_if_fail (GTK_IS_SHEET (sheet));
 
-  switch (sheet->state) {
-
+  switch (gtk_sheet_get_state (sheet))
+  {
   case GTK_SHEET_RANGE_SELECTED:
   case GTK_SHEET_COLUMN_SELECTED:
   case GTK_SHEET_ROW_SELECTED:
