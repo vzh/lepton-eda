@@ -1372,12 +1372,12 @@ Choose \"Quit\" to leave lepton-attrib and fix the problem, or
   (procedure->pointer void callback-edit-delete-attrib '(* * *)))
 
 
-(define (set-cells-attribs-invisible *action *parameter *data)
-  (s_visibility_set_invisible *action *parameter *data))
+(define (set-cells-attribs-invisible)
+  (s_visibility_set_invisible))
 
 
 (define (callback-visibility-invisible *action *parameter *data)
-  (set-cells-attribs-invisible *action *parameter *data))
+  (set-cells-attribs-invisible))
 (define *callback-visibility-invisible
   (procedure->pointer void callback-visibility-invisible '(* * *)))
 

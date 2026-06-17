@@ -82,17 +82,8 @@
  * selected a range of cells which are carried in the global
  * variable "sheet".
  */
-#ifdef ENABLE_GTK3
 void
-s_visibility_set_invisible (GSimpleAction *action,
-                            GVariant *parameter,
-                            gpointer user_data)
-#else
-void
-s_visibility_set_invisible (gpointer action,
-                            gpointer parameter,
-                            gpointer user_data)
-#endif
+s_visibility_set_invisible ()
 {
   gint i, j;
   gint row_start, row_end, col_start, col_end;
