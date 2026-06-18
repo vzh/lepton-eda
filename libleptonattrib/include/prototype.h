@@ -250,17 +250,8 @@ s_visibility_set_name_only ();
 void
 s_visibility_set_value_only ();
 
-#ifdef ENABLE_GTK3
 void
-s_visibility_set_name_and_value (GSimpleAction *action,
-                                 GVariant *parameter,
-                                 gpointer user_data);
-#else
-void
-s_visibility_set_name_and_value (gpointer action,
-                                 gpointer parameter,
-                                 gpointer user_data);
-#endif
+s_visibility_set_name_and_value ();
 
 void s_visibility_set_cell(gint cur_page, gint row, gint col,
                            gint visibility, gint show_name_value);

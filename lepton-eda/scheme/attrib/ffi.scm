@@ -279,7 +279,7 @@
 
 ;;; s_visibility.c
 (define-lff s_visibility_set_invisible void '())
-(define-lff s_visibility_set_name_and_value void '(* * *))
+(define-lff s_visibility_set_name_and_value void '())
 (define-lff s_visibility_set_name_only void '())
 (define-lff s_visibility_set_value_only void '())
 

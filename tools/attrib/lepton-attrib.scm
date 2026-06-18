@@ -1402,12 +1402,12 @@ Choose \"Quit\" to leave lepton-attrib and fix the problem, or
   (procedure->pointer void callback-visibility-value-only '(* * *)))
 
 
-(define (set-cells-attribs-visible-name-value *action *parameter *data)
-  (s_visibility_set_name_and_value *action *parameter *data))
+(define (set-cells-attribs-visible-name-value)
+  (s_visibility_set_name_and_value))
 
 
 (define (callback-visibility-name-value *action *parameter *data)
-  (set-cells-attribs-visible-name-value *action *parameter *data))
+  (set-cells-attribs-visible-name-value))
 (define *callback-visibility-name-value
   (procedure->pointer void callback-visibility-name-value '(* * *)))
 

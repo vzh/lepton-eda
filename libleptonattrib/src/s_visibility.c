@@ -277,17 +277,8 @@ s_visibility_set_value_only ()
  * variable "sheet".
  *
  */
-#ifdef ENABLE_GTK3
 void
-s_visibility_set_name_and_value (GSimpleAction *action,
-                                 GVariant *parameter,
-                                 gpointer user_data)
-#else
-void
-s_visibility_set_name_and_value (gpointer action,
-                                 gpointer parameter,
-                                 gpointer user_data)
-#endif
+s_visibility_set_name_and_value ()
 {
   gint i, j;
   gint row_start, row_end, col_start, col_end;
