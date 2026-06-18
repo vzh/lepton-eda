@@ -1520,8 +1520,69 @@ Choose \"Quit\" to leave lepton-attrib and fix the problem, or
   (procedure->pointer void callback-visibility-name-only '(* * *)))
 
 
+;;; Sets the visibility of the selected sheet cells to SHOW_VALUE.
 (define (set-cells-attribs-visible-value)
-  (s_visibility_set_value_only (notebook-current-page-id)))
+  (define (get-int bv)
+    (bytevector-sint-ref bv 0 (native-endianness) (sizeof int)))
+  (define current-page-id (notebook-current-page-id))
+  (define *sheet (attrib_get_sheet current-page-id))
+  (define state-bv (make-bytevector (sizeof int) 0))
+  (define range-bv (make-bytevector (* 4 (sizeof int)) 0))
+  (define active-cell-row-bv (make-bytevector (sizeof int) 0))
+  (define active-cell-column-bv (make-bytevector (sizeof int) 0))
+
+  (when (null-pointer? *sheet)
+    (error "NULL sheet."))
+
+  (let ((multiple-selection?
+         (true? (attrib_sheet_multiple_selection *sheet)))
+        (result (gtk_sheet_get_selection
+                 *sheet
+                 (bytevector->pointer state-bv)
+                 (bytevector->pointer range-bv))))
+
+    (when (false? result)
+      (error "Could not obtain sheet selection."))
+    (if multiple-selection?
+        (let* ((range-ls
+                (parse-c-struct (bytevector->pointer range-bv)
+                                (list int int int int)))
+               (start-row (first range-ls))
+               (start-column (second range-ls))
+               (end-row (third range-ls))
+               (end-column (fourth range-ls)))
+          (do ((i start-row (1+ i)))
+              ((> i end-row))
+            (do ((j start-column (1+ j)))
+                ((> j end-column))
+
+              (s_visibility_set_cell current-page-id
+                                     i
+                                     j
+                                     VISIBLE
+                                     SHOW_VALUE)
+              ;; Color names are defined
+              ;; in liblepton/include/colors.h.
+              (x_gtksheet_set_cell_text_color *sheet i j BLACK)))
+          ;; Now return sheet to normal -- unselect range.
+          (gtk_sheet_unselect_range *sheet))
+
+        (begin
+          (gtk_sheet_get_active_cell *sheet
+                                     (bytevector->pointer active-cell-row-bv)
+                                     (bytevector->pointer active-cell-column-bv))
+          (let ((active-cell-row (get-int active-cell-row-bv))
+                (active-cell-column (get-int active-cell-column-bv)))
+            (s_visibility_set_cell current-page-id
+                                   active-cell-row
+                                   active-cell-column
+                                   VISIBLE
+                                   SHOW_VALUE)
+
+            (x_gtksheet_set_cell_text_color *sheet
+                                            active-cell-row
+                                            active-cell-column
+                                            BLACK))))))
 
 
 (define (callback-visibility-value-only *action *parameter *data)
