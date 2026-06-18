@@ -247,20 +247,15 @@ s_visibility_set_invisible ();
 void
 s_visibility_set_name_only ();
 
-#ifdef ENABLE_GTK3
 void
-s_visibility_set_value_only (GSimpleAction *action,
-                             GVariant *parameter,
-                             gpointer user_data);
+s_visibility_set_value_only ();
+
+#ifdef ENABLE_GTK3
 void
 s_visibility_set_name_and_value (GSimpleAction *action,
                                  GVariant *parameter,
                                  gpointer user_data);
 #else
-void
-s_visibility_set_value_only (gpointer action,
-                             gpointer parameter,
-                             gpointer user_data);
 void
 s_visibility_set_name_and_value (gpointer action,
                                  gpointer parameter,
