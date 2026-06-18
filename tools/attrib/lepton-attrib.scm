@@ -933,6 +933,11 @@ failure."
     'suffix)))
 
 
+;;; Returns the current page index of the program notebook widget.
+(define (notebook-current-page-id)
+  (gtk_notebook_get_current_page (attrib_get_notebook)))
+
+
 ;;; Runs the Export file dialog.  It asks for the filename for the
 ;;; CSV export file and then does the exporting.
 (define (export-file-dialog)
@@ -947,10 +952,6 @@ failure."
      GTK_RESPONSE_ACCEPT
      %null-pointer))
 
-  ;; Check that we are on the component page.
-  (define current-page-id
-    (gtk_notebook_get_current_page (attrib_get_notebook)))
-
   (gtk_dialog_set_default_response *dialog GTK_RESPONSE_ACCEPT)
 
   (let ((response (gtk_dialog_run *dialog)))
@@ -959,7 +960,8 @@ failure."
       (let ((*filename (gtk_file_chooser_get_filename *dialog)))
         (unless (null-pointer? *filename)
           (when (true? (x_dialog_confirm_overwrite *filename))
-            (if (zero? current-page-id)
+            ;; Check that we are on the component page.
+            (if (zero? (notebook-current-page-id))
                 ;; Only export the component table.
                 (catch 'system-error
                   (lambda ()
@@ -989,11 +991,8 @@ failure."
 
 (define (export-csv)
   "Export component table info in the CSV format."
-  (define *notebook (attrib_get_notebook))
-  (define current-page-id (gtk_notebook_get_current_page *notebook))
-
   ;; Check that we are on components page.
-  (if (zero? current-page-id)
+  (if (zero? (notebook-current-page-id))
       (export-file-dialog)
       ;; We only support export of components now
       (x_dialog_unimplemented_feature)))
@@ -1098,11 +1097,9 @@ failure."
 ;;; Adds a new attribute to the component sheet.
 (define (add-attrib-column *name)
   (define *sheet-data (attrib_get_sheet_data))
-  (define *notebook (attrib_get_notebook))
-  (define current-page-id (gtk_notebook_get_current_page *notebook))
 
   ;; Only component sheet is supported yet.
-  (when (zero? current-page-id)
+  (when (zero? (notebook-current-page-id))
     ;; Eventually, I want to just resize the table to accomodate
     ;; the new attrib.  However, that is difficult.  Therefore, I
     ;; will just destroy the old table and recreate it for now.
@@ -1191,11 +1188,8 @@ failure."
 
 
 (define (add-attrib)
-  (define *notebook (attrib_get_notebook))
-  (define current-page-id (gtk_notebook_get_current_page *notebook))
-
   ;; Check that we are on components page.
-  (when (zero? current-page-id)
+  (when (zero? (notebook-current-page-id))
     (add-attrib-dialog)))
 
 
@@ -1257,8 +1251,7 @@ failure."
 ;;; Delete an attribute column.
 (define (delete-attrib-column)
   (define *sheet-data (attrib_get_sheet_data))
-  (define current-page-id
-    (gtk_notebook_get_current_page (attrib_get_notebook)))
+  (define current-page-id (notebook-current-page-id))
   (define *sheet (attrib_get_sheet current-page-id))
   (unless (null-pointer? *sheet)
     (let ((mincol (x_gtksheet_get_min_col *sheet))
@@ -1287,9 +1280,7 @@ failure."
 ;; Runs the Delete attribute dialog.
 (define (delete-attrib)
   ;; First verify that exactly one column is selected.
-  (define current-page-id
-    (gtk_notebook_get_current_page (attrib_get_notebook)))
-  (define *sheet (attrib_get_sheet current-page-id))
+  (define *sheet (attrib_get_sheet (notebook-current-page-id)))
   (unless (null-pointer? *sheet)
     (let ((mincol (x_gtksheet_get_min_col *sheet))
           (maxcol (x_gtksheet_get_max_col *sheet)))
