@@ -89,6 +89,7 @@ s_visibility_set_invisible (int cur_page)
   gint row_start, row_end, col_start, col_end;
   GtkSheet *sheet;
   gboolean multiple_selection;
+  int active_cell_row, active_cell_column;
 
   sheet = sheets[cur_page];
 
@@ -124,15 +125,17 @@ s_visibility_set_invisible (int cur_page)
   else
   {
     g_debug ("s_visibility_set_invisible: Normal selection.\n");
+
+    gtk_sheet_get_active_cell (sheet, &active_cell_row, &active_cell_column);
     s_visibility_set_cell(cur_page,
-                          sheet->active_cell.row,
-                          sheet->active_cell.col,
+                          active_cell_row,
+                          active_cell_column,
                           INVISIBLE,
                           LEAVE_NAME_VALUE_ALONE);
 
     x_gtksheet_set_cell_text_color(sheet,
-                                   sheet->active_cell.row,
-                                   sheet->active_cell.col,
+                                   active_cell_row,
+                                   active_cell_column,
                                    GREY);
   }
 }
@@ -152,6 +155,7 @@ s_visibility_set_name_only (int cur_page)
   gint row_start, row_end, col_start, col_end;
   GtkSheet *sheet;
   gboolean multiple_selection;
+  int active_cell_row, active_cell_column;
 
   sheet = sheets[cur_page];
 
@@ -181,13 +185,14 @@ s_visibility_set_name_only (int cur_page)
   }
   else
   {
+    gtk_sheet_get_active_cell (sheet, &active_cell_row, &active_cell_column);
     s_visibility_set_cell(cur_page,
-                          sheet->active_cell.row,
-                          sheet->active_cell.col,
+                          active_cell_row,
+                          active_cell_column,
                           VISIBLE, SHOW_NAME);
     x_gtksheet_set_cell_text_color(sheet,
-                                   sheet->active_cell.row,
-                                   sheet->active_cell.col,
+                                   active_cell_row,
+                                   active_cell_column,
                                    RED);
   }
 }
@@ -207,6 +212,7 @@ s_visibility_set_value_only (int cur_page)
   gint row_start, row_end, col_start, col_end;
   GtkSheet *sheet;
   gboolean multiple_selection;
+  int active_cell_row, active_cell_column;
 
   sheet = sheets[cur_page];
 
@@ -237,13 +243,15 @@ s_visibility_set_value_only (int cur_page)
   else
   {
     g_debug ("s_visibility_set_value_only: Sheet normal selected.\n");
+
+    gtk_sheet_get_active_cell (sheet, &active_cell_row, &active_cell_column);
     s_visibility_set_cell(cur_page,
-                          sheet->active_cell.row,
-                          sheet->active_cell.col,
+                          active_cell_row,
+                          active_cell_column,
                           VISIBLE, SHOW_VALUE);
     x_gtksheet_set_cell_text_color(sheet,
-                                   sheet->active_cell.row,
-                                   sheet->active_cell.col,
+                                   active_cell_row,
+                                   active_cell_column,
                                    BLACK);
   }
 }
@@ -265,6 +273,7 @@ s_visibility_set_name_and_value (int cur_page)
   gint row_start, row_end, col_start, col_end;
   GtkSheet *sheet;
   gboolean multiple_selection;
+  int active_cell_row, active_cell_column;
 
   sheet = sheets[cur_page];
 
@@ -293,14 +302,15 @@ s_visibility_set_name_and_value (int cur_page)
   }
   else
   {
+    gtk_sheet_get_active_cell (sheet, &active_cell_row, &active_cell_column);
     s_visibility_set_cell(cur_page,
-                          sheet->active_cell.row,
-                          sheet->active_cell.col,
+                          active_cell_row,
+                          active_cell_column,
                           VISIBLE,
                           SHOW_NAME_VALUE);
     x_gtksheet_set_cell_text_color(sheet,
-                                   sheet->active_cell.row,
-                                   sheet->active_cell.col,
+                                   active_cell_row,
+                                   active_cell_column,
                                    BLUE);
   }
 }
