@@ -26,7 +26,10 @@
   #:export (gtk_sheet_set_active_cell
             gtk_sheet_column_button_get_label
             gtk_sheet_delete_columns
+            gtk_sheet_get_active_cell
+            gtk_sheet_get_selection
             gtk_sheet_insert_columns
+            gtk_sheet_unselect_range
 
             attrib_get_notebook
             attrib_get_sheet
@@ -37,6 +40,7 @@
             attrib_set_toplevel
             attrib_get_window
             attrib_set_window
+            attrib_sheet_multiple_selection
 
             s_attrib_get_refdes
             s_attrib_name_in_list
@@ -56,6 +60,7 @@
             x_gtksheet_add_cell_item
             x_gtksheet_add_col_labels
             x_gtksheet_add_row_labels
+            x_gtksheet_set_cell_text_color
             x_gtksheet_get_max_col
             x_gtksheet_get_min_col
             x_gtksheet_init
@@ -131,7 +136,7 @@
             s_table_gtksheet_to_all_tables
             s_table_resize
 
-            s_visibility_set_invisible
+            s_visibility_set_cell
             s_visibility_set_name_and_value
             s_visibility_set_name_only
             s_visibility_set_value_only
@@ -163,7 +168,10 @@
 (define-lff-lib gtk_sheet_set_active_cell int (list '* int int) libgtksheet)
 (define-lff-lib gtk_sheet_column_button_get_label '* (list '* int) libgtksheet)
 (define-lff-lib gtk_sheet_delete_columns void (list '* unsigned-int unsigned-int) libgtksheet)
+(define-lff-lib gtk_sheet_get_active_cell void '(* * *) libgtksheet)
+(define-lff-lib gtk_sheet_get_selection int '(* * *) libgtksheet)
 (define-lff-lib gtk_sheet_insert_columns void (list '* unsigned-int unsigned-int) libgtksheet)
+(define-lff-lib gtk_sheet_unselect_range void '(*) libgtksheet)
 
 ;;; attrib.c
 (define-lff attrib_get_notebook '* '())
@@ -175,6 +183,7 @@
 (define-lff attrib_set_toplevel void '(*))
 (define-lff attrib_get_window '* '())
 (define-lff attrib_set_window void '(*))
+(define-lff attrib_sheet_multiple_selection int '(*))
 
 ;; s_attrib.c
 (define-lff s_attrib_get_refdes '* '(*))
@@ -199,6 +208,7 @@
 (define-lff x_gtksheet_add_cell_item void (list '* int int '* int int))
 (define-lff x_gtksheet_add_col_labels void (list '* int '*))
 (define-lff x_gtksheet_add_row_labels void (list '* int '*))
+(define-lff x_gtksheet_set_cell_text_color void (list '* int int int))
 (define-lff x_gtksheet_get_max_col int '(*))
 (define-lff x_gtksheet_get_min_col int '(*))
 (define-lff x_gtksheet_init void '())
@@ -278,7 +288,7 @@
 (define-lff s_table_resize '* (list '* int int int))
 
 ;;; s_visibility.c
-(define-lff s_visibility_set_invisible void (list int))
+(define-lff s_visibility_set_cell void (list int int int int int))
 (define-lff s_visibility_set_name_and_value void (list int))
 (define-lff s_visibility_set_name_only void (list int))
 (define-lff s_visibility_set_value_only void (list int))
