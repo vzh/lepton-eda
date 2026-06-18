@@ -96,15 +96,15 @@ void s_visibility_set_cell(gint cur_page, gint row, gint col,
   switch (cur_page) {
 
   case 0:
-    local_table = sheet_head->component_table;
+    local_table = attrib_sheet_data_get_component_table (sheet_head);
     break;
 
   case 1:
-    local_table = sheet_head->net_table;
+    local_table = attrib_sheet_data_get_net_table (sheet_head);
     break;
 
   case 2:
-    local_table = sheet_head->pin_table;
+    local_table = attrib_sheet_data_get_pin_table (sheet_head);
     break;
   }
 
