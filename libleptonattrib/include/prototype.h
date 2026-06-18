@@ -244,9 +244,6 @@ u_basic_breakup_string (char *string,
                         int count);
 
 /* ------------- s_visibility.c ------------- */
-void
-s_visibility_set_name_and_value (int cur_page);
-
 void s_visibility_set_cell(gint cur_page, gint row, gint col,
                            gint visibility, gint show_name_value);
 
