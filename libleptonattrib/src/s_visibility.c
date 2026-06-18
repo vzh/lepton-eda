@@ -94,7 +94,7 @@ s_visibility_set_invisible (int cur_page)
   gboolean multiple_selection;
   int active_cell_row, active_cell_column;
 
-  sheet = sheets[cur_page];
+  sheet = attrib_get_sheet (cur_page);
 
   g_return_if_fail (sheet != NULL);
   g_return_if_fail (GTK_IS_SHEET (sheet));
@@ -165,7 +165,7 @@ s_visibility_set_name_only (int cur_page)
   gboolean multiple_selection;
   int active_cell_row, active_cell_column;
 
-  sheet = sheets[cur_page];
+  sheet = attrib_get_sheet (cur_page);
 
   g_return_if_fail (sheet != NULL);
   g_return_if_fail (GTK_IS_SHEET (sheet));
@@ -227,7 +227,7 @@ s_visibility_set_value_only (int cur_page)
   gboolean multiple_selection;
   int active_cell_row, active_cell_column;
 
-  sheet = sheets[cur_page];
+  sheet = attrib_get_sheet (cur_page);
 
   g_return_if_fail (sheet != NULL);
   g_return_if_fail (GTK_IS_SHEET (sheet));
@@ -293,7 +293,7 @@ s_visibility_set_name_and_value (int cur_page)
   gboolean multiple_selection;
   int active_cell_row, active_cell_column;
 
-  sheet = sheets[cur_page];
+  sheet = attrib_get_sheet (cur_page);
 
   g_return_if_fail (sheet != NULL);
   g_return_if_fail (GTK_IS_SHEET (sheet));
