@@ -72,69 +72,6 @@
 /* ----- s_visibility stuff begins here ----- */
 
 
-
-/* ---------------------------------------------------------------------- */
-/*! \brief Set the visibility of the selected cells to NAME_ONLY.
- *
- * This sets the selected cells to NAME_ONLY.
- * This function is invoked from the menu, it assumes you have
- * selected a range of cells which are carried in the global
- * variable "sheet".
- */
-void
-s_visibility_set_name_only (int cur_page)
-{
-  gint i, j;
-  gint row_start, row_end, col_start, col_end;
-  GtkSheet *sheet;
-  GtkSheetRange range;
-  GtkSheetState state;
-  gboolean result;
-  gboolean multiple_selection;
-  int active_cell_row, active_cell_column;
-
-  sheet = attrib_get_sheet (cur_page);
-
-  g_return_if_fail (sheet != NULL);
-  g_return_if_fail (GTK_IS_SHEET (sheet));
-
-  multiple_selection = attrib_sheet_multiple_selection (sheet);
-
-  result = gtk_sheet_get_selection (sheet, &state, &range);
-
-  if (multiple_selection)
-  {
-    g_debug ("s_visibility_set_name_only: Range/col/row selected.\n");
-    row_start = range.row0;
-    row_end = range.rowi;
-    col_start = range.col0;
-    col_end = range.coli;
-    for (i=row_start; i<=row_end; i++) {
-      for (j=col_start; j<=col_end; j++) {
-        s_visibility_set_cell(cur_page, i, j, VISIBLE, SHOW_NAME);
-        /* Color names are defined
-         * in liblepton/include/colors.h */
-        x_gtksheet_set_cell_text_color(sheet, i, j, RED);
-
-      }
-    }
-    /* Now return sheet to normal -- unselect range */
-    gtk_sheet_unselect_range (sheet);
-  }
-  else
-  {
-    gtk_sheet_get_active_cell (sheet, &active_cell_row, &active_cell_column);
-    s_visibility_set_cell(cur_page,
-                          active_cell_row,
-                          active_cell_column,
-                          VISIBLE, SHOW_NAME);
-    x_gtksheet_set_cell_text_color(sheet,
-                                   active_cell_row,
-                                   active_cell_column,
-                                   RED);
-  }
-}
-
 /* ---------------------------------------------------------------------- */
 /* \brief Set the selected cells' visibility to VALUE_ONLY
  *

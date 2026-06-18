@@ -138,7 +138,6 @@
 
             s_visibility_set_cell
             s_visibility_set_name_and_value
-            s_visibility_set_name_only
             s_visibility_set_value_only
 
             attrib_run
@@ -290,7 +289,6 @@
 ;;; s_visibility.c
 (define-lff s_visibility_set_cell void (list int int int int int))
 (define-lff s_visibility_set_name_and_value void (list int))
-(define-lff s_visibility_set_name_only void (list int))
 (define-lff s_visibility_set_value_only void (list int))
 
 ;;; x_window.c
