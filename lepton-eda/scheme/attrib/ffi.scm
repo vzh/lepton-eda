@@ -40,7 +40,6 @@
             attrib_set_toplevel
             attrib_get_window
             attrib_set_window
-            attrib_sheet_multiple_selection
 
             s_attrib_get_refdes
             s_attrib_name_in_list
@@ -180,7 +179,6 @@
 (define-lff attrib_set_toplevel void '(*))
 (define-lff attrib_get_window '* '())
 (define-lff attrib_set_window void '(*))
-(define-lff attrib_sheet_multiple_selection int '(*))
 
 ;; s_attrib.c
 (define-lff s_attrib_get_refdes '* '(*))

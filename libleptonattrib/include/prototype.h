@@ -32,9 +32,6 @@ attrib_get_window ();
 void
 attrib_set_window (GtkWidget* window_widget);
 
-gboolean
-attrib_sheet_multiple_selection (GtkSheet *sheet);
-
 /* -------------- listsort.c ----------------- */
 int cmp(STRING_LIST *a, STRING_LIST *b);
 STRING_LIST *listsort(STRING_LIST *list, int is_circular, int is_double);
