@@ -111,12 +111,12 @@ void s_visibility_set_cell(gint cur_page, gint row, gint col,
   if ((row != -1) && ( col != -1))
   {
     /* Question:  how to sanity check (row, col) selection? */
-    local_table[row][col].visibility = visibility;
+    attrib_table_set_visibility (local_table, row, col, visibility);
     /* cell has been updated.  */
     s_sheet_data_set_changed (sheet_head, TRUE);
 
     if (show_name_value != LEAVE_NAME_VALUE_ALONE) {
-      local_table[row][col].show_name_value = show_name_value;
+      attrib_table_set_show_name_value (local_table, row, col, show_name_value);
       /* cell has been updated.  */
       s_sheet_data_set_changed (sheet_head, TRUE);
     }
