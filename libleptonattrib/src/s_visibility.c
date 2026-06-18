@@ -88,18 +88,17 @@ s_visibility_set_invisible (int cur_page)
   gint i, j;
   gint row_start, row_end, col_start, col_end;
   GtkSheet *sheet;
+  gboolean multiple_selection;
 
   sheet = sheets[cur_page];
 
   g_return_if_fail (sheet != NULL);
   g_return_if_fail (GTK_IS_SHEET (sheet));
 
-  switch (gtk_sheet_get_state (sheet))
-  {
-  case GTK_SHEET_RANGE_SELECTED:
-  case GTK_SHEET_COLUMN_SELECTED:
-  case GTK_SHEET_ROW_SELECTED:
+  multiple_selection = attrib_sheet_multiple_selection (sheet);
 
+  if (multiple_selection)
+  {
     g_debug ("s_visibility_set_invisible: Range/col/row selected.\n");
 
     row_start = sheet->range.row0;
@@ -121,9 +120,9 @@ s_visibility_set_invisible (int cur_page)
     }
     /* Now return sheet to normal -- unselect range */
     gtk_sheet_unselect_range (sheet);
-    break;
-
-  case GTK_SHEET_NORMAL:
+  }
+  else
+  {
     g_debug ("s_visibility_set_invisible: Normal selection.\n");
     s_visibility_set_cell(cur_page,
                           sheet->active_cell.row,
@@ -135,12 +134,7 @@ s_visibility_set_invisible (int cur_page)
                                    sheet->active_cell.row,
                                    sheet->active_cell.col,
                                    GREY);
-
-    break;
-
   }
-
-
 }
 
 /* ---------------------------------------------------------------------- */
@@ -157,17 +151,17 @@ s_visibility_set_name_only (int cur_page)
   gint i, j;
   gint row_start, row_end, col_start, col_end;
   GtkSheet *sheet;
+  gboolean multiple_selection;
 
   sheet = sheets[cur_page];
 
   g_return_if_fail (sheet != NULL);
   g_return_if_fail (GTK_IS_SHEET (sheet));
 
-  switch (gtk_sheet_get_state (sheet))
+  multiple_selection = attrib_sheet_multiple_selection (sheet);
+
+  if (multiple_selection)
   {
-  case GTK_SHEET_RANGE_SELECTED:
-  case GTK_SHEET_COLUMN_SELECTED:
-  case GTK_SHEET_ROW_SELECTED:
     g_debug ("s_visibility_set_name_only: Range/col/row selected.\n");
     row_start = sheet->range.row0;
     row_end = sheet->range.rowi;
@@ -184,10 +178,9 @@ s_visibility_set_name_only (int cur_page)
     }
     /* Now return sheet to normal -- unselect range */
     gtk_sheet_unselect_range (sheet);
-
-    break;
-
-  case GTK_SHEET_NORMAL:
+  }
+  else
+  {
     s_visibility_set_cell(cur_page,
                           sheet->active_cell.row,
                           sheet->active_cell.col,
@@ -196,9 +189,6 @@ s_visibility_set_name_only (int cur_page)
                                    sheet->active_cell.row,
                                    sheet->active_cell.col,
                                    RED);
-
-    break;
-
   }
 }
 
@@ -216,17 +206,17 @@ s_visibility_set_value_only (int cur_page)
   gint i, j;
   gint row_start, row_end, col_start, col_end;
   GtkSheet *sheet;
+  gboolean multiple_selection;
 
   sheet = sheets[cur_page];
 
   g_return_if_fail (sheet != NULL);
   g_return_if_fail (GTK_IS_SHEET (sheet));
 
-  switch (gtk_sheet_get_state (sheet))
+  multiple_selection = attrib_sheet_multiple_selection (sheet);
+
+  if (multiple_selection)
   {
-  case GTK_SHEET_RANGE_SELECTED:
-  case GTK_SHEET_COLUMN_SELECTED:
-  case GTK_SHEET_ROW_SELECTED:
     g_debug ("s_visibility_set_value_only: Range/col/row selected.\n");
     row_start = sheet->range.row0;
     row_end = sheet->range.rowi;
@@ -243,10 +233,9 @@ s_visibility_set_value_only (int cur_page)
     }
     /* Now return sheet to normal -- unselect range */
     gtk_sheet_unselect_range (sheet);
-
-    break;
-
-  case GTK_SHEET_NORMAL:
+  }
+  else
+  {
     g_debug ("s_visibility_set_value_only: Sheet normal selected.\n");
     s_visibility_set_cell(cur_page,
                           sheet->active_cell.row,
@@ -256,8 +245,6 @@ s_visibility_set_value_only (int cur_page)
                                    sheet->active_cell.row,
                                    sheet->active_cell.col,
                                    BLACK);
-    break;
-
   }
 }
 
@@ -277,17 +264,17 @@ s_visibility_set_name_and_value (int cur_page)
   gint i, j;
   gint row_start, row_end, col_start, col_end;
   GtkSheet *sheet;
+  gboolean multiple_selection;
 
   sheet = sheets[cur_page];
 
   g_return_if_fail (sheet != NULL);
   g_return_if_fail (GTK_IS_SHEET (sheet));
 
-  switch (gtk_sheet_get_state (sheet))
+  multiple_selection = attrib_sheet_multiple_selection (sheet);
+
+  if (multiple_selection)
   {
-  case GTK_SHEET_RANGE_SELECTED:
-  case GTK_SHEET_COLUMN_SELECTED:
-  case GTK_SHEET_ROW_SELECTED:
     row_start = sheet->range.row0;
     row_end = sheet->range.rowi;
     col_start = sheet->range.col0;
@@ -303,10 +290,9 @@ s_visibility_set_name_and_value (int cur_page)
     }
     /* Now return sheet to normal -- unselect range */
     gtk_sheet_unselect_range (sheet);
-
-    break;
-
-  case GTK_SHEET_NORMAL:
+  }
+  else
+  {
     s_visibility_set_cell(cur_page,
                           sheet->active_cell.row,
                           sheet->active_cell.col,
@@ -316,9 +302,6 @@ s_visibility_set_name_and_value (int cur_page)
                                    sheet->active_cell.row,
                                    sheet->active_cell.col,
                                    BLUE);
-
-    break;
-
   }
 }
 

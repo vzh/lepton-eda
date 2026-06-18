@@ -226,3 +226,34 @@ attrib_set_window (GtkWidget *window_widget)
 {
   window = window_widget;
 }
+
+
+/*! \brief Test whether several sheet cells selected.
+ *
+ *  \par Function Description
+ *
+ *  Tests whether multiple cells of \p sheet are selected.
+ *
+ *  \param [in] sheet The sheet.
+ *
+ *  \returns TRUE when multiple cells are selected,
+ *  \returns FALSE otherwise.
+ */
+gboolean
+attrib_sheet_multiple_selection (GtkSheet *sheet)
+{
+  switch (gtk_sheet_get_state (sheet))
+  {
+  case GTK_SHEET_RANGE_SELECTED:
+  case GTK_SHEET_COLUMN_SELECTED:
+  case GTK_SHEET_ROW_SELECTED:
+    return TRUE;
+    break;
+
+  case GTK_SHEET_NORMAL:
+    return FALSE;
+    break;
+  }
+
+  return FALSE;
+}
