@@ -88,6 +88,9 @@ s_visibility_set_invisible (int cur_page)
   gint i, j;
   gint row_start, row_end, col_start, col_end;
   GtkSheet *sheet;
+  GtkSheetRange range;
+  GtkSheetState state;
+  gboolean result;
   gboolean multiple_selection;
   int active_cell_row, active_cell_column;
 
@@ -98,14 +101,16 @@ s_visibility_set_invisible (int cur_page)
 
   multiple_selection = attrib_sheet_multiple_selection (sheet);
 
+  result = gtk_sheet_get_selection (sheet, &state, &range);
+
   if (multiple_selection)
   {
     g_debug ("s_visibility_set_invisible: Range/col/row selected.\n");
 
-    row_start = sheet->range.row0;
-    row_end = sheet->range.rowi;
-    col_start = sheet->range.col0;
-    col_end = sheet->range.coli;
+    row_start = range.row0;
+    row_end = range.rowi;
+    col_start = range.col0;
+    col_end = range.coli;
     for (i=row_start; i<=row_end; i++) {
       for (j=col_start; j<=col_end; j++) {
         /* first set cell in SHEET_DATA to invisible */
@@ -154,6 +159,9 @@ s_visibility_set_name_only (int cur_page)
   gint i, j;
   gint row_start, row_end, col_start, col_end;
   GtkSheet *sheet;
+  GtkSheetRange range;
+  GtkSheetState state;
+  gboolean result;
   gboolean multiple_selection;
   int active_cell_row, active_cell_column;
 
@@ -164,13 +172,15 @@ s_visibility_set_name_only (int cur_page)
 
   multiple_selection = attrib_sheet_multiple_selection (sheet);
 
+  result = gtk_sheet_get_selection (sheet, &state, &range);
+
   if (multiple_selection)
   {
     g_debug ("s_visibility_set_name_only: Range/col/row selected.\n");
-    row_start = sheet->range.row0;
-    row_end = sheet->range.rowi;
-    col_start = sheet->range.col0;
-    col_end = sheet->range.coli;
+    row_start = range.row0;
+    row_end = range.rowi;
+    col_start = range.col0;
+    col_end = range.coli;
     for (i=row_start; i<=row_end; i++) {
       for (j=col_start; j<=col_end; j++) {
         s_visibility_set_cell(cur_page, i, j, VISIBLE, SHOW_NAME);
@@ -211,6 +221,9 @@ s_visibility_set_value_only (int cur_page)
   gint i, j;
   gint row_start, row_end, col_start, col_end;
   GtkSheet *sheet;
+  GtkSheetRange range;
+  GtkSheetState state;
+  gboolean result;
   gboolean multiple_selection;
   int active_cell_row, active_cell_column;
 
@@ -221,13 +234,15 @@ s_visibility_set_value_only (int cur_page)
 
   multiple_selection = attrib_sheet_multiple_selection (sheet);
 
+  result = gtk_sheet_get_selection (sheet, &state, &range);
+
   if (multiple_selection)
   {
     g_debug ("s_visibility_set_value_only: Range/col/row selected.\n");
-    row_start = sheet->range.row0;
-    row_end = sheet->range.rowi;
-    col_start = sheet->range.col0;
-    col_end = sheet->range.coli;
+    row_start = range.row0;
+    row_end = range.rowi;
+    col_start = range.col0;
+    col_end = range.coli;
     for (i=row_start; i<=row_end; i++) {
       for (j=col_start; j<=col_end; j++) {
         s_visibility_set_cell(cur_page, i, j, VISIBLE, SHOW_VALUE);
@@ -272,6 +287,9 @@ s_visibility_set_name_and_value (int cur_page)
   gint i, j;
   gint row_start, row_end, col_start, col_end;
   GtkSheet *sheet;
+  GtkSheetRange range;
+  GtkSheetState state;
+  gboolean result;
   gboolean multiple_selection;
   int active_cell_row, active_cell_column;
 
@@ -282,12 +300,14 @@ s_visibility_set_name_and_value (int cur_page)
 
   multiple_selection = attrib_sheet_multiple_selection (sheet);
 
+  result = gtk_sheet_get_selection (sheet, &state, &range);
+
   if (multiple_selection)
   {
-    row_start = sheet->range.row0;
-    row_end = sheet->range.rowi;
-    col_start = sheet->range.col0;
-    col_end = sheet->range.coli;
+    row_start = range.row0;
+    row_end = range.rowi;
+    col_start = range.col0;
+    col_end = range.coli;
     for (i=row_start; i<=row_end; i++) {
       for (j=col_start; j<=col_end; j++) {
         s_visibility_set_cell(cur_page, i, j, VISIBLE, SHOW_NAME_VALUE);
