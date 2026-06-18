@@ -1364,7 +1364,7 @@ Choose \"Quit\" to leave lepton-attrib and fix the problem, or
 
 
 (define (set-cells-attribs-invisible)
-  (s_visibility_set_invisible))
+  (s_visibility_set_invisible (notebook-current-page-id)))
 
 
 (define (callback-visibility-invisible *action *parameter *data)
@@ -1374,7 +1374,7 @@ Choose \"Quit\" to leave lepton-attrib and fix the problem, or
 
 
 (define (set-cells-attribs-visible-name)
-  (s_visibility_set_name_only))
+  (s_visibility_set_name_only (notebook-current-page-id)))
 
 
 (define (callback-visibility-name-only *action *parameter *data)
@@ -1384,7 +1384,7 @@ Choose \"Quit\" to leave lepton-attrib and fix the problem, or
 
 
 (define (set-cells-attribs-visible-value)
-  (s_visibility_set_value_only))
+  (s_visibility_set_value_only (notebook-current-page-id)))
 
 
 (define (callback-visibility-value-only *action *parameter *data)
@@ -1394,7 +1394,7 @@ Choose \"Quit\" to leave lepton-attrib and fix the problem, or
 
 
 (define (set-cells-attribs-visible-name-value)
-  (s_visibility_set_name_and_value))
+  (s_visibility_set_name_and_value (notebook-current-page-id)))
 
 
 (define (callback-visibility-name-value *action *parameter *data)

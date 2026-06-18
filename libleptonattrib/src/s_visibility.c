@@ -83,14 +83,12 @@
  * variable "sheet".
  */
 void
-s_visibility_set_invisible ()
+s_visibility_set_invisible (int cur_page)
 {
   gint i, j;
   gint row_start, row_end, col_start, col_end;
   GtkSheet *sheet;
-  gint cur_page;
 
-  cur_page = gtk_notebook_get_current_page(GTK_NOTEBOOK(notebook));
   sheet = sheets[cur_page];
 
   g_return_if_fail (sheet != NULL);
@@ -154,14 +152,12 @@ s_visibility_set_invisible ()
  * variable "sheet".
  */
 void
-s_visibility_set_name_only ()
+s_visibility_set_name_only (int cur_page)
 {
   gint i, j;
   gint row_start, row_end, col_start, col_end;
   GtkSheet *sheet;
-  gint cur_page;
 
-  cur_page = gtk_notebook_get_current_page(GTK_NOTEBOOK(notebook));
   sheet = sheets[cur_page];
 
   g_return_if_fail (sheet != NULL);
@@ -215,14 +211,12 @@ s_visibility_set_name_only ()
  * variable "sheet".
  */
 void
-s_visibility_set_value_only ()
+s_visibility_set_value_only (int cur_page)
 {
   gint i, j;
   gint row_start, row_end, col_start, col_end;
   GtkSheet *sheet;
-  gint cur_page;
 
-  cur_page = gtk_notebook_get_current_page(GTK_NOTEBOOK(notebook));
   sheet = sheets[cur_page];
 
   g_return_if_fail (sheet != NULL);
@@ -278,14 +272,12 @@ s_visibility_set_value_only ()
  *
  */
 void
-s_visibility_set_name_and_value ()
+s_visibility_set_name_and_value (int cur_page)
 {
   gint i, j;
   gint row_start, row_end, col_start, col_end;
   GtkSheet *sheet;
-  gint cur_page;
 
-  cur_page = gtk_notebook_get_current_page(GTK_NOTEBOOK(notebook));
   sheet = sheets[cur_page];
 
   g_return_if_fail (sheet != NULL);

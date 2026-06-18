@@ -242,16 +242,16 @@ u_basic_breakup_string (char *string,
 
 /* ------------- s_visibility.c ------------- */
 void
-s_visibility_set_invisible ();
+s_visibility_set_invisible (int cur_page);
 
 void
-s_visibility_set_name_only ();
+s_visibility_set_name_only (int cur_page);
 
 void
-s_visibility_set_value_only ();
+s_visibility_set_value_only (int cur_page);
 
 void
-s_visibility_set_name_and_value ();
+s_visibility_set_name_and_value (int cur_page);
 
 void s_visibility_set_cell(gint cur_page, gint row, gint col,
                            gint visibility, gint show_name_value);
