@@ -244,11 +244,10 @@ u_basic_breakup_string (char *string,
 void
 s_visibility_set_invisible ();
 
-#ifdef ENABLE_GTK3
 void
-s_visibility_set_name_only (GSimpleAction *action,
-                            GVariant *parameter,
-                            gpointer user_data);
+s_visibility_set_name_only ();
+
+#ifdef ENABLE_GTK3
 void
 s_visibility_set_value_only (GSimpleAction *action,
                              GVariant *parameter,
@@ -258,10 +257,6 @@ s_visibility_set_name_and_value (GSimpleAction *action,
                                  GVariant *parameter,
                                  gpointer user_data);
 #else
-void
-s_visibility_set_name_only (gpointer action,
-                            gpointer parameter,
-                            gpointer user_data);
 void
 s_visibility_set_value_only (gpointer action,
                              gpointer parameter,

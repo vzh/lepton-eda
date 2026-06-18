@@ -153,17 +153,8 @@ s_visibility_set_invisible ()
  * selected a range of cells which are carried in the global
  * variable "sheet".
  */
-#ifdef ENABLE_GTK3
 void
-s_visibility_set_name_only (GSimpleAction *action,
-                            GVariant *parameter,
-                            gpointer user_data)
-#else
-void
-s_visibility_set_name_only (gpointer action,
-                            gpointer parameter,
-                            gpointer user_data)
-#endif
+s_visibility_set_name_only ()
 {
   gint i, j;
   gint row_start, row_end, col_start, col_end;
