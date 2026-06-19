@@ -1373,8 +1373,33 @@ Choose \"Quit\" to leave lepton-attrib and fix the problem, or
   (procedure->pointer void callback-edit-delete-attrib '(* * *)))
 
 
+;;; Sets the visibility of an individual cell to a state defined
+;;; by VISIBLE and SHOW.  The cell is identified by the index of
+;;; spreadsheet notebook tab PAGE-ID and (ROW, COLUMN).
 (define (set-cell-attrib-visibility page-id row column visible show)
-  (s_visibility_set_cell page-id row column visible show))
+  (define *sheet-data (attrib_get_sheet_data))
+  (define *table
+    (cond
+     ((= page-id 0)
+      (attrib_sheet_data_get_component_table *sheet-data))
+     ((= page-id 1)
+      (attrib_sheet_data_get_net_table *sheet-data))
+     ((= page-id 2)
+      (attrib_sheet_data_get_pin_table *sheet-data))
+     (else #f)))
+
+  (when (and *table
+             (not (= row -1))
+             (not (= column -1)))
+    ;; Question:  how to sanity check (row, column) selection?
+    (attrib_table_set_visibility *table row column visible)
+    ;; Cell has been updated.
+    (s_sheet_data_set_changed *sheet-data TRUE)
+
+    (unless (= show LEAVE_NAME_VALUE_ALONE)
+      (attrib_table_set_show_name_value *table row column show)
+      ;; Cell has been updated.
+      (s_sheet_data_set_changed *sheet-data TRUE))))
 
 
 (define (set-cells-attribs-visibility visible show color)

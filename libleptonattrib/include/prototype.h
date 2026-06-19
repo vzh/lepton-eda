@@ -250,10 +250,6 @@ u_basic_breakup_string (char *string,
                         char delimiter,
                         int count);
 
-/* ------------- s_visibility.c ------------- */
-void s_visibility_set_cell(gint cur_page, gint row, gint col,
-                           gint visibility, gint show_name_value);
-
 /* ------------- x_dialog.c ------------- */
 GtkWidget*
 x_dialog_unsaved_data ();

@@ -123,7 +123,9 @@
 
             attrib_table_get_attrib_value
             attrib_table_get_show_name_value
+            attrib_table_set_show_name_value
             attrib_table_get_visibility
+            attrib_table_set_visibility
             s_table_copy
             s_table_create_attrib_pair
             s_table_destroy
@@ -134,8 +136,6 @@
             s_table_add_toplevel_pin_items_to_pin_table
             s_table_gtksheet_to_all_tables
             s_table_resize
-
-            s_visibility_set_cell
 
             attrib_run
             attrib_window_new
@@ -270,7 +270,9 @@
 ;;; s_table.c
 (define-lff attrib_table_get_attrib_value '* (list '* int int))
 (define-lff attrib_table_get_show_name_value int (list '* int int))
+(define-lff attrib_table_set_show_name_value void (list '* int int int))
 (define-lff attrib_table_get_visibility int (list '* int int))
+(define-lff attrib_table_set_visibility void (list '* int int int))
 (define-lff s_table_copy '* (list '* int int int))
 (define-lff s_table_create_attrib_pair '* (list '* '* '* int))
 (define-lff s_table_destroy void (list '* int int))
@@ -281,9 +283,6 @@
 (define-lff s_table_add_toplevel_pin_items_to_pin_table void '(*))
 (define-lff s_table_gtksheet_to_all_tables void '())
 (define-lff s_table_resize '* (list '* int int int))
-
-;;; s_visibility.c
-(define-lff s_visibility_set_cell void (list int int int int int))
 
 ;;; x_window.c
 (define-lff attrib_run int '(* *))
