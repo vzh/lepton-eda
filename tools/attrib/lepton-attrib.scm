@@ -1373,6 +1373,10 @@ Choose \"Quit\" to leave lepton-attrib and fix the problem, or
   (procedure->pointer void callback-edit-delete-attrib '(* * *)))
 
 
+(define (set-cell-attrib-visibility page-id row column visible show)
+  (s_visibility_set_cell page-id row column visible show))
+
+
 (define (set-cells-attribs-visibility visible show color)
   (define current-page-id (notebook-current-page-id))
   (define *sheet (attrib_get_sheet current-page-id))
@@ -1404,7 +1408,7 @@ Choose \"Quit\" to leave lepton-attrib and fix the problem, or
             ((> j end-column))
 
           ;; Set visibility of cell in sheet data.
-          (s_visibility_set_cell current-page-id i j visible show)
+          (set-cell-attrib-visibility current-page-id i j visible show)
           ;; Set cell in gtksheet to desired color.
           (x_gtksheet_set_cell_text_color *sheet i j color))))))
 
