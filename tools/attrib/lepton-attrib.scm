@@ -1510,6 +1510,10 @@ Choose \"Quit\" to leave lepton-attrib and fix the problem, or
   (attrib_window_set_menu_callback (string->pointer "help-about")
                                    *callback-help-about))
 
+(define (init-window-widgets)
+  (x_window_init))
+
+
 (define (init-window)
   (define *window-widget (attrib_get_window))
 
@@ -1521,7 +1525,7 @@ Choose \"Quit\" to leave lepton-attrib and fix the problem, or
   ;; Init menu functions.
   (init-callbacks)
 
-  (x_window_init)
+  (init-window-widgets)
 
   ;; Create the array of sheets.
   (attrib_window_sheets_new)
