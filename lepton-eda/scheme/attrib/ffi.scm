@@ -186,7 +186,7 @@
 (define-lff u_basic_breakup_string '* (list '* int int))
 
 ;;; x_fileselect.c
-(define-lff x_fileselect_open '* '())
+(define-lff x_fileselect_open '* '(*))
 
 ;;; x_dialog.c
 (define-lff x_dialog_about_dialog void '(* * *))
