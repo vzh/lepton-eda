@@ -121,6 +121,25 @@ attrib_table_row_new (int columns)
 }
 
 
+/*! \brief Set the contents of a table row.
+ *
+ *  \par Function Description
+ *
+ *  Sets the contents of a table row.
+ *
+ *  \param [in] table The table.
+ *  \param [in] row The row number.
+ *  \param [in] contents The new row contents.
+ */
+void
+attrib_table_set_row_contents (TABLE **table,
+                               int row,
+                               TABLE *contents)
+{
+  table[row] = contents;
+}
+
+
 /*------------------------------------------------------------------*/
 /*! \brief Create a new table
  *
@@ -143,7 +162,7 @@ TABLE **s_table_new(int rows, int cols)
   /* Here I am trying to create a 2 dimensional array of structs */
   new_table = (TABLE **) g_malloc(rows*sizeof(TABLE *));
   for (i = 0; i < rows; i++) {
-    new_table[i] = attrib_table_row_new (cols);
+    attrib_table_set_row_contents (new_table, i, attrib_table_row_new (cols));
     /* Note that I should put some checks in here to verify that
      * malloc worked correctly. */
   }
