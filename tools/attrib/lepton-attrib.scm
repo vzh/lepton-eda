@@ -1267,12 +1267,16 @@ failure."
 
 
 
+(define (make-table row-count column-count)
+  (s_table_new row-count column-count))
+
+
 ;;; Returns a copy of the 2-dimensional array of the TABLE
 ;;; structures *TABLE, excluding data in the column COLUMN.  The
 ;;; size of the table is ROW-COUNT x COLUMN-COUNT.  The resulting
 ;;; array has a dimensions of ROW-COUNT x COLUMN-COUNT - 1.
 (define (copy-table/delete-column *table column row-count column-count)
-  (define *destination (s_table_new row-count (1- column-count)))
+  (define *destination (make-table row-count (1- column-count)))
 
   (when (null-pointer? *table)
     (error "NULL table."))
@@ -2597,16 +2601,16 @@ Please check your design.")))
   ;; Create and load the tables.
   (attrib_sheet_data_set_component_table
    *sheet-data
-   (s_table_new (attrib_sheet_data_get_component_count *sheet-data)
-                (attrib_sheet_data_get_component_attrib_count *sheet-data)))
+   (make-table (attrib_sheet_data_get_component_count *sheet-data)
+               (attrib_sheet_data_get_component_attrib_count *sheet-data)))
   (attrib_sheet_data_set_net_table
    *sheet-data
-   (s_table_new (attrib_sheet_data_get_net_count *sheet-data)
-                (attrib_sheet_data_get_net_attrib_count *sheet-data)))
+   (make-table (attrib_sheet_data_get_net_count *sheet-data)
+               (attrib_sheet_data_get_net_attrib_count *sheet-data)))
   (attrib_sheet_data_set_pin_table
    *sheet-data
-   (s_table_new (attrib_sheet_data_get_pin_count *sheet-data)
-                (attrib_sheet_data_get_pin_attrib_count *sheet-data)))
+   (make-table (attrib_sheet_data_get_pin_count *sheet-data)
+               (attrib_sheet_data_get_pin_attrib_count *sheet-data)))
 
   ;; Must iterate over all pages in design.
   (for-each
