@@ -1337,6 +1337,10 @@ failure."
     (g_free *table)))
 
 
+(define (resize-table *table row-count old-column-count new-column-count)
+  (s_table_resize *table row-count old-column-count new-column-count))
+
+
 ;;; Adds a new attribute to the component sheet.
 (define (add-attrib-column *name)
   (define *sheet-data (attrib_get_sheet_data))
@@ -1366,7 +1370,7 @@ failure."
         ;; Resize table to accomodate new attrib column.
         (attrib_sheet_data_set_component_table
          *sheet-data
-         (s_table_resize
+         (resize-table
           (attrib_sheet_data_get_component_table *sheet-data)
           (attrib_sheet_data_get_component_count *sheet-data)
           old-component-attrib-count
