@@ -632,7 +632,7 @@ void s_table_destroy(TABLE **table, int row_count, int col_count)
   }
 
   for (i = 0; i < row_count; i++) {
-    g_free( table[i] );
+    g_free (attrib_table_get_row_contents (table, i));
   }
 
   g_free(table);
