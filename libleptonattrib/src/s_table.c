@@ -539,10 +539,10 @@ TABLE **s_table_resize(TABLE **table,
       (table[i][j]).attrib_value = NULL;
       (table[i][j]).row_name = NULL;
       (table[i][j]).col_name = NULL;
-      (table[i][j]).row = i;
-      (table[i][j]).col = j;
-      (table[i][j]).visibility = VISIBLE;
-      (table[i][j]).show_name_value = SHOW_VALUE;
+      attrib_table_set_row (table, i, j, i);
+      attrib_table_set_column (table, i, j, j);
+      attrib_table_set_visibility (table, i, j, VISIBLE);
+      attrib_table_set_show_name_value (table, i, j, SHOW_VALUE);
     }
   }
 
