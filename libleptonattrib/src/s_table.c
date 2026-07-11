@@ -515,7 +515,9 @@ attrib_table_set_show_name_value (TABLE **table,
  * column" operation.
  * The resulting array has a dimensions of \a rows x \a cols - 1.
  *
- * \param src       an array of the TABLE structures to copy
+ * \param src A source array of the TABLE structures to copy from.
+ * \param dst A destination array of the TABLE structures to copy
+ *            to.
  * \param col_skip  index of the column to skip (0-based)
  * \param rows      number of rows in \a src
  * \param cols      number of columns in \a src
@@ -523,12 +525,14 @@ attrib_table_set_show_name_value (TABLE **table,
  * \return          a copy of \a src, minus data in the \a col_skip column
  */
 TABLE**
-s_table_copy (TABLE** src, int col_skip, int rows, int cols)
+s_table_copy (TABLE **src,
+              TABLE **dst,
+              int col_skip,
+              int rows,
+              int cols)
 {
   g_return_val_if_fail (src != NULL, NULL);
   g_return_val_if_fail (col_skip < cols, NULL);
-
-  TABLE** dst = s_table_new (rows, cols - 1);
   g_return_val_if_fail (dst != NULL, NULL);
 
   for (int j = 0; j < rows; j++)

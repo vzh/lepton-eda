@@ -1268,7 +1268,9 @@ failure."
 
 
 (define (copy-table/delete-column *table column row-count column-count)
-  (s_table_copy *table column row-count column-count))
+  (define *destination (s_table_new row-count (1- column-count)))
+
+  (s_table_copy *table *destination column row-count column-count))
 
 
 ;;; Destroys *TABLE having the size ROW-COUNT x COLUMN-COUNT

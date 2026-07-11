@@ -286,7 +286,7 @@
 (define-lff attrib_table_set_show_name_value void (list '* int int int))
 (define-lff attrib_table_get_visibility int (list '* int int))
 (define-lff attrib_table_set_visibility void (list '* int int int))
-(define-lff s_table_copy '* (list '* int int int))
+(define-lff s_table_copy '* (list '* '* int int int))
 (define-lff s_table_new '* (list int int))
 (define-lff s_table_resize '* (list '* int int int))
 

@@ -257,7 +257,14 @@ attrib_table_set_show_name_value (TABLE **table,
                                   int val);
 
 TABLE **s_table_new(int rows, int cols);
-TABLE **s_table_copy (TABLE** src, int col_skip, int rows, int cols);
+
+TABLE**
+s_table_copy (TABLE **src,
+              TABLE **dst,
+              int col_skip,
+              int rows,
+              int cols);
+
 TABLE **s_table_resize(TABLE **table,
                        int rows, int old_cols, int new_cols);
 
