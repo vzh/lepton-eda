@@ -208,10 +208,10 @@ TABLE **s_table_new(int rows, int cols)
       (new_table[i][j]).attrib_value = NULL;
       (new_table[i][j]).row_name = NULL;
       (new_table[i][j]).col_name = NULL;
-      (new_table[i][j]).row = i;
-      (new_table[i][j]).col = j;
-      (new_table[i][j]).visibility = VISIBLE;
-      (new_table[i][j]).show_name_value = SHOW_VALUE;
+      attrib_table_set_row (new_table, i, j, i);
+      attrib_table_set_column (new_table, i, j, j);
+      attrib_table_set_visibility (new_table, i, j, VISIBLE);
+      attrib_table_set_show_name_value (new_table, i, j, SHOW_VALUE);
     }
   }
 
