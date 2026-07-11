@@ -548,12 +548,12 @@ s_table_copy (TABLE **src,
 
       dst[j][k].row             = j;
       dst[j][k].col             = k;
-      dst[j][k].visibility      = src[j][ K ].visibility;
-      dst[j][k].show_name_value = src[j][ K ].show_name_value;
+      dst[j][k].visibility      = attrib_table_get_visibility (src, j, K);
+      dst[j][k].show_name_value = attrib_table_get_show_name_value (src, j, K);
 
-      dst[j][k].row_name     = g_strdup( src[j][ K ].row_name );
-      dst[j][k].col_name     = g_strdup( src[j][ K ].col_name );
-      dst[j][k].attrib_value = g_strdup( src[j][ K ].attrib_value );
+      dst[j][k].row_name     = g_strdup (attrib_table_get_row_name (src, j, K));
+      dst[j][k].col_name     = g_strdup (attrib_table_get_column_name (src, j, K));
+      dst[j][k].attrib_value = g_strdup (attrib_table_get_attrib_value (src, j, K));
 
       K ++ ;
 
