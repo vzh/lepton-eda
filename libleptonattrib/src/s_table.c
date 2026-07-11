@@ -547,8 +547,9 @@ TABLE **s_table_resize(TABLE **table,
 
   /* Here I am trying to resize the 2 dimensional array of structs */
   for (i = 0; i < rows; i++) {
-    table[i] = attrib_table_realloc_row (table[i], new_cols);
-    if (table[i] == NULL) exit(-1);  /* die if failed to realloc new memory */
+    attrib_table_set_row_contents (table, i, attrib_table_realloc_row (attrib_table_get_row_contents (table, i), new_cols));
+    /* Die if failed to realloc new memory. */
+    if (attrib_table_get_row_contents (table, i) == NULL) exit(-1);
   }
 
   /* Now pre-load new cols with NULLs */
