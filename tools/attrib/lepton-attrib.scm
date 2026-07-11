@@ -1267,6 +1267,10 @@ failure."
 
 
 
+(define (copy-table/delete-column *table column row-count column-count)
+  (s_table_copy *table column row-count column-count))
+
+
 ;;; Destroys *TABLE having the size ROW-COUNT x COLUMN-COUNT
 ;;; freeing all its data.
 (define (destroy-table *table row-count column-count)
@@ -1410,7 +1414,7 @@ failure."
       ;; Make a copy of the TABLE array, minus data in column to
       ;; delete.
       (let ((*new-table
-             (s_table_copy
+             (copy-table/delete-column
               (attrib_sheet_data_get_component_table *sheet-data)
               num
               (attrib_sheet_data_get_component_count *sheet-data)
