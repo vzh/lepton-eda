@@ -1267,8 +1267,23 @@ failure."
 
 
 
+;;; Destroys *TABLE having the size ROW-COUNT x COLUMN-COUNT
+;;; freeing all its data.
 (define (destroy-table *table row-count column-count)
-  (s_table_destroy *table row-count column-count))
+  (unless (null-pointer? *table)
+    (do ((i 0 (1+ i)))
+        ((>= i row-count))
+      (do ((j 0 (1+ j)))
+          ((>= j column-count))
+        (g_free (attrib_table_get_attrib_value *table i j))
+        (g_free (attrib_table_get_row_name *table i j))
+        (g_free (attrib_table_get_column_name *table i j))))
+
+    (do ((i 0 (1+ i)))
+        ((>= i row-count))
+      (g_free (attrib_table_get_row_contents *table i)))
+
+    (g_free *table)))
 
 
 ;;; Adds a new attribute to the component sheet.

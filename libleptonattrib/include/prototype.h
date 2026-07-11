@@ -225,6 +225,9 @@ attrib_table_set_column_name (TABLE **table,
                               int i,
                               int j,
                               char *val);
+TABLE*
+attrib_table_get_row_contents (TABLE **table,
+                               int row);
 char*
 attrib_table_get_row_name (TABLE **table,
                            int i,
@@ -257,7 +260,6 @@ TABLE **s_table_new(int rows, int cols);
 TABLE **s_table_copy (TABLE** src, int col_skip, int rows, int cols);
 TABLE **s_table_resize(TABLE **table,
                        int rows, int old_cols, int new_cols);
-void s_table_destroy(TABLE **table, int row_count, int col_count);
 
 /* ------------- s_misc.c ------------- */
 void set_verbose_mode ();

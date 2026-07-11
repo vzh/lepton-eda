@@ -129,13 +129,14 @@
             attrib_table_get_column_name
             attrib_table_set_column_name
             attrib_table_set_row
+            attrib_table_get_row_contents
+            attrib_table_get_row_name
             attrib_table_set_row_name
             attrib_table_get_show_name_value
             attrib_table_set_show_name_value
             attrib_table_get_visibility
             attrib_table_set_visibility
             s_table_copy
-            s_table_destroy
             s_table_new
             s_table_resize
 
@@ -278,13 +279,14 @@
 (define-lff attrib_table_get_column_name '* (list '* int int))
 (define-lff attrib_table_set_column_name void (list '* int int '*))
 (define-lff attrib_table_set_row void (list '* int int int))
+(define-lff attrib_table_get_row_contents '* (list '* int))
+(define-lff attrib_table_get_row_name '* (list '* int int))
 (define-lff attrib_table_set_row_name void (list '* int int '*))
 (define-lff attrib_table_get_show_name_value int (list '* int int))
 (define-lff attrib_table_set_show_name_value void (list '* int int int))
 (define-lff attrib_table_get_visibility int (list '* int int))
 (define-lff attrib_table_set_visibility void (list '* int int int))
 (define-lff s_table_copy '* (list '* int int int))
-(define-lff s_table_destroy void (list '* int int))
 (define-lff s_table_new '* (list int int))
 (define-lff s_table_resize '* (list '* int int int))
 

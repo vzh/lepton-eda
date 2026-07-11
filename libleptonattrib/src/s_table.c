@@ -604,39 +604,3 @@ TABLE **s_table_resize(TABLE **table,
 
   return table;
 }
-
-
-/*------------------------------------------------------------------*/
-/*! \brief Destroy a table
- *
- * This function destroys the old table.
- * Use it after reading in a new
- * page to get rid of the old table before building a new one.
- * \param table Table to destroy
- * \param row_count Number of rows in table
- * \param col_count Number of columns in table
- */
-void s_table_destroy(TABLE **table, int row_count, int col_count)
-{
-  int i, j;
-
-  if (table == NULL)
-    return;
-
-  for (i = 0; i < row_count; i++) {
-    for (j = 0; j < col_count; j++) {
-      g_free (attrib_table_get_attrib_value (table, i, j));
-      g_free (attrib_table_get_row_name (table, i, j));
-      g_free (attrib_table_get_column_name (table, i, j));
-    }
-  }
-
-  for (i = 0; i < row_count; i++) {
-    g_free (attrib_table_get_row_contents (table, i));
-  }
-
-  g_free(table);
-  table = NULL;
-
-  return;
-}
