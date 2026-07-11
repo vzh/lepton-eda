@@ -625,9 +625,9 @@ void s_table_destroy(TABLE **table, int row_count, int col_count)
 
   for (i = 0; i < row_count; i++) {
     for (j = 0; j < col_count; j++) {
-      g_free( (table[i][j]).attrib_value );
-      g_free( (table[i][j]).row_name );
-      g_free( (table[i][j]).col_name );
+      g_free (attrib_table_get_attrib_value (table, i, j));
+      g_free (attrib_table_get_row_name (table, i, j));
+      g_free (attrib_table_get_column_name (table, i, j));
     }
   }
 
