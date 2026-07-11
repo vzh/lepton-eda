@@ -157,6 +157,24 @@ attrib_table_set_row_contents (TABLE **table,
 }
 
 
+/*! \brief Reallocate a table row.
+ *
+ *  \par Function Description
+ *
+ *  Reallocates a table row allocating memory for given number of
+ *  columns.
+ *
+ *  \param [in] table_row The table row.
+ *  \param [in] columns The number of columns.
+ */
+TABLE*
+attrib_table_realloc_row (TABLE *table_row,
+                          int columns)
+{
+  return (TABLE *) realloc (table_row, columns * sizeof (TABLE));
+}
+
+
 /*------------------------------------------------------------------*/
 /*! \brief Create a new table
  *
@@ -529,7 +547,7 @@ TABLE **s_table_resize(TABLE **table,
 
   /* Here I am trying to resize the 2 dimensional array of structs */
   for (i = 0; i < rows; i++) {
-    table[i] = (TABLE *) realloc(table[i], new_cols*sizeof(TABLE) );
+    table[i] = attrib_table_realloc_row (table[i], new_cols);
     if (table[i] == NULL) exit(-1);  /* die if failed to realloc new memory */
   }
 
