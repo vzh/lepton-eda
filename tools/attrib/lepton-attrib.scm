@@ -1267,6 +1267,10 @@ failure."
 
 
 
+(define (destroy-table *table row-count column-count)
+  (s_table_destroy *table row-count column-count))
+
+
 ;;; Adds a new attribute to the component sheet.
 (define (add-attrib-column *name)
   (define *sheet-data (attrib_get_sheet_data))
@@ -1397,7 +1401,7 @@ failure."
               (attrib_sheet_data_get_component_count *sheet-data)
               (attrib_sheet_data_get_component_attrib_count *sheet-data))))
         ;; Destroy the current TABLE array:
-        (s_table_destroy
+        (destroy-table
          (attrib_sheet_data_get_component_table *sheet-data)
          (attrib_sheet_data_get_component_count *sheet-data)
          (attrib_sheet_data_get_component_attrib_count *sheet-data))
