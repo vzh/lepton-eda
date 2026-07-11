@@ -49,6 +49,25 @@
 
 /* ===================  Public Functions  ====================== */
 
+/*! \brief Init attrib value associated with a cell.
+ *
+ *  \par Function Description
+ *
+ *  Sets initial attrib value associated with a table cell.
+ *
+ *  \param [in] table The table.
+ *  \param [in] i The row number of the cell.
+ *  \param [in] j The column number of the cell.
+ */
+void
+attrib_table_init_attrib_value (TABLE **table,
+                                int i,
+                                int j)
+{
+  table[i][j].attrib_value = NULL;
+}
+
+
 /*------------------------------------------------------------------*/
 /*! \brief Create a new table
  *
