@@ -536,9 +536,9 @@ TABLE **s_table_resize(TABLE **table,
   /* Now pre-load new cols with NULLs */
   for (i = 0; i < rows; i++) {
     for (j = old_cols; j < new_cols; j++) {
-      (table[i][j]).attrib_value = NULL;
-      (table[i][j]).row_name = NULL;
-      (table[i][j]).col_name = NULL;
+      attrib_table_init_attrib_value (table, i, j);
+      attrib_table_init_row_name (table, i, j);
+      attrib_table_init_column_name (table, i, j);
       attrib_table_set_row (table, i, j, i);
       attrib_table_set_column (table, i, j, j);
       attrib_table_set_visibility (table, i, j, VISIBLE);
