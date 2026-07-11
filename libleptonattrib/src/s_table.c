@@ -205,9 +205,9 @@ TABLE **s_table_new(int rows, int cols)
   /* Now pre-load the table with NULLs */
   for (i = 0; i < rows; i++) {
     for (j = 0; j < cols; j++) {
-      (new_table[i][j]).attrib_value = NULL;
-      (new_table[i][j]).row_name = NULL;
-      (new_table[i][j]).col_name = NULL;
+      attrib_table_init_attrib_value (new_table, i, j);
+      attrib_table_init_row_name (new_table, i, j);
+      attrib_table_init_column_name (new_table, i, j);
       attrib_table_set_row (new_table, i, j, i);
       attrib_table_set_column (new_table, i, j, j);
       attrib_table_set_visibility (new_table, i, j, VISIBLE);
