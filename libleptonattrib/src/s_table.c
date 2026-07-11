@@ -87,6 +87,25 @@ attrib_table_init_row_name (TABLE **table,
 }
 
 
+/*! \brief Init column name associated with a cell.
+ *
+ *  \par Function Description
+ *
+ *  Sets initial column name associated with a table cell.
+ *
+ *  \param [in] table The table.
+ *  \param [in] i The row number of the cell.
+ *  \param [in] j The column number of the cell.
+ */
+void
+attrib_table_init_column_name (TABLE **table,
+                               int i,
+                               int j)
+{
+  table[i][j].col_name = NULL;
+}
+
+
 /*------------------------------------------------------------------*/
 /*! \brief Create a new table
  *
