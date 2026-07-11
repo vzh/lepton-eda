@@ -121,6 +121,23 @@ attrib_table_row_new (int columns)
 }
 
 
+/*! \brief Get the contents of a table row.
+ *
+ *  \par Function Description
+ *
+ *  Returns the contents of a table row.
+ *
+ *  \param [in] table The table.
+ *  \param [in] row The row number.
+ */
+TABLE*
+attrib_table_get_row_contents (TABLE **table,
+                               int row)
+{
+  return table[row];
+}
+
+
 /*! \brief Set the contents of a table row.
  *
  *  \par Function Description
