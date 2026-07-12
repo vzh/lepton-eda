@@ -277,7 +277,8 @@ attrib_table_realloc_row (TABLE *table_row,
 TABLE**
 attrib_table_new (int rows);
 
-TABLE **s_table_new(int rows, int cols);
+TABLE*
+attrib_table_row_new (int columns);
 
 /* ------------- s_misc.c ------------- */
 void set_verbose_mode ();

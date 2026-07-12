@@ -1267,8 +1267,31 @@ failure."
 
 
 
+;;; Returns a new table of the size ROW-COUNT x COLUMN-COUNT.
 (define (make-table row-count column-count)
-  (s_table_new row-count column-count))
+  ;; Here I am trying to create a 2 dimensional array of structs.
+  (define *table (attrib_table_new row-count))
+
+  (do ((i 0 (1+ i)))
+      ((>= i row-count))
+    (attrib_table_set_row_contents *table
+                                   i
+                                   (attrib_table_row_new column-count)))
+
+  ;; Now pre-load the table with NULLs
+  (do ((i 0 (1+ i)))
+      ((>= i row-count))
+    (do ((j 0 (1+ j)))
+        ((>= j column-count))
+      (attrib_table_init_attrib_value *table i j)
+      (attrib_table_init_row_name *table i j)
+      (attrib_table_init_column_name *table i j)
+      (attrib_table_set_row *table i j i)
+      (attrib_table_set_column *table i j j)
+      (attrib_table_set_visibility *table i j VISIBLE)
+      (attrib_table_set_show_name_value *table i j SHOW_VALUE)))
+
+  *table)
 
 
 ;;; Returns a copy of the 2-dimensional array of the TABLE

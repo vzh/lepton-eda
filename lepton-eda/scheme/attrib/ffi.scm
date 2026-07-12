@@ -141,7 +141,8 @@
             attrib_table_get_visibility
             attrib_table_set_visibility
             attrib_table_realloc_row
-            s_table_new
+            attrib_table_new
+            attrib_table_row_new
 
             attrib_run
             attrib_window_new
@@ -294,7 +295,8 @@
 (define-lff attrib_table_get_visibility int (list '* int int))
 (define-lff attrib_table_set_visibility void (list '* int int int))
 (define-lff attrib_table_realloc_row '* (list '* int))
-(define-lff s_table_new '* (list int int))
+(define-lff attrib_table_new '* (list int))
+(define-lff attrib_table_row_new '* (list int))
 
 ;;; x_window.c
 (define-lff attrib_run int '(* *))

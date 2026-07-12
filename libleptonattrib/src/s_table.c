@@ -190,51 +190,6 @@ attrib_table_new (int rows)
 }
 
 
-/*------------------------------------------------------------------*/
-/*! \brief Create a new table
- *
- * This is the table creator.  It returns a pointer to
- * an initialized TABLE struct.  As calling args, it needs
- * the number of rows and cols to allocate.  The table is a
- * dynamically allocated 2D array of structs.  To access data in
- * a cell in the table, you reference (for example):
- * ((sheet_data->comp_table)[i][j]).attrib_value
- * (Parens used only for clarity.  It works without parens.)
- * \param rows Number of rows required in the new table
- * \param cols Number of columns required in the new table
- * \returns a pointer to an initialized TABLE struct.
- */
-TABLE **s_table_new(int rows, int cols)
-{
-  TABLE **new_table;
-  int i, j;
-
-  /* Here I am trying to create a 2 dimensional array of structs */
-  new_table = attrib_table_new (rows);
-  for (i = 0; i < rows; i++) {
-    attrib_table_set_row_contents (new_table, i, attrib_table_row_new (cols));
-    /* Note that I should put some checks in here to verify that
-     * malloc worked correctly. */
-  }
-
-  /* Now pre-load the table with NULLs */
-  for (i = 0; i < rows; i++) {
-    for (j = 0; j < cols; j++) {
-      attrib_table_init_attrib_value (new_table, i, j);
-      attrib_table_init_row_name (new_table, i, j);
-      attrib_table_init_column_name (new_table, i, j);
-      attrib_table_set_row (new_table, i, j, i);
-      attrib_table_set_column (new_table, i, j, j);
-      attrib_table_set_visibility (new_table, i, j, VISIBLE);
-      attrib_table_set_show_name_value (new_table, i, j, SHOW_VALUE);
-    }
-  }
-
-  return (new_table);
-
-}
-
-
 /*! \brief Get cell column number.
  *
  *  \par Function Description
