@@ -506,66 +506,6 @@ attrib_table_set_show_name_value (TABLE **table,
 }
 
 
-/*! \brief Make a copy of the \a src array
- *
- * \par Function Description
- * Returns a copy of the 2-dimensional array of the TABLE
- * structures \a src, excluding data in the culumn \a col_skip.
- * It's a helper function to be used in the "delete attrib
- * column" operation.
- * The resulting array has a dimensions of \a rows x \a cols - 1.
- *
- * \param src A source array of the TABLE structures to copy from.
- * \param dst A destination array of the TABLE structures to copy
- *            to.
- * \param col_skip  index of the column to skip (0-based)
- * \param rows      number of rows in \a src
- * \param cols      number of columns in \a src
- *
- * \return          a copy of \a src, minus data in the \a col_skip column
- */
-TABLE**
-s_table_copy (TABLE **src,
-              TABLE **dst,
-              int col_skip,
-              int rows,
-              int cols)
-{
-  g_return_val_if_fail (src != NULL, NULL);
-  g_return_val_if_fail (col_skip < cols, NULL);
-  g_return_val_if_fail (dst != NULL, NULL);
-
-  for (int j = 0; j < rows; j++)
-  {
-    int K = 0;
-
-    for (int k = 0; k < cols - 1; k++)
-    {
-      if (k == col_skip)
-      {
-        K ++ ;
-      }
-
-      attrib_table_set_row (dst, j, k, j);
-      attrib_table_set_column (dst, j, k, k);
-      attrib_table_set_visibility (dst, j, k, attrib_table_get_visibility (src, j, K));
-      attrib_table_set_show_name_value (dst, j, k, attrib_table_get_show_name_value (src, j, K));
-
-      attrib_table_set_row_name (dst, j, k, g_strdup (attrib_table_get_row_name (src, j, K)));
-      attrib_table_set_column_name (dst, j, k, g_strdup (attrib_table_get_column_name (src, j, K)));
-      attrib_table_set_attrib_value (dst, j, k, g_strdup (attrib_table_get_attrib_value (src, j, K)));
-
-      K ++ ;
-
-    } /* for: columns */
-
-  } /* for: rows */
-
-  return dst;
-
-} /* s_table_copy() */
-
-
 /*------------------------------------------------------------------*/
 /*! \brief Resize a TABLE
  *

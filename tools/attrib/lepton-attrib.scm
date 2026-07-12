@@ -1267,10 +1267,55 @@ failure."
 
 
 
+;;; Returns a copy of the 2-dimensional array of the TABLE
+;;; structures *TABLE, excluding data in the column COLUMN.  The
+;;; size of the table is ROW-COUNT x COLUMN-COUNT.  The resulting
+;;; array has a dimensions of ROW-COUNT x COLUMN-COUNT - 1.
 (define (copy-table/delete-column *table column row-count column-count)
   (define *destination (s_table_new row-count (1- column-count)))
 
-  (s_table_copy *table *destination column row-count column-count))
+  (when (null-pointer? *table)
+    (error "NULL table."))
+  (when (>= column column-count)
+    (error "Wrong column number."))
+
+  (do ((j 0 (1+ j)))
+      ((>= j row-count))
+
+    (do ((k 0 (1+ k)))
+        ((>= k (1- column-count)))
+      (let ((K (if (>= k column) (1+ k) k)))
+
+        (attrib_table_set_row *destination j k j)
+        (attrib_table_set_column *destination j k k)
+        (attrib_table_set_visibility
+         *destination
+         j
+         k
+         (attrib_table_get_visibility *table j K))
+        (attrib_table_set_show_name_value
+         *destination
+         j
+         k
+         (attrib_table_get_show_name_value *table j K))
+
+        (attrib_table_set_row_name
+         *destination
+         j
+         k
+         (g_strdup (attrib_table_get_row_name *table j K)))
+        (attrib_table_set_column_name
+         *destination
+         j
+         k
+         (g_strdup (attrib_table_get_column_name *table j K)))
+        (attrib_table_set_attrib_value
+         *destination
+         j
+         k
+         (g_strdup (attrib_table_get_attrib_value *table j K))))))
+
+  *destination)
 
 
 ;;; Destroys *TABLE having the size ROW-COUNT x COLUMN-COUNT
