@@ -175,6 +175,21 @@ attrib_table_realloc_row (TABLE *table_row,
 }
 
 
+/*! \brief Create a new table.
+ *
+ *  \par Function Description
+ *
+ *  Allocates a new table with given number of rows.
+ *
+ *  \param [in] rows The number of rows.
+ */
+TABLE**
+attrib_table_new (int rows)
+{
+  return (TABLE **) g_malloc (rows * sizeof (TABLE *));
+}
+
+
 /*------------------------------------------------------------------*/
 /*! \brief Create a new table
  *
@@ -195,7 +210,7 @@ TABLE **s_table_new(int rows, int cols)
   int i, j;
 
   /* Here I am trying to create a 2 dimensional array of structs */
-  new_table = (TABLE **) g_malloc(rows*sizeof(TABLE *));
+  new_table = attrib_table_new (rows);
   for (i = 0; i < rows; i++) {
     attrib_table_set_row_contents (new_table, i, attrib_table_row_new (cols));
     /* Note that I should put some checks in here to verify that

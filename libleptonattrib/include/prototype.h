@@ -274,6 +274,8 @@ attrib_table_set_show_name_value (TABLE **table,
 TABLE*
 attrib_table_realloc_row (TABLE *table_row,
                           int columns);
+TABLE**
+attrib_table_new (int rows);
 
 TABLE **s_table_new(int rows, int cols);
 
