@@ -1337,8 +1337,34 @@ failure."
     (g_free *table)))
 
 
+;;; Resizes *TABLE with the size ROW-COUNT x OLD-COLUMN-COUNT
+;;; increasing the number of columns up to NEW-COLUMN-COUNT.
 (define (resize-table *table row-count old-column-count new-column-count)
-  (s_table_resize *table row-count old-column-count new-column-count))
+  (do ((i 0 (1+ i)))
+      ((>= i row-count))
+    (attrib_table_set_row_contents
+     *table
+     i
+     (attrib_table_realloc_row (attrib_table_get_row_contents *table i)
+                               new-column-count))
+    ;; Die if failed to realloc new memory.
+    (when (null-pointer? (attrib_table_get_row_contents *table i))
+      (exit -1)))
+
+  ;; Init new columns.
+  (do ((i 0 (1+ i)))
+      ((>= i row-count))
+    (do ((j old-column-count (1+ j)))
+        ((>= j new-column-count))
+      (attrib_table_init_attrib_value *table i j)
+      (attrib_table_init_row_name *table i j)
+      (attrib_table_init_column_name *table i j)
+      (attrib_table_set_row *table i j i)
+      (attrib_table_set_column *table i j j)
+      (attrib_table_set_visibility *table i j VISIBLE)
+      (attrib_table_set_show_name_value *table i j SHOW_VALUE)))
+
+  *table)
 
 
 ;;; Adds a new attribute to the component sheet.

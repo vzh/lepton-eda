@@ -207,6 +207,10 @@ attrib_table_set_row (TABLE **table,
                       int i,
                       int j,
                       int val);
+void
+attrib_table_init_attrib_value (TABLE **table,
+                                int i,
+                                int j);
 char*
 attrib_table_get_attrib_value (TABLE **table,
                                int i,
@@ -216,6 +220,10 @@ attrib_table_set_attrib_value (TABLE **table,
                                int i,
                                int j,
                                char *val);
+void
+attrib_table_init_column_name (TABLE **table,
+                               int i,
+                               int j);
 char*
 attrib_table_get_column_name (TABLE **table,
                               int i,
@@ -228,6 +236,14 @@ attrib_table_set_column_name (TABLE **table,
 TABLE*
 attrib_table_get_row_contents (TABLE **table,
                                int row);
+void
+attrib_table_set_row_contents (TABLE **table,
+                               int row,
+                               TABLE *contents);
+void
+attrib_table_init_row_name (TABLE **table,
+                            int i,
+                            int j);
 char*
 attrib_table_get_row_name (TABLE **table,
                            int i,
@@ -255,11 +271,11 @@ attrib_table_set_show_name_value (TABLE **table,
                                   int i,
                                   int j,
                                   int val);
+TABLE*
+attrib_table_realloc_row (TABLE *table_row,
+                          int columns);
 
 TABLE **s_table_new(int rows, int cols);
-
-TABLE **s_table_resize(TABLE **table,
-                       int rows, int old_cols, int new_cols);
 
 /* ------------- s_misc.c ------------- */
 void set_verbose_mode ();

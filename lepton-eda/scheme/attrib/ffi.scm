@@ -123,21 +123,25 @@
             s_string_list_sort_master_pin_list
             s_string_list_sort_master_pin_attrib_list
 
+            attrib_table_init_attrib_value
             attrib_table_get_attrib_value
             attrib_table_set_attrib_value
             attrib_table_set_column
+            attrib_table_init_column_name
             attrib_table_get_column_name
             attrib_table_set_column_name
             attrib_table_set_row
             attrib_table_get_row_contents
+            attrib_table_set_row_contents
+            attrib_table_init_row_name
             attrib_table_get_row_name
             attrib_table_set_row_name
             attrib_table_get_show_name_value
             attrib_table_set_show_name_value
             attrib_table_get_visibility
             attrib_table_set_visibility
+            attrib_table_realloc_row
             s_table_new
-            s_table_resize
 
             attrib_run
             attrib_window_new
@@ -272,21 +276,25 @@
 (define-lff s_string_list_sort_master_pin_attrib_list void '())
 
 ;;; s_table.c
+(define-lff attrib_table_init_attrib_value void (list '* int int))
 (define-lff attrib_table_get_attrib_value '* (list '* int int))
 (define-lff attrib_table_set_attrib_value void (list '* int int '*))
 (define-lff attrib_table_set_column void (list '* int int int))
+(define-lff attrib_table_init_column_name void (list '* int int))
 (define-lff attrib_table_get_column_name '* (list '* int int))
 (define-lff attrib_table_set_column_name void (list '* int int '*))
 (define-lff attrib_table_set_row void (list '* int int int))
 (define-lff attrib_table_get_row_contents '* (list '* int))
+(define-lff attrib_table_set_row_contents void (list '* int '*))
+(define-lff attrib_table_init_row_name void (list '* int int))
 (define-lff attrib_table_get_row_name '* (list '* int int))
 (define-lff attrib_table_set_row_name void (list '* int int '*))
 (define-lff attrib_table_get_show_name_value int (list '* int int))
 (define-lff attrib_table_set_show_name_value void (list '* int int int))
 (define-lff attrib_table_get_visibility int (list '* int int))
 (define-lff attrib_table_set_visibility void (list '* int int int))
+(define-lff attrib_table_realloc_row '* (list '* int))
 (define-lff s_table_new '* (list int int))
-(define-lff s_table_resize '* (list '* int int int))
 
 ;;; x_window.c
 (define-lff attrib_run int '(* *))
