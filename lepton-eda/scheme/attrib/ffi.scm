@@ -53,7 +53,6 @@
 
             x_fileselect_open
 
-            x_dialog_confirm_overwrite
             x_dialog_fatal_error
             x_dialog_unimplemented_feature
 
@@ -201,7 +200,6 @@
 (define-lff x_fileselect_open '* '())
 
 ;;; x_dialog.c
-(define-lff x_dialog_confirm_overwrite int '(*))
 (define-lff x_dialog_fatal_error void (list '* int))
 (define-lff x_dialog_unimplemented_feature void '())
 
