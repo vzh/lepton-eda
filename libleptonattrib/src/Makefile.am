@@ -11,7 +11,6 @@ libleptonattrib_la_SOURCES = \
 	s_table.c \
 	s_visibility.c \
 	x_dialog.c \
-	x_fileselect.c \
 	x_gtksheet.c \
 	x_window.c
 
