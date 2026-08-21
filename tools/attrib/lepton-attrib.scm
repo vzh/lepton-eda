@@ -116,12 +116,6 @@ Lepton EDA homepage: ~S
   (any page-with-missing-symbol? (active-pages)))
 
 
-;;; Save main window's geometry to the cache config context.
-(define (save-geometry)
-  (save-gtk-window-geometry (attrib_get_window)
-                            "attrib.window-geometry"))
-
-
 (define (save-page page filename)
   "Saves PAGE under FILENAME returning #t on success, or #f on
 failure."
@@ -875,7 +869,9 @@ failure."
 ;;; checks for unsaved changes before calling quit-program() to
 ;;; quit the program.
 (define (callback-file-quit *action *parameter *data)
-  (save-geometry)
+  ;; Save main window's geometry to the cache config context.
+  (save-gtk-window-geometry (attrib_get_window)
+                            "attrib.window-geometry")
   ;; Deactivate the current cell to trigger "deactivate" signal.
   ;; This allows changing of the sheet_head->CHANGED flag in the
   ;; on_deactivate() handler function if needed.
