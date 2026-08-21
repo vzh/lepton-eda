@@ -89,7 +89,7 @@ used."
   (define width (config-int cache-config config-group "width"))
   (define height (config-int cache-config config-group "height"))
 
-  (when (and (> x 0) (> y 0))
+  (when (and (>= x 0) (>= y 0))
     (gtk_window_move *window x y))
 
   (if (and (> width 0) (> height 0))
