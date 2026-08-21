@@ -25,7 +25,8 @@
 
   #:use-module (schematic ffi gtk)
 
-  #:export (restore-gtk-window-geometry
+  #:export (gtk-window-position
+            restore-gtk-window-geometry
             save-gtk-window-geometry))
 
 
@@ -34,29 +35,37 @@
 (define %default-window-height 600)
 
 
-(define (save-gtk-window-geometry *window config-group)
-  "Save geometry of GtkWindow *WINDOW in CONFIG-GROUP of the cache
-config context."
-  (define (get-int bv)
-    (bytevector-sint-ref bv 0 (native-endianness) (sizeof int)))
+(define (get-int bv)
+  (bytevector-sint-ref bv 0 (native-endianness) (sizeof int)))
+
+
+(define (gtk-window-position *window)
+  "Returns position of GtkWindow *WINDOW as a pair (X . Y)."
   (define x-bv (make-bytevector (sizeof int) 0))
   (define y-bv (make-bytevector (sizeof int) 0))
-  (define width-bv (make-bytevector (sizeof int) 0))
-  (define height-bv (make-bytevector (sizeof int) 0))
-
   (gtk_window_get_position *window
                            (bytevector->pointer x-bv)
                            (bytevector->pointer y-bv))
+
+  (cons (get-int x-bv) (get-int y-bv)))
+
+
+(define (save-gtk-window-geometry *window config-group)
+  "Save geometry of GtkWindow *WINDOW in CONFIG-GROUP of the cache
+config context."
+  (define width-bv (make-bytevector (sizeof int) 0))
+  (define height-bv (make-bytevector (sizeof int) 0))
 
   (gtk_window_get_size *window
                        (bytevector->pointer width-bv)
                        (bytevector->pointer height-bv))
 
-  (let ((config (cache-config-context))
-        (x (get-int x-bv))
-        (y (get-int y-bv))
-        (width (get-int width-bv))
-        (height (get-int height-bv)))
+  (let* ((config (cache-config-context))
+         (position (gtk-window-position *window))
+         (x (car position))
+         (y (cdr position))
+         (width (get-int width-bv))
+         (height (get-int height-bv)))
     (set-config! config config-group "x" x)
     (set-config! config config-group "y" y)
     (set-config! config config-group "width" width)
