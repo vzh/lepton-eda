@@ -26,6 +26,7 @@
   #:use-module (schematic ffi gtk)
 
   #:export (gtk-window-position
+            gtk-window-size
             restore-gtk-window-geometry
             save-gtk-window-geometry))
 
@@ -50,9 +51,8 @@
   (cons (get-int x-bv) (get-int y-bv)))
 
 
-(define (save-gtk-window-geometry *window config-group)
-  "Save geometry of GtkWindow *WINDOW in CONFIG-GROUP of the cache
-config context."
+(define (gtk-window-size *window)
+  "Returns position of GtkWindow *WINDOW as a pair (WIDTH . HEIGHT)."
   (define width-bv (make-bytevector (sizeof int) 0))
   (define height-bv (make-bytevector (sizeof int) 0))
 
@@ -60,12 +60,19 @@ config context."
                        (bytevector->pointer width-bv)
                        (bytevector->pointer height-bv))
 
+  (cons (get-int width-bv) (get-int height-bv)))
+
+
+(define (save-gtk-window-geometry *window config-group)
+  "Save geometry of GtkWindow *WINDOW in CONFIG-GROUP of the cache
+config context."
   (let* ((config (cache-config-context))
          (position (gtk-window-position *window))
          (x (car position))
          (y (cdr position))
-         (width (get-int width-bv))
-         (height (get-int height-bv)))
+         (size (gtk-window-size *window))
+         (width (car size))
+         (height (cdr size)))
     (set-config! config config-group "x" x)
     (set-config! config config-group "y" y)
     (set-config! config config-group "width" width)
