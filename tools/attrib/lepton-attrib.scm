@@ -1253,13 +1253,6 @@ Choose \"Quit\" to leave lepton-attrib and fix the problem, or
 
 (define (init-window)
   (define *window-widget (attrib_get_window))
-  (define cache-config (cache-config-context))
-  (define x (config-int cache-config "attrib.window-geometry" "x"))
-  (define y (config-int cache-config "attrib.window-geometry" "y"))
-  (define width
-    (config-int cache-config "attrib.window-geometry" "width" ))
-  (define height
-    (config-int cache-config "attrib.window-geometry" "height"))
 
   (g_signal_connect *window-widget
                     (string->pointer "delete_event")
@@ -1275,10 +1268,7 @@ Choose \"Quit\" to leave lepton-attrib and fix the problem, or
   (attrib_window_sheets_new)
 
   ;; Restore main window's geometry.
-  (gtk_window_move *window-widget x y)
-
-  (when (and (> width 0) (> height 0))
-    (gtk_window_resize *window-widget width height)))
+  (restore-gtk-window-geometry *window-widget "attrib.window-geometry"))
 
 
 ;;; Adds all items to the top level window.
