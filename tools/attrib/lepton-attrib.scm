@@ -42,6 +42,7 @@
              (lepton version)
 
              (schematic ffi gtk)
+             (schematic gtk geometry)
              (schematic gtk helper)
 
              (attrib ffi))
@@ -116,35 +117,9 @@ Lepton EDA homepage: ~S
 
 
 ;;; Save main window's geometry to the cache config context.
-;;; Almost the same function as in the module (schematic window).
 (define (save-geometry)
-  (define *main-window (attrib_get_window))
-  (define (get-int bv)
-    (bytevector-sint-ref bv 0 (native-endianness) (sizeof int)))
-  (define x-bv (make-bytevector (sizeof int) 0))
-  (define y-bv (make-bytevector (sizeof int) 0))
-  (define width-bv (make-bytevector (sizeof int) 0))
-  (define height-bv (make-bytevector (sizeof int) 0))
-
-  (gtk_window_get_position *main-window
-                           (bytevector->pointer x-bv)
-                           (bytevector->pointer y-bv))
-
-  (gtk_window_get_size *main-window
-                       (bytevector->pointer width-bv)
-                       (bytevector->pointer height-bv))
-
-  (let ((config (cache-config-context))
-        (x (get-int x-bv))
-        (y (get-int y-bv))
-        (width (get-int width-bv))
-        (height (get-int height-bv)))
-    (set-config! config "attrib.window-geometry" "x" x)
-    (set-config! config "attrib.window-geometry" "y" y)
-    (set-config! config "attrib.window-geometry" "width" width)
-    (set-config! config "attrib.window-geometry" "height" height)
-
-    (config-save! config)))
+  (save-gtk-window-geometry (attrib_get_window)
+                            "attrib.window-geometry"))
 
 
 (define (save-page page filename)
