@@ -66,19 +66,16 @@
 (define (save-gtk-window-geometry *window config-group)
   "Save geometry of GtkWindow *WINDOW in CONFIG-GROUP of the cache
 config context."
-  (let* ((config (cache-config-context))
-         (position (gtk-window-position *window))
-         (x (car position))
-         (y (cdr position))
-         (size (gtk-window-size *window))
-         (width (car size))
-         (height (cdr size)))
-    (set-config! config config-group "x" x)
-    (set-config! config config-group "y" y)
-    (set-config! config config-group "width" width)
-    (set-config! config config-group "height" height)
+  (define config (cache-config-context))
+  (define position (gtk-window-position *window))
+  (define size (gtk-window-size *window))
 
-    (config-save! config)))
+  (set-config! config config-group "x" (car position))
+  (set-config! config config-group "y" (cdr position))
+  (set-config! config config-group "width" (car size))
+  (set-config! config config-group "height" (cdr size))
+
+  (config-save! config))
 
 
 (define (restore-gtk-window-geometry *window config-group)
