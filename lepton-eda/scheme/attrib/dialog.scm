@@ -28,6 +28,7 @@
 
   #:export (about-dialog
             confirm-overwrite-dialog
+            export-error-dialog
             unsaved-changes-dialog))
 
 
@@ -102,6 +103,19 @@ Would you like to overwrite it?")
     (gtk_widget_destroy *dialog)
 
     (eq? result GTK_RESPONSE_YES)))
+
+
+(define (export-error-dialog message)
+  "Opens an Export error dialog reporting MESSAGE."
+  (let ((*dialog (gtk_message_dialog_new %null-pointer
+                                         GTK_DIALOG_MODAL
+                                         (symbol->gtk-message-type 'error)
+                                         (symbol->gtk-buttons-type 'ok)
+                                         (string->pointer message))))
+    (gtk_window_set_title *dialog
+                          (string->pointer (G_ "Export error")))
+    (gtk_dialog_run *dialog)
+    (gtk_widget_destroy *dialog)))
 
 
 ;;; The dialog is thrown up before the user quits if there are
