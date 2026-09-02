@@ -506,6 +506,17 @@ Notable changes in Lepton EDA 1.9.19 (upcoming)
     docks, as toplevel windows or dialogs depending on the
     configuration settings.
 
+- A new module for dealing with geometry of `GtkWindow` objects,
+  `(schematic gtk geometry)`, has been introduced.  It contains
+  functions for saving and restoring geometry of windows of the
+  Lepton GUI programs.  The module contains the following
+  functions:
+  - `gtk-window-position()`
+  - `gtk-window-size()`
+  - `save-gtk-window-geometry()`
+  - `restore-gtk-window-geometry()`
+  Please see docstrings of the functions for more.
+
 ### Changes in `lepton-schematic`:
 
 - Porting the program to the stable GTK version 3.24 has been
