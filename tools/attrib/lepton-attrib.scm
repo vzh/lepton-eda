@@ -1406,9 +1406,7 @@ Choose \"Quit\" to leave lepton-attrib and fix the problem, or
           ;; Set visibility of cell in sheet data.
           (s_visibility_set_cell current-page-id i j visible show)
           ;; Set cell in gtksheet to desired color.
-          (x_gtksheet_set_cell_text_color *sheet i j color)))
-      ;; Return sheet to normal -- unselect range.
-      (gtk_sheet_unselect_range *sheet))))
+          (x_gtksheet_set_cell_text_color *sheet i j color))))))
 
 
 ;;; Sets the selected sheet cells to INVISIBLE.
