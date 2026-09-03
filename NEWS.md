@@ -717,6 +717,14 @@ Notable changes in Lepton EDA 1.9.19 (upcoming)
   - Any carried out action is cancelled when the setting is
     `false`.
 
+### Changes in `lepton-attrib`
+- A long standing bug, program crashes on changing cell visibility
+  when no cell is selected, has been fixed.  This could happen,
+  for example, after program startup, when the user chosen one of
+  the *Visibility* menu item while no cell was selected.
+- Selected cells are no longer get unselected after changing their
+  visibility.
+
 ### Changes in `lepton-archive`:
 
 - The program now outputs its basename instead of the full path
